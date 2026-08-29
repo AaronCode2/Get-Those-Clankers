@@ -2,7 +2,7 @@ import pygame
 import tiles
 import utils
 
-# Using this temporarly!
+# Using this temporarly! -> import textures
 
 import textures
 
@@ -43,7 +43,7 @@ class World():
 
 
     def drawPreviewPlacer(self, mousePos, window):
-
+        
         window.blit(
             self.previewTile["image"], 
             pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
@@ -87,6 +87,8 @@ class World():
             )
 
             utils.scrollWheel = pygame.Vector2(0, 0)
+
+        # placing and deleting tiles
 
         if(mouseEvent[0]):
 

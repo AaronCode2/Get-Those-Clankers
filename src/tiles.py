@@ -15,9 +15,10 @@ class Tile:
 
         self.rotation = rotation
 
+        print(type)
+
         # Get a frame of the whole image
 
-        print(type)
         self.setSrcRect()
 
     def update(self, window):
@@ -34,13 +35,6 @@ class Tile:
     def setSrcRect(self):
 
         # Takes care of rotated image and gets that single frame it needs
-
-        self.srcRect = pygame.Rect(
-            self.width * float(self.type.value), 
-            0,
-            self.width, self.height
-        )
-
         match(self.rotation):
 
             case utils.RotationType.DOWN:
@@ -61,6 +55,8 @@ class Tile:
 
             case utils.RotationType.UP:
 
+                # Since we flipped it, we have to count backwards to get our frames
+                
                 self.srcRect = pygame.Rect(
                     self.width * ((textures.images["Tiles"]["maxFramesX"] - 1) - float(self.type.value)),
                     0, 
