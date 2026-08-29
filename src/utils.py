@@ -8,13 +8,76 @@ deltaTime = 0.3
 screenRect = pygame.Rect()
 windowResized = False
 
-class TileType(Enum):
+defaultImageSizes = 64
 
-    BARRIER = 0
-    SOLAR_PANEL = 1
+scrollWheel = pygame.Vector2(0, 0)
+tileMaxFrames = 1.0
+
+adjmousePos = pygame.Vector2(-24, -24)
+
+def configureRotatedImageForPreview(width, height, type, rotation):
+
+    match(rotation):
+
+        case RotationType.DOWN:
+
+            srcRect = pygame.Rect(
+                width * float(type.value), 
+                0,
+                width, height
+            )
+
+        case RotationType.LEFT:
+
+            srcRect = pygame.Rect(
+                0, 
+                height * (tileMaxFrames - float(type.value)),
+                width, height
+            )
+
+        case RotationType.UP:
+
+            srcRect = pygame.Rect(
+                width * (tileMaxFrames - float(type.value)),
+                0, 
+                width, height
+            )
+
+        case RotationType.RIGHT:
+
+            srcRect = pygame.Rect(
+                0, 
+                width * float(type.value),
+                width, height
+            )
+
+    return srcRect
+
+class RotationType(Enum):
+
+    DOWN = 0
+    LEFT = 1
+    UP = 2
+    RIGHT = 3
+
+rotations = {
+
+    RotationType.DOWN: 0,
+    RotationType.LEFT: 90,
+    RotationType.UP: 180,
+    RotationType.RIGHT: 270
+}
+
+class BatteryLevel(Enum):
+
     BATTERY_FULL = 2
     BATTERY_DRAIN_1 = 3
     BATTERY_DRAIN_2 = 4
     BATTERY_DRAIN_3 = 5
     BATTERY_DRAIN_4 = 6
     BATTERY_EMPTY = 7
+
+class TileType(Enum):
+
+    BARRIER = 0
+    SOLAR_PANEL = 1

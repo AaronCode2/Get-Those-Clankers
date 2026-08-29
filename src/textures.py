@@ -1,4 +1,5 @@
 import pygame
+import utils
 import enum
 
 class imgIndex[Enum]:
@@ -26,14 +27,21 @@ images = {
 
         # Tiles
         "Tiles": {
-            "location": "assets/tiles/tile.png",
-            "maxFramesX": 8,
+            "location": "assets/tiles/objects.png",
+            "maxFramesX": 2,
             "FramesY": 1,
             "image": {
 
                 "surface": None,
                 "FrameWidth": None,
                 "FrameHeight": None
+            },
+
+            "rotatedImages": {
+
+                utils.RotationType.LEFT: None,
+                utils.RotationType.UP: None,
+                utils.RotationType.RIGHT: None
             }
         }
 }

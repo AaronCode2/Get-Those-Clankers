@@ -6,22 +6,19 @@ import textures
 
 class Tile:
 
-    def __init__(self, position: pygame.Vector2, type: utils.TileType):
+    def __init__(self, position: pygame.Vector2, type: utils.TileType, rotation: utils.RotationType):
 
         self.position = position
         self.type = type
         self.width = textures.images["Tiles"]["image"]["FrameWidth"]
         self.height = textures.images["Tiles"]["image"]["FrameHeight"]
 
+        self.rotation = rotation
+
         # Get a frame of the whole image
 
         print(type)
-
-        self.srcRect = pygame.Rect(
-            self.width * float(type.value), 
-            0,
-            self.width, self.height
-        )
+        self.setSrcRect()
 
     def update(self, window):
 
@@ -29,4 +26,51 @@ class Tile:
 
     def draw(self, window):
 
-        window.blit(textures.images["Tiles"]["image"]["surface"], self.position, self.srcRect)
+        if(self.rotation == utils.RotationType.DOWN):
+            window.blit(textures.images["Tiles"]["image"]["surface"], self.position, self.srcRect)
+        else:
+            window.blit(textures.images["Tiles"]["rotatedImages"][self.rotation], self.position, self.srcRect)
+
+    def setSrcRect(self):
+
+        # Takes care of rotated image and gets that single frame it needs
+
+        self.srcRect = pygame.Rect(
+            self.width * float(self.type.value), 
+            0,
+            self.width, self.height
+        )
+
+        match(self.rotation):
+
+            case utils.RotationType.DOWN:
+
+                self.srcRect = pygame.Rect(
+                    self.width * float(self.type.value), 
+                    0,
+                    self.width, self.height
+                )
+
+            case utils.RotationType.LEFT:
+
+                self.srcRect = pygame.Rect(
+                    0, 
+                    self.height * ((textures.images["Tiles"]["maxFramesX"] - 1) - float(self.type.value)),
+                    self.width, self.height
+                )
+
+            case utils.RotationType.UP:
+
+                self.srcRect = pygame.Rect(
+                    self.width * ((textures.images["Tiles"]["maxFramesX"] - 1) - float(self.type.value)),
+                    0, 
+                    self.width, self.height
+                )
+
+            case utils.RotationType.RIGHT:
+
+                self.srcRect = pygame.Rect(
+                    0, 
+                    self.width * float(self.type.value),
+                    self.width, self.height
+                )

@@ -34,6 +34,10 @@ class Game():
             if event.type == pygame.QUIT:
                 self.running = False
 
+            if event.type == pygame.MOUSEWHEEL:
+
+                utils.scrollWheel = pygame.Vector2(event.x, event.y)
+
     def updateGameLoop(self):
 
         while(self.running):
