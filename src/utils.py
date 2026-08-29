@@ -12,4 +12,9 @@ class TileType(Enum):
 
     BARRIER = 0
     SOLAR_PANEL = 1
-    BATTERY = 2
+    BATTERY_FULL = 2
+    BATTERY_DRAIN_1 = 3
+    BATTERY_DRAIN_2 = 4
+    BATTERY_DRAIN_3 = 5
+    BATTERY_DRAIN_4 = 6
+    BATTERY_EMPTY = 7
