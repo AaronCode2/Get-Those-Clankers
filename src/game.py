@@ -1,5 +1,6 @@
 import pygame
 import utils
+import world
 from pygame._sdl2 import Window
 
 class Game():
@@ -19,10 +20,12 @@ class Game():
 
         utils.screenRect = pygame.Rect(0, 0, self.window.width, self.window.height)
 
+        self.world = world.World()
+
     def update(self):
 
         # This where everything should go e.g player.update()
-        pass
+        self.world.update(self.window)
 
     def processEvents(self):
 

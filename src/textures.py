@@ -9,10 +9,9 @@ class imgIndex[Enum]:
 # This is constant and should not be changed for storing texture data
 
 images = {
-
-    [
+    
         # Player
-        {
+        "Player": {
 
             "location": "assets/player/player.png",
             "maxFramesX": 4, # some frames may have less than 4 frames
@@ -26,11 +25,10 @@ images = {
         },
 
         # Tiles
-        {
+        "Tiles": {
             "location": "assets/tiles/tile.png",
             "maxFramesX": 8,
             "FramesY": 1,
-
             "image": {
 
                 "surface": None,
@@ -38,5 +36,4 @@ images = {
                 "FrameHeight": None
             }
         }
-    ]
 }
