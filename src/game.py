@@ -17,6 +17,8 @@ class Game():
         self.fillColor = (86, 88, 123)
         self.font = pygame.font.Font("assets/fonts/jetbrains.ttf", 30)
 
+        utils.screenRect = pygame.Rect(0, 0, self.window.width, self.window.height)
+
     def update(self):
 
         # This where everything should go e.g player.update()
@@ -39,6 +41,13 @@ class Game():
 
             utils.deltaTime = self.clock.tick(self.fps) / 1000
 
+            utils.windowResized = False
+
+            if(utils.screenRect.width != self.window.width or utils.screenRect.height != self.window.height):
+                utils.screenRect.width = self.window.width
+                utils.screenRect.height = self.window.height
+                utils.windowResized = True
+
             self.window.fill(self.fillColor)
 
             self.update()
@@ -57,7 +66,6 @@ class Game():
             self.window.blit(fpsText, (100, 100))
 
             pygame.display.flip()
-
 
     def run(self):
 
