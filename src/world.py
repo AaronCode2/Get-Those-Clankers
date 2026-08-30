@@ -135,7 +135,6 @@ class World():
             #  May need to change defaultImageSize to tile.size
 
             if(
-                snapable[utils.SnapType.RIGHT_SIDE.value] and
                 (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
                 selectedTile.position.x + utils.defaultImageSizes <= mouseRect.x and
                 selectedTile.position.y <= mouseRect.y and
@@ -145,7 +144,6 @@ class World():
                 #  Right side [=]<!>
                 return utils.getSnapConfig(utils.SnapType.RIGHT_SIDE, selectedTile, selectedTile.rotation)
             elif(
-                snapable[utils.SnapType.LEFT_SIDE.value] and 
                 (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
                 selectedTile.position.x >= mouseRect.x and 
                 selectedTile.position.y <= mouseRect.y and
@@ -155,7 +153,6 @@ class World():
                 #  Left side <!>[=]
                 return utils.getSnapConfig(utils.SnapType.LEFT_SIDE, selectedTile, selectedTile.rotation)
             elif(
-                snapable[utils.SnapType.DOWN_SIDE.value] and
                 (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
                 selectedTile.position.y + utils.defaultImageSizes + utils.snapdetect2Adj.y <= mouseRect.y and
                 selectedTile.position.x <= mouseRect.x and  
@@ -165,7 +162,6 @@ class World():
                 #           <!>
                 return utils.getSnapConfig(utils.SnapType.DOWN_SIDE, selectedTile, selectedTile.rotation)
             elif(
-                snapable[utils.SnapType.UP_SIDE.value] and
                 (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
                 selectedTile.position.y >= mouseRect.y and
                 selectedTile.position.x <= mouseRect.x and  
@@ -189,7 +185,23 @@ class World():
                 selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
             ):
                 return utils.getSnapConfig(utils.SnapType.DOWN_SIDE, selectedTile, selectedTile.rotation)
-            
+            elif(
+
+                (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
+                selectedTile.position.x + utils.defaultImageSizes < mouseRect.x and 
+                selectedTile.position.y <= mouseRect.y and
+                selectedTile.position.y + utils.defaultImageSizes >= mouseRect.y
+            ):
+                return utils.getSnapConfig(utils.SnapType.RIGHT_SIDE, selectedTile, selectedTile.rotation)
+            elif(
+
+                (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
+                selectedTile.position.x > mouseRect.x and
+                selectedTile.position.y <= mouseRect.y and
+                selectedTile.position.y + utils.defaultImageSizes >= mouseRect.y   
+            ):
+                return utils.getSnapConfig(utils.SnapType.LEFT_SIDE, selectedTile, selectedTile.rotation)                
+
         return pygame.Rect(
                 mouseRect.x + utils.adjmousePos.x, 
                 mouseRect.y + utils.adjmousePos.y, 

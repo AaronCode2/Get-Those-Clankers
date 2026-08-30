@@ -83,6 +83,20 @@ def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):
                     selectedTile.position.y - defaultImageSizes - snapdetectAdj.y,
                     defaultImageSizes, defaultImageSizes
                 )
+            case SnapType.RIGHT_SIDE:
+
+                return pygame.Rect(
+                    selectedTile.position.x + defaultImageSizes + snapdetect2Adj.y,
+                    selectedTile.position.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+            case SnapType.LEFT_SIDE:
+
+                return pygame.Rect(
+                    selectedTile.position.x - defaultImageSizes - snapdetect2Adj.y,
+                    selectedTile.position.y,
+                    defaultImageSizes, defaultImageSizes
+                )
 
 def configureRotatedImageForPreview(width, height, type, rotation):
 
@@ -128,8 +142,6 @@ def debugDraw(window, destRect: pygame.Rect, color = (255, 0, 0)):
     rect.set_alpha(100)
     rect.fill(color)
     window.blit(rect, (destRect.x, destRect.y))
-
-
 
 rotations = {
 
