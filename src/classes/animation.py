@@ -113,7 +113,18 @@ if __name__ == "__main__":
 
     screen = pygame.display.set_mode((1900, 1000))
     pygame.init()
-    anim_test = AnimationManager("player", 2, [4, 4], ["walking", "idle"])
+
+    asset_name = "player"
+    num_of_animation = 2
+    frames_per_animation = [4, 4]
+    animations_names = ["walking", "idle"]
+    anim_test = AnimationManager(
+        asset_name,
+        num_of_animation,
+        frames_per_animation,
+        animations_names
+    )
+
     print(anim_test.animations)
     anim_test.set_animation("walking")
 
