@@ -34,12 +34,14 @@ class AnimationManager:
                 (frame_amount * self.frame_width, self.frame_height),
                 pygame.SRCALPHA
             )
-            row_rect = pygame.Rect(0,
-                                   i * self.frame_height,
-                                   self.frame_height,
-                                   self.frame_width * frame_amount
-                                   )
-            row.blit(sprite_sheet, row_rect)
+            pygame.Rect()
+            row_rect = pygame.Rect(
+                0,
+                i * self.frame_height,
+                self.frame_width * frame_amount,
+                self.frame_height
+            )
+            row.blit(sprite_sheet, area = row_rect)
             animation: AnimationData = {
                 "frames" : self.split_animation(row, frame_amount),
                 "num_frames" : frame_amount,
@@ -117,7 +119,7 @@ if __name__ == "__main__":
     asset_name = "player"
     num_of_animation = 2
     frames_per_animation = [4, 4]
-    animations_names = ["walking", "idle"]
+    animations_names = ["idle", "walking"]
     anim_test = AnimationManager(
         asset_name,
         num_of_animation,
