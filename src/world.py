@@ -2,6 +2,7 @@ import pygame
 import tiles
 import utils
 import batteryGen
+import math
 
 # Using this temporarly! -> import textures
 
@@ -103,9 +104,9 @@ class World():
 
         selectedTile = -1
 
-        snapException = [False] * 4
+        snapable = [True] * 4
 
-        # we do this, to get the last tile in this list
+        closestDistance = 0xfff
 
         for tile in self.tiles:
 
@@ -116,19 +117,25 @@ class World():
                 utils.defaultImageSizes, 
                 utils.defaultImageSizes
             ))):
-                selectedTile = tile
 
-                for i in range(4):
+                # Pathegorem - find the closest tile to mouse
+                
+                distance = math.sqrt((tile.position.x - mouseRect.x)**2 + (tile.position.y - mouseRect.y)**2)
 
-                    utils.getSnapConfig(utils.SnapType(i), selectedTile, selectedTile.rotationType)
+                if(distance < closestDistance):
+                    closestDistance = distance
+                    selectedTile = tile
+
 
         if(selectedTile != -1):
 
+            utils.debugDraw(window, pygame.Rect(selectedTile.position.x, selectedTile.position.y, utils.defaultImageSizes, utils.defaultImageSizes))
             # Calcualate snap points
 
             #  May need to change defaultImageSize to tile.size
 
             if(
+                snapable[utils.SnapType.RIGHT_SIDE.value] and
                 (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
                 selectedTile.position.x + utils.defaultImageSizes <= mouseRect.x and
                 selectedTile.position.y <= mouseRect.y and
@@ -138,6 +145,7 @@ class World():
                 #  Right side [=]<!>
                 return utils.getSnapConfig(utils.SnapType.RIGHT_SIDE, selectedTile, selectedTile.rotation)
             elif(
+                snapable[utils.SnapType.LEFT_SIDE.value] and 
                 (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
                 selectedTile.position.x >= mouseRect.x and 
                 selectedTile.position.y <= mouseRect.y and
@@ -147,6 +155,7 @@ class World():
                 #  Left side <!>[=]
                 return utils.getSnapConfig(utils.SnapType.LEFT_SIDE, selectedTile, selectedTile.rotation)
             elif(
+                snapable[utils.SnapType.DOWN_SIDE.value] and
                 (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
                 selectedTile.position.y + utils.defaultImageSizes + utils.snapdetect2Adj.y <= mouseRect.y and
                 selectedTile.position.x <= mouseRect.x and  
@@ -156,6 +165,7 @@ class World():
                 #           <!>
                 return utils.getSnapConfig(utils.SnapType.DOWN_SIDE, selectedTile, selectedTile.rotation)
             elif(
+                snapable[utils.SnapType.UP_SIDE.value] and
                 (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
                 selectedTile.position.y >= mouseRect.y and
                 selectedTile.position.x <= mouseRect.x and  
