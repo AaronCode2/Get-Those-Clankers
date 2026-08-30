@@ -32,7 +32,7 @@ class SnapType(Enum):
     DOWN_SIDE = 2
     UP_SIDE = 3
 
-def getSnapConfig(snapType: SnapType, rotationType: RotationType, selectedTile):
+def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):
 
     if rotationType == RotationType.DOWN or rotationType == RotationType.UP:
         match(snapType):
@@ -69,14 +69,14 @@ def getSnapConfig(snapType: SnapType, rotationType: RotationType, selectedTile):
 
         match(snapType):
 
-            case SnapType.RIGHT_SIDE:
+            case SnapType.UP_SIDE:
 
                 return pygame.Rect(
                     selectedTile.position.x,
                     selectedTile.position.y + defaultImageSizes + snapdetectAdj.y,
                     defaultImageSizes, defaultImageSizes
                 )
-            case SnapType.LEFT_SIDE:
+            case SnapType.DOWN_SIDE:
 
                 return pygame.Rect(
                     selectedTile.position.x,

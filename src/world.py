@@ -103,6 +103,8 @@ class World():
 
         selectedTile = -1
 
+        snapException = [False] * 4
+
         # we do this, to get the last tile in this list
 
         for tile in self.tiles:
@@ -115,6 +117,10 @@ class World():
                 utils.defaultImageSizes
             ))):
                 selectedTile = tile
+
+                for i in range(4):
+
+                    utils.getSnapConfig(utils.SnapType(i), selectedTile, selectedTile.rotationType)
 
         if(selectedTile != -1):
 
@@ -130,11 +136,7 @@ class World():
             ):
 
                 #  Right side [=]<!>
-                return pygame.Rect(
-                    selectedTile.position.x + utils.defaultImageSizes + utils.snapdetectAdj.x,
-                    selectedTile.position.y,
-                    utils.defaultImageSizes, utils.defaultImageSizes
-                )
+                return utils.getSnapConfig(utils.SnapType.RIGHT_SIDE, selectedTile, selectedTile.rotation)
             elif(
                 (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
                 selectedTile.position.x >= mouseRect.x and 
@@ -143,11 +145,7 @@ class World():
             ):
 
                 #  Left side <!>[=]
-                return pygame.Rect(
-                    selectedTile.position.x - utils.defaultImageSizes - utils.snapdetectAdj.x,
-                    selectedTile.position.y,
-                    utils.defaultImageSizes, utils.defaultImageSizes
-                )
+                return utils.getSnapConfig(utils.SnapType.LEFT_SIDE, selectedTile, selectedTile.rotation)
             elif(
                 (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
                 selectedTile.position.y + utils.defaultImageSizes + utils.snapdetect2Adj.y <= mouseRect.y and
@@ -156,11 +154,7 @@ class World():
             ):
                 # Down side [=]
                 #           <!>
-                return pygame.Rect(
-                    selectedTile.position.x,
-                    selectedTile.position.y + utils.defaultImageSizes + utils.snapdetect2Adj.y,
-                    utils.defaultImageSizes, utils.defaultImageSizes
-                )
+                return utils.getSnapConfig(utils.SnapType.DOWN_SIDE, selectedTile, selectedTile.rotation)
             elif(
                 (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
                 selectedTile.position.y >= mouseRect.y and
@@ -169,11 +163,7 @@ class World():
             ):
                 #         <!>
                 # Up side [=]
-                return pygame.Rect(
-                    selectedTile.position.x,
-                    selectedTile.position.y - utils.defaultImageSizes - utils.snapdetect2Adj.y,
-                    utils.defaultImageSizes, utils.defaultImageSizes
-                )
+                return utils.getSnapConfig(utils.SnapType.UP_SIDE, selectedTile, selectedTile.rotation)
                 
             elif(
                 (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
@@ -181,22 +171,14 @@ class World():
                 selectedTile.position.x <= mouseRect.x and  
                 selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
             ):
-                return pygame.Rect(
-                    selectedTile.position.x,
-                    selectedTile.position.y + utils.defaultImageSizes + utils.snapdetectAdj.y,
-                    utils.defaultImageSizes, utils.defaultImageSizes
-                )
+                return utils.getSnapConfig(utils.SnapType.UP_SIDE, selectedTile, selectedTile.rotation)
             elif(
                 (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
                 selectedTile.position.y >= mouseRect.y and
                 selectedTile.position.x <= mouseRect.x and  
                 selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
             ):
-                return pygame.Rect(
-                    selectedTile.position.x,
-                    selectedTile.position.y - utils.defaultImageSizes - utils.snapdetectAdj.y,
-                    utils.defaultImageSizes, utils.defaultImageSizes
-                )
+                return utils.getSnapConfig(utils.SnapType.DOWN_SIDE, selectedTile, selectedTile.rotation)
             
         return pygame.Rect(
                 mouseRect.x + utils.adjmousePos.x, 
