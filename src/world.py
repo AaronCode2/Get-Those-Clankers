@@ -1,6 +1,7 @@
 import pygame
 import tiles
 import utils
+import batteryGen
 
 # Using this temporarly! -> import textures
 
@@ -14,6 +15,8 @@ class World():
         self.tiles = []
 
         self.initTextures()
+
+        self.batteryGenator = batteryGen.BatteryGenenator()
 
         self.defaultRotation = utils.RotationType.DOWN
         self.previewTile = {
@@ -40,7 +43,6 @@ class World():
         #         utils.RotationType.DOWN
         #     )
         # )
-
 
     def drawPreviewPlacer(self, mousePos, window):
         
@@ -118,6 +120,8 @@ class World():
         for tile in self.tiles:
 
             tile.update(window)
+
+        self.batteryGenator.update(window)
 
         # window.blit(textures.images["Tiles"]["image"]["surface"], (200, 200))
     

@@ -70,12 +70,12 @@ rotations = {
 
 class BatteryLevel(Enum):
 
-    BATTERY_FULL = 2
-    BATTERY_DRAIN_1 = 3
-    BATTERY_DRAIN_2 = 4
-    BATTERY_DRAIN_3 = 5
-    BATTERY_DRAIN_4 = 6
-    BATTERY_EMPTY = 7
+    BATTERY_FULL = 0
+    BATTERY_DRAIN_1 = 1
+    BATTERY_DRAIN_2 = 2
+    BATTERY_DRAIN_3 = 3
+    BATTERY_DRAIN_4 = 4
+    BATTERY_EMPTY = 5
 
 class TileType(Enum):
 

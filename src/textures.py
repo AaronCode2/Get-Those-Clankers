@@ -43,5 +43,19 @@ images = {
                 utils.RotationType.UP: None,
                 utils.RotationType.RIGHT: None
             }
+        },
+
+        "Battery": {
+
+            "location": "assets/tiles/battery.png",
+            "maxFramesX": 6,
+            "FramesY": 1,
+            "image": {
+
+                "surface": None,
+                "FrameWidth": None,
+                "FrameHeight": None
+            },
+
         }
 }
