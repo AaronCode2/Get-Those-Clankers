@@ -3,6 +3,13 @@ from enum import Enum
 
 # For constants and utility
 
+class RotationType(Enum):
+
+    DOWN = 0
+    LEFT = 1
+    UP = 2
+    RIGHT = 3
+
 deltaTime = 0.3
 
 screenRect = pygame.Rect()
@@ -17,6 +24,65 @@ scrollWheel = pygame.Vector2(0, 0)
 tileMaxFrames = 1.0
 
 adjmousePos = pygame.Vector2(-24, -24)
+
+class SnapType(Enum):
+
+    RIGHT_SIDE = 0
+    LEFT_SIDE = 1
+    DOWN_SIDE = 2
+    UP_SIDE = 3
+
+def getSnapConfig(snapType: SnapType, rotationType: RotationType, selectedTile):
+
+    if rotationType == RotationType.DOWN or rotationType == RotationType.UP:
+        match(snapType):
+
+            case SnapType.RIGHT_SIDE:
+
+                return pygame.Rect(
+                    selectedTile.position.x + defaultImageSizes + snapdetectAdj.x,
+                    selectedTile.position.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+            case SnapType.LEFT_SIDE:
+
+                return pygame.Rect(
+                    selectedTile.position.x - defaultImageSizes - snapdetectAdj.x,
+                    selectedTile.position.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+            case SnapType.DOWN_SIDE:
+
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y + defaultImageSizes + snapdetect2Adj.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+            case SnapType.UP_SIDE:
+
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y - defaultImageSizes - snapdetect2Adj.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+    else:
+
+        match(snapType):
+
+            case SnapType.RIGHT_SIDE:
+
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y + defaultImageSizes + snapdetectAdj.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+            case SnapType.LEFT_SIDE:
+
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y - defaultImageSizes - snapdetectAdj.y,
+                    defaultImageSizes, defaultImageSizes
+                )
 
 def configureRotatedImageForPreview(width, height, type, rotation):
 
@@ -63,12 +129,7 @@ def debugDraw(window, destRect: pygame.Rect, color = (255, 0, 0)):
     rect.fill(color)
     window.blit(rect, (destRect.x, destRect.y))
 
-class RotationType(Enum):
 
-    DOWN = 0
-    LEFT = 1
-    UP = 2
-    RIGHT = 3
 
 rotations = {
 

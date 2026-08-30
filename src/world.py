@@ -154,6 +154,8 @@ class World():
                 selectedTile.position.x <= mouseRect.x and  
                 selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
             ):
+                # Down side [=]
+                #           <!>
                 return pygame.Rect(
                     selectedTile.position.x,
                     selectedTile.position.y + utils.defaultImageSizes + utils.snapdetect2Adj.y,
@@ -165,6 +167,8 @@ class World():
                 selectedTile.position.x <= mouseRect.x and  
                 selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
             ):
+                #         <!>
+                # Up side [=]
                 return pygame.Rect(
                     selectedTile.position.x,
                     selectedTile.position.y - utils.defaultImageSizes - utils.snapdetect2Adj.y,
