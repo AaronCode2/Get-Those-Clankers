@@ -139,7 +139,7 @@ if __name__ == "__main__":
                 break
 
         anim_test.update(delta_time)
-        screen.blit(anim_test.current_frame, (0, 0))
+        screen.blit(pygame.transform.scale_by(anim_test.current_frame, 10), (0, 0))
         pygame.display.flip()
 
 
