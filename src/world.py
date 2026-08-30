@@ -25,25 +25,26 @@ class World():
             "image": textures.images["Tiles"]["image"]["surface"].copy(),
             "srcRect": None
         }
+        self.selectedTileType = utils.TileType.SOLAR_PANEL
 
         self.previewTile["image"].set_alpha(100)
         self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
                 textures.images["Tiles"]["image"]["FrameWidth"],
                 textures.images["Tiles"]["image"]["FrameHeight"],
-                utils.TileType.BARRIER,
+                self.selectedTileType,
                 self.defaultRotation
         )
         self.destPreviewRect = pygame.Vector2(0, 0)
 
-        # self.tiles.append(
+        self.tiles.append(
 
-        #     tiles.Tile(
-        #         pygame.Vector2(
-        #         utils.screenRect.width / 2, utils.screenRect.height / 2
-        #         ), utils.TileType.BATTERY_FULL,
-        #         utils.RotationType.DOWN
-        #     )
-        # )
+            tiles.Tile(
+                pygame.Vector2(
+                300, 200
+                ), utils.TileType.BARRIER,
+                utils.RotationType.DOWN
+            )
+        )
 
     def drawPreviewPlacer(self, mousePos, window):
         
@@ -56,7 +57,7 @@ class World():
     def handleInputplacer(self, window):
 
         mousePos = pygame.mouse.get_pos()
-        mouseEvent = pygame.mouse.get_just_pressed()
+        mouseEvent = pygame.mouse.get_pressed()
         keypress = pygame.key.get_just_pressed()
         keypressing = pygame.key.get_pressed()      
 
@@ -84,7 +85,7 @@ class World():
             self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
                 textures.images["Tiles"]["image"]["FrameWidth"],
                 textures.images["Tiles"]["image"]["FrameHeight"],
-                utils.TileType.BARRIER,
+                self.selectedTileType,
                 self.defaultRotation
             )
 
@@ -104,9 +105,7 @@ class World():
 
         selectedTile = -1
 
-        snapable = [True] * 4
-
-        closestDistance = 0xfff
+        closestDistance = 0xffff
 
         for tile in self.tiles:
 
@@ -130,7 +129,7 @@ class World():
         if(selectedTile != -1):
 
             utils.debugDraw(window, pygame.Rect(selectedTile.position.x, selectedTile.position.y, utils.defaultImageSizes, utils.defaultImageSizes))
-            # Calcualate snap points
+            # Calcualate snap points , btw this is just for snapping, nothing else. 200 lines for snapping
 
             #  May need to change defaultImageSize to tile.size
 
@@ -223,7 +222,6 @@ class World():
         else:
 
             self.destPreviewRect = self.snapModeActivate(window, mouseRect)
-
                     
         self.drawPreviewPlacer(mousePos, window)
 
@@ -233,10 +231,26 @@ class World():
 
         if(mouseEvent[0]):
 
-            self.tiles.append(tiles.Tile(
-                pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
-                utils.TileType.BARRIER, self.defaultRotation
-            ))
+            isTilePlaceable = True
+
+            detectMouseRect = pygame.Rect(
+
+                mouseRect.x,
+                mouseRect.y,
+                mouseRect.width,
+                mouseRect.height,
+            )
+            
+            for tile in self.tiles:
+
+                if(detectMouseRect.colliderect(utils.getTileRect(tile.position))):
+                    isTilePlaceable = False
+                    return
+            if(isTilePlaceable):
+                self.tiles.append(tiles.Tile(
+                    pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
+                    self.selectedTileType, self.defaultRotation
+                ))
 
         if(mouseEvent[2]):
 
