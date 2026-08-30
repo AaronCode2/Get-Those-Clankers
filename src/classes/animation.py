@@ -21,7 +21,7 @@ class AnimationManager:
         # in fps
         self._animation_speed: float = 5
 
-        sprite_sheet: pygame.Surface = pygame.image.load(f"../../assets/{asset_name}/{asset_name}.png")
+        sprite_sheet: pygame.Surface = pygame.image.load(f"assets/{asset_name}/{asset_name}.png")
         self.max_frames = max(animations_num_frames)
         self.frame_width: int = sprite_sheet.get_width() // self.max_frames
         self.frame_height: int = sprite_sheet.get_height() // num_of_animations
