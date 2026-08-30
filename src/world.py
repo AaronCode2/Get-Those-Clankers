@@ -52,20 +52,19 @@ class World():
             self.previewTile["srcRect"]
         )
 
-    def _devTilePlacer(self, window):
+    def handleInputplacer(self, window):
 
         mousePos = pygame.mouse.get_pos()
         mouseEvent = pygame.mouse.get_just_pressed()
         keypress = pygame.key.get_just_pressed()
+        keypressing = pygame.key.get_pressed()      
 
-        mouseRect = pygame.Rect(mousePos[0], mousePos[1], utils.defaultImageSizes, utils.defaultImageSizes)
-        self.drawPreviewPlacer(mousePos, window)
+        snapMode = False
 
-        self.destPreviewRect = pygame.Rect(
-            mousePos[0] + utils.adjmousePos.x, 
-            mousePos[1] + utils.adjmousePos.y, 
-            utils.defaultImageSizes, utils.defaultImageSizes
-        )
+        # The Left CTRL is support for left-handed keyboards
+
+        if(keypressing[pygame.K_RCTRL] or keypressing[pygame.K_LCTRL]):
+            snapMode = True
 
         # Make them rotate when input and do stuff to get it working right :)
 
@@ -90,6 +89,138 @@ class World():
 
             utils.scrollWheel = pygame.Vector2(0, 0)
 
+        return mouseEvent, mousePos, snapMode
+
+    def snapModeActivate(self, window, mouseRect):
+        
+        detectAreaRange = pygame.Rect(
+                (mouseRect.x + utils.adjmousePos.x) - utils.defaultImageSizes / 2, 
+                (mouseRect.y + utils.adjmousePos.y) - utils.defaultImageSizes / 2, 
+                utils.defaultImageSizes * 2, utils.defaultImageSizes * 2
+            )
+
+        utils.debugDraw(window, detectAreaRange)
+
+        selectedTile = -1
+
+        # we do this, to get the last tile in this list
+
+        for tile in self.tiles:
+
+            if(
+                detectAreaRange.colliderect(
+                pygame.Rect(
+                tile.position.x, tile.position.y,
+                utils.defaultImageSizes, 
+                utils.defaultImageSizes
+            ))):
+                selectedTile = tile
+
+        if(selectedTile != -1):
+
+            # Calcualate snap points
+
+            #  May need to change defaultImageSize to tile.size
+
+            if(
+                (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
+                selectedTile.position.x + utils.defaultImageSizes <= mouseRect.x and
+                selectedTile.position.y <= mouseRect.y and
+                selectedTile.position.y + utils.defaultImageSizes >= mouseRect.y
+            ):
+
+                #  Right side [=]<!>
+                return pygame.Rect(
+                    selectedTile.position.x + utils.defaultImageSizes + utils.snapdetectAdj.x,
+                    selectedTile.position.y,
+                    utils.defaultImageSizes, utils.defaultImageSizes
+                )
+            elif(
+                (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
+                selectedTile.position.x >= mouseRect.x and 
+                selectedTile.position.y <= mouseRect.y and
+                selectedTile.position.y + utils.defaultImageSizes >= mouseRect.y
+            ):
+
+                #  Left side <!>[=]
+                return pygame.Rect(
+                    selectedTile.position.x - utils.defaultImageSizes - utils.snapdetectAdj.x,
+                    selectedTile.position.y,
+                    utils.defaultImageSizes, utils.defaultImageSizes
+                )
+            elif(
+                (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
+                selectedTile.position.y + utils.defaultImageSizes + utils.snapdetect2Adj.y <= mouseRect.y and
+                selectedTile.position.x <= mouseRect.x and  
+                selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
+            ):
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y + utils.defaultImageSizes + utils.snapdetect2Adj.y,
+                    utils.defaultImageSizes, utils.defaultImageSizes
+                )
+            elif(
+                (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
+                selectedTile.position.y >= mouseRect.y and
+                selectedTile.position.x <= mouseRect.x and  
+                selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
+            ):
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y - utils.defaultImageSizes - utils.snapdetect2Adj.y,
+                    utils.defaultImageSizes, utils.defaultImageSizes
+                )
+                
+            elif(
+                (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
+                selectedTile.position.y + utils.defaultImageSizes <= mouseRect.y and
+                selectedTile.position.x <= mouseRect.x and  
+                selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
+            ):
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y + utils.defaultImageSizes + utils.snapdetectAdj.y,
+                    utils.defaultImageSizes, utils.defaultImageSizes
+                )
+            elif(
+                (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
+                selectedTile.position.y >= mouseRect.y and
+                selectedTile.position.x <= mouseRect.x and  
+                selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
+            ):
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y - utils.defaultImageSizes - utils.snapdetectAdj.y,
+                    utils.defaultImageSizes, utils.defaultImageSizes
+                )
+            
+        return pygame.Rect(
+                mouseRect.x + utils.adjmousePos.x, 
+                mouseRect.y + utils.adjmousePos.y, 
+                utils.defaultImageSizes, utils.defaultImageSizes
+            )
+
+    def _devTilePlacer(self, window):
+
+        mouseEvent, mousePos, snapMode = self.handleInputplacer(window)
+        mouseRect = pygame.Rect(mousePos[0], mousePos[1], utils.defaultImageSizes, utils.defaultImageSizes)
+
+        if(not snapMode):
+
+            self.destPreviewRect = pygame.Rect(
+                mousePos[0] + utils.adjmousePos.x, 
+                mousePos[1] + utils.adjmousePos.y, 
+                utils.defaultImageSizes, utils.defaultImageSizes
+            )
+        else:
+
+            self.destPreviewRect = self.snapModeActivate(window, mouseRect)
+
+                    
+        self.drawPreviewPlacer(mousePos, window)
+
+        # utils.debugDraw(window,self.destPreviewRect)
+        
         # placing and deleting tiles
 
         if(mouseEvent[0]):
@@ -122,8 +253,6 @@ class World():
             tile.update(window)
 
         self.batteryGenator.update(window)
-
-        # window.blit(textures.images["Tiles"]["image"]["surface"], (200, 200))
     
     def initTextures(self):
 

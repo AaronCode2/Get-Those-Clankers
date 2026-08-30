@@ -8,6 +8,9 @@ deltaTime = 0.3
 screenRect = pygame.Rect()
 windowResized = False
 
+snapdetectAdj = pygame.Vector2(-5, -5)
+snapdetect2Adj = pygame.Vector2(-5, -48)
+
 defaultImageSizes = 64
 
 scrollWheel = pygame.Vector2(0, 0)
@@ -52,6 +55,13 @@ def configureRotatedImageForPreview(width, height, type, rotation):
             )
 
     return srcRect
+
+def debugDraw(window, destRect: pygame.Rect, color = (255, 0, 0)):
+
+    rect = pygame.Surface((destRect.width, destRect.height))
+    rect.set_alpha(100)
+    rect.fill(color)
+    window.blit(rect, (destRect.x, destRect.y))
 
 class RotationType(Enum):
 
