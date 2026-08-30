@@ -1,5 +1,6 @@
 import pygame
 from typing import TypedDict, Callable
+from pathlib import Path
 from json import dumps, loads
 
 class AnimationData(TypedDict):
@@ -7,13 +8,22 @@ class AnimationData(TypedDict):
     num_frames: int
 
 class AnimationManager:
-    def __init__(self,
-                 asset_name: str,
-                 num_of_animations: int,
-                 animations_num_frames: list[int],
-                 animations_names: list[str]
-                 ):
-        self.asset_name = asset_name
+    def __init__(
+            self,
+            asset_path: str,
+            num_of_animations: int,
+            animations_num_frames: list[int],
+            animations_names: list[str]
+        ):
+        """Extracts animations from a sprite sheet .png file and plays them
+
+        :param asset_path: The path to the asset without "assets/" prefix.
+        :param num_of_animations: The number of animations contained in this file.
+        :param animations_num_frames: The number of frame for each animation from top to bottom.
+        :param animations_names: The names of the animation from top to bottom, used to switch between them.
+        """
+        self.asset_name = Path(asset_path).stem
+        self.asset_path = asset_path
         self.animations: dict[str, AnimationData] = {}
         self._current_frame_index: int = 0
         self._current_animation_name: str = ""
@@ -21,7 +31,7 @@ class AnimationManager:
         # in fps
         self._animation_speed: float = 5
 
-        sprite_sheet: pygame.Surface = pygame.image.load(f"assets/{asset_name}/{asset_name}.png")
+        sprite_sheet: pygame.Surface = pygame.image.load(f"assets/{self.asset_path}")
         self.max_frames = max(animations_num_frames)
         self.frame_width: int = sprite_sheet.get_width() // self.max_frames
         self.frame_height: int = sprite_sheet.get_height() // num_of_animations
