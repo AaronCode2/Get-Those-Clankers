@@ -57,7 +57,7 @@ class World():
     def handleInputplacer(self, window):
 
         mousePos = pygame.mouse.get_pos()
-        mouseEvent = pygame.mouse.get_pressed()
+        mouseEvent = pygame.mouse.get_just_pressed()
         keypress = pygame.key.get_just_pressed()
         keypressing = pygame.key.get_pressed()      
 
@@ -229,21 +229,24 @@ class World():
         
         # placing and deleting tiles
 
+        
+        detectBox = pygame.Rect(
+
+            self.destPreviewRect.x + 10,
+            self.destPreviewRect.y + 10,
+            self.destPreviewRect.width - 20,
+            self.destPreviewRect.height - 20,
+        )
+
+        utils.debugDraw(window, detectBox)
+
         if(mouseEvent[0]):
 
             isTilePlaceable = True
-
-            detectMouseRect = pygame.Rect(
-
-                mouseRect.x,
-                mouseRect.y,
-                mouseRect.width,
-                mouseRect.height,
-            )
             
             for tile in self.tiles:
 
-                if(detectMouseRect.colliderect(utils.getTileRect(tile.position))):
+                if(detectBox.colliderect(utils.getTileRect(tile.position))):
                     isTilePlaceable = False
                     return
             if(isTilePlaceable):
@@ -256,10 +259,7 @@ class World():
 
             for tile in self.tiles:
 
-                if(mouseRect.colliderect(pygame.Rect(
-                    tile.position.x, tile.position.y, 
-                    utils.defaultImageSizes, utils.defaultImageSizes
-                ))):
+                if(utils.getTileRect(tile.position).collidepoint(mouseRect.x, mouseRect.y)):
                     self.tiles.remove(tile)
                     return
 
