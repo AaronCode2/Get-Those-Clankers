@@ -3,7 +3,7 @@ import pygame
 class Entity:
     def __init__(
             self,
-            midbottom: pygame.Vector2,
+            midbottom: pygame.Vector2 | tuple[float, float],
             hitbox_size: tuple[int, int],
             mass: float = 1
         ):
