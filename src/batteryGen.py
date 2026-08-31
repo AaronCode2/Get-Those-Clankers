@@ -11,7 +11,13 @@ class BatteryGenenator():
 
         # taken as seconds e.g 120seconds = 2mins
         self.timer = 30
-        self.level = utils.BatteryLevel.BATTERY_FULL 
+        self.level = utils.BatteryLevel.BATTERY_FULL
+
+        # Meaursed in KWatts/hour, 
+
+        self.wattsBeingUsed = 12 
+        self.wattsBeingGenereated = 0
+        self.capacity = 60 
 
         self.timeStamp = int(time())
 
@@ -24,6 +30,11 @@ class BatteryGenenator():
             textures.images["Battery"]["image"]["FrameWidth"],
             textures.images["Battery"]["image"]["FrameHeight"]
         )
+
+    # Battery Equation: Time = Load / Battery Capacity
+
+    def getBatteryduration(load: float):
+        pass
 
     def loadImage(self):
 
