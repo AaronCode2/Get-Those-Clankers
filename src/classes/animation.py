@@ -126,7 +126,7 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((1900, 1000))
     pygame.init()
 
-    asset_name = "player"
+    asset_name = "player/player.png"
     num_of_animation = 2
     frames_per_animation = [4, 4]
     animations_names = ["idle", "walking"]
