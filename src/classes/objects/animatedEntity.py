@@ -31,9 +31,9 @@ class AnimatedEntity(Entity):
     def set_animation(self, animation_name: str):
         self.animation.set_animation(animation_name)
 
-    def update(self, delta_time: float):
-        self.animation.update(delta_time)
-        super().update(delta_time)
+    def update(self):
+        self.animation.update()
+        super().update()
 
     def draw(self, screen: pygame.Surface):
         screen.blit(self.surface, self.rect)
