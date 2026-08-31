@@ -1,4 +1,5 @@
 import pygame
+from src.classes.utility import utils
 
 class Entity:
     def __init__(
@@ -17,10 +18,10 @@ class Entity:
     def apply_force(self, force: pygame.Vector2):
         self.acceleration += force
 
-    def update(self, delta_time: float):
+    def update(self):
         # This looks weird I know, but it's acctualy the right way to do it
-        self.velocity += self.acceleration * delta_time * 0.5
-        self.hitbox.midbottom += self.velocity * delta_time
-        self.velocity += self.acceleration * delta_time * 0.5
+        self.velocity += self.acceleration * utils.deltaTime * 0.5
+        self.hitbox.midbottom += self.velocity * utils.deltaTime
+        self.velocity += self.acceleration * utils.deltaTime * 0.5
 
         self.acceleration = 0
