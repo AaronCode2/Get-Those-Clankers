@@ -1,9 +1,9 @@
 import pygame
 import classes.utility.utils as utils
 import classes.utility.textures as textures
-import animation
+from src.classes.objects import animation
 import classes.ui.inventory as inventory
-import classes.animation
+
 
 class UI():
 
