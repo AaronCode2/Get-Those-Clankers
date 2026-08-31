@@ -28,7 +28,12 @@ class Game():
 
         # This where everything should go e.g player.update()
         self.world.update(self.window)
-        self.ui.setBatteryLevel(self.world.batteryGenator.level)
+        self.ui.setBatteryStuff(
+            self.world.batteryGenator.level, 
+            self.world.batteryGenator.timeLeft, 
+            self.world.batteryGenator.wattsUsed, 
+            self.world.batteryGenator.wattsGenereated
+        )
         self.ui.update(self.window)
 
     def processEvents(self):

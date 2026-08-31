@@ -271,6 +271,27 @@ def configureRotatedImageForPreview(width, height, type, rotation):
 
     return srcRect
 
+BatteryDisplayHudPositions = {
+
+    "TimeLeft": pygame.Vector2(12, 30),
+    "WattsUsed": pygame.Vector2(12, 60),
+    "WattsGenerated": pygame.Vector2(12, 80)
+}
+
+ColorPlattes = {
+
+    "Future Blue": (39, 137, 205),
+    "Supreme Yellow": (248, 197, 58)
+}
+
+def formatToClock(seconds: int):
+
+    clockMins = seconds // 60
+
+    clockSeconds = str(abs((clockMins * 60) - seconds))
+
+    return str(clockMins) + ":" + clockSeconds
+
 def debugDraw(window, destRect: pygame.Rect, color = (255, 0, 0)):
 
     rect = pygame.Surface((destRect.width, destRect.height))

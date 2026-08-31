@@ -10,13 +10,13 @@ class BatteryGenenator():
         self.position = pygame.Vector2(utils.screenRect.width / 2, utils.screenRect.height / 2)
 
         # taken as seconds e.g 120seconds = 2mins
-        self.timer = 30
+        self.timeLeft = 30
         self.level = utils.BatteryLevel.BATTERY_FULL
 
         # Meaursed in KWatts/hour, 
 
-        self.wattsBeingUsed = 12 
-        self.wattsBeingGenereated = 0
+        self.wattsUsed = 12 
+        self.wattsGenereated = 1
         self.capacity = 60 
 
         self.timeStamp = int(time())
@@ -53,7 +53,7 @@ class BatteryGenenator():
 
         # self.srcRect.x = 10
         
-        if(time() - int(self.timeStamp) >= self.timer):
+        if(time() - int(self.timeStamp) >= self.timeLeft):
 
             self.timeStamp = time()
             if(self.level != utils.BatteryLevel.BATTERY_EMPTY):
