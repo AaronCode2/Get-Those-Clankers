@@ -5,7 +5,38 @@ from enum import Enum
 
 font = None
 
-class keyGuides(Enum):
+class GuiPlates(Enum):
+
+    CORNER_TOP_LEFT = 0
+    TOP_MIDDLE = 1
+    CORNER_TOP_RIGHT = 2
+
+    MIDDLE_LEFT_SIDE = 3
+    MIDDLE = 4
+    MIDDLE_RIGHT_SIDE = 5
+
+    CORNER_BOTTOM_LEFT = 6,
+    BOTTOM_MIDDLE = 7,
+    CONER_BOTTOM_RIGHT = 8,
+
+# The x and y mapped for the guiPlate frames
+
+guiPlatesFrameMap = {
+
+    GuiPlates.CORNER_TOP_LEFT: (0, 0),
+    GuiPlates.TOP_MIDDLE: (0, 1),
+    GuiPlates.CORNER_TOP_RIGHT: (0, 2),
+
+    GuiPlates.MIDDLE_LEFT_SIDE: (1, 0),
+    GuiPlates.MIDDLE: (1, 1),
+    GuiPlates.MIDDLE_RIGHT_SIDE: (1, 2),
+
+    GuiPlates.CORNER_BOTTOM_LEFT: (2, 0),
+    GuiPlates.BOTTOM_MIDDLE: (2, 1),
+    GuiPlates.CONER_BOTTOM_RIGHT: (2, 2)
+}
+
+class KeyGuides(Enum):
 
     CRTL_TO_SNAP = 0
     WASD_TO_MOVE = 1
@@ -13,15 +44,15 @@ class keyGuides(Enum):
 
 keyGuidesTexts = {
 
-    keyGuides.CRTL_TO_SNAP: "Snap Mode",
-    keyGuides.WASD_TO_MOVE: "Move",
-    keyGuides.R_TO_ROTATE: "Rotate Object",
+    KeyGuides.CRTL_TO_SNAP: "Snap Mode",
+    KeyGuides.WASD_TO_MOVE: "Move",
+    KeyGuides.R_TO_ROTATE: "Rotate Object",
 
     "textOffsets": {
 
-        keyGuides.CRTL_TO_SNAP: 0,
-        keyGuides.WASD_TO_MOVE: 160,
-        keyGuides.R_TO_ROTATE: 230,
+        KeyGuides.CRTL_TO_SNAP: 0,
+        KeyGuides.WASD_TO_MOVE: 160,
+        KeyGuides.R_TO_ROTATE: 230,
     } 
 }
 

@@ -9,21 +9,7 @@ class imgIndex[Enum]:
 
 # This is constant and should not be changed for storing texture data
 
-images = {
-    
-        # Player
-        "Player": {
-
-            "location": "assets/player/player.png",
-            "maxFramesX": 4, # some frames may have less than 4 frames
-            "FramesY": 2,
-            "image": {
-
-                "surface": None,
-                "FrameWidth": None,
-                "FrameHeight": None
-            }
-        },
+images = {      
 
         # Tiles
         "Tiles": {
@@ -70,5 +56,20 @@ images = {
                 "FrameWidth": None,
                 "FrameHeight": None
             },
-        }
+        },
+
+        "guiPlates": {
+
+            "location": "assets/ui/guiPlates.png",
+            "FramesX": 3,
+            "FramesY": 3,
+            "image": {
+
+                "surface": None,
+                "FrameWidth": None,
+                "FrameHeight": None
+            },
+        },
+
+
 }
