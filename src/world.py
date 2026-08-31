@@ -16,8 +16,8 @@ class World():
         self.tiles = []
 
         self.initTextures()
-
         self.batteryGenator = batteryGen.BatteryGenenator()
+
 
         self.defaultRotation = utils.RotationType.DOWN
         self.previewTile = {

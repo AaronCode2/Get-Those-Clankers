@@ -28,7 +28,6 @@ class UI():
             self.batteryIndicator.level = batteryLevel
             self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][self.batteryIndicator.level.value])
 
-
     def update(self, window):
 
         self.draw(window)
