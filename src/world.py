@@ -2,6 +2,7 @@ import pygame
 import tiles
 import utils
 import batteryGen
+import math
 
 # Using this temporarly! -> import textures
 
@@ -24,25 +25,26 @@ class World():
             "image": textures.images["Tiles"]["image"]["surface"].copy(),
             "srcRect": None
         }
+        self.selectedTileType = utils.TileType.SOLAR_PANEL
 
         self.previewTile["image"].set_alpha(100)
         self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
                 textures.images["Tiles"]["image"]["FrameWidth"],
                 textures.images["Tiles"]["image"]["FrameHeight"],
-                utils.TileType.BARRIER,
+                self.selectedTileType,
                 self.defaultRotation
         )
         self.destPreviewRect = pygame.Vector2(0, 0)
 
-        # self.tiles.append(
+        self.tiles.append(
 
-        #     tiles.Tile(
-        #         pygame.Vector2(
-        #         utils.screenRect.width / 2, utils.screenRect.height / 2
-        #         ), utils.TileType.BATTERY_FULL,
-        #         utils.RotationType.DOWN
-        #     )
-        # )
+            tiles.Tile(
+                pygame.Vector2(
+                300, 200
+                ), utils.TileType.BARRIER,
+                utils.RotationType.DOWN
+            )
+        )
 
     def drawPreviewPlacer(self, mousePos, window):
         
@@ -83,7 +85,7 @@ class World():
             self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
                 textures.images["Tiles"]["image"]["FrameWidth"],
                 textures.images["Tiles"]["image"]["FrameHeight"],
-                utils.TileType.BARRIER,
+                self.selectedTileType,
                 self.defaultRotation
             )
 
@@ -103,9 +105,7 @@ class World():
 
         selectedTile = -1
 
-        snapException = [False] * 4
-
-        # we do this, to get the last tile in this list
+        closestDistance = 0xffff
 
         for tile in self.tiles:
 
@@ -116,15 +116,20 @@ class World():
                 utils.defaultImageSizes, 
                 utils.defaultImageSizes
             ))):
-                selectedTile = tile
 
-                for i in range(4):
+                # Pathegorem - find the closest tile to mouse
+                
+                distance = math.sqrt((tile.position.x - mouseRect.x)**2 + (tile.position.y - mouseRect.y)**2)
 
-                    utils.getSnapConfig(utils.SnapType(i), selectedTile, selectedTile.rotationType)
+                if(distance < closestDistance):
+                    closestDistance = distance
+                    selectedTile = tile
+
 
         if(selectedTile != -1):
 
-            # Calcualate snap points
+            utils.debugDraw(window, pygame.Rect(selectedTile.position.x, selectedTile.position.y, utils.defaultImageSizes, utils.defaultImageSizes))
+            # Calcualate snap points , btw this is just for snapping, nothing else. 200 lines for snapping
 
             #  May need to change defaultImageSize to tile.size
 
@@ -179,7 +184,23 @@ class World():
                 selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
             ):
                 return utils.getSnapConfig(utils.SnapType.DOWN_SIDE, selectedTile, selectedTile.rotation)
-            
+            elif(
+
+                (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
+                selectedTile.position.x + utils.defaultImageSizes < mouseRect.x and 
+                selectedTile.position.y <= mouseRect.y and
+                selectedTile.position.y + utils.defaultImageSizes >= mouseRect.y
+            ):
+                return utils.getSnapConfig(utils.SnapType.RIGHT_SIDE, selectedTile, selectedTile.rotation)
+            elif(
+
+                (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
+                selectedTile.position.x > mouseRect.x and
+                selectedTile.position.y <= mouseRect.y and
+                selectedTile.position.y + utils.defaultImageSizes >= mouseRect.y   
+            ):
+                return utils.getSnapConfig(utils.SnapType.LEFT_SIDE, selectedTile, selectedTile.rotation)                
+
         return pygame.Rect(
                 mouseRect.x + utils.adjmousePos.x, 
                 mouseRect.y + utils.adjmousePos.y, 
@@ -201,7 +222,6 @@ class World():
         else:
 
             self.destPreviewRect = self.snapModeActivate(window, mouseRect)
-
                     
         self.drawPreviewPlacer(mousePos, window)
 
@@ -209,21 +229,37 @@ class World():
         
         # placing and deleting tiles
 
+        
+        detectBox = pygame.Rect(
+
+            self.destPreviewRect.x + 10,
+            self.destPreviewRect.y + 10,
+            self.destPreviewRect.width - 20,
+            self.destPreviewRect.height - 20,
+        )
+
+        utils.debugDraw(window, detectBox)
+
         if(mouseEvent[0]):
 
-            self.tiles.append(tiles.Tile(
-                pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
-                utils.TileType.BARRIER, self.defaultRotation
-            ))
+            isTilePlaceable = True
+            
+            for tile in self.tiles:
+
+                if(detectBox.colliderect(utils.getTileRect(tile.position))):
+                    isTilePlaceable = False
+                    return
+            if(isTilePlaceable):
+                self.tiles.append(tiles.Tile(
+                    pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
+                    self.selectedTileType, self.defaultRotation
+                ))
 
         if(mouseEvent[2]):
 
             for tile in self.tiles:
 
-                if(mouseRect.colliderect(pygame.Rect(
-                    tile.position.x, tile.position.y, 
-                    utils.defaultImageSizes, utils.defaultImageSizes
-                ))):
+                if(utils.getTileRect(tile.position).collidepoint(mouseRect.x, mouseRect.y)):
                     self.tiles.remove(tile)
                     return
 
