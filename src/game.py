@@ -73,7 +73,7 @@ class Game():
                 else:
                     self.fps = 0
 
-            self.window.blit(fpsText, (100, 100))
+            self.window.blit(fpsText, (utils.screenRect.width - 300, 100))
 
             pygame.display.flip()
 
