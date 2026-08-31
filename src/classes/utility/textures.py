@@ -1,5 +1,5 @@
 import pygame
-import utils
+import classes.utility.utils as utils
 import enum
 
 class imgIndex[Enum]:
@@ -62,7 +62,7 @@ images = {
 
             "location": "assets/ui/guiPlates.png",
             "FramesX": 3,
-            "FramesY": 3,
+            "FramesY": 4,
             "image": {
 
                 "surface": None,

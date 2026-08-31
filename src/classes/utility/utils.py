@@ -17,7 +17,10 @@ class GuiPlates(Enum):
 
     CORNER_BOTTOM_LEFT = 6,
     BOTTOM_MIDDLE = 7,
-    CONER_BOTTOM_RIGHT = 8,
+    CORNER_BOTTOM_RIGHT = 8,
+
+    SMALL_BUTTON_UNPRESSED = 9
+    SMALL_BUTTON_PRESSED = 10
 
 # The x and y mapped for the guiPlate frames
 
@@ -33,7 +36,7 @@ guiPlatesFrameMap = {
 
     GuiPlates.CORNER_BOTTOM_LEFT: (0, 2),
     GuiPlates.BOTTOM_MIDDLE: (1, 2),
-    GuiPlates.CONER_BOTTOM_RIGHT: (2, 2)
+    GuiPlates.CORNER_BOTTOM_RIGHT: (2, 2)
 }
 
 class KeyGuides(Enum):
@@ -65,6 +68,11 @@ class RotationType(Enum):
 
 deltaTime = 0.3
 
+class SlotIndex(Enum):
+
+    AMOUNT = 0,
+    TYPE = 0,
+
 screenRect = pygame.Rect()
 windowResized = False
 
@@ -76,6 +84,8 @@ defaultImageSizes = 64
 
 scrollWheel = pygame.Vector2(0, 0)
 tileMaxFrames = 1.0
+
+batteryIndicatorPos = pygame.Vector2(180, 30)
 
 adjmousePos = pygame.Vector2(-24, -24)
 
@@ -274,8 +284,8 @@ def configureRotatedImageForPreview(width, height, type, rotation):
 BatteryDisplayHudPositions = {
 
     "TimeLeft": pygame.Vector2(12, 30),
-    "WattsUsed": pygame.Vector2(12, 60),
-    "WattsGenerated": pygame.Vector2(12, 80)
+    "WattsUsed": pygame.Vector2(13, 65),
+    "WattsGenerated": pygame.Vector2(13, 100)
 }
 
 ColorPlattes = {

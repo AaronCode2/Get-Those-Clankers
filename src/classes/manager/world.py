@@ -1,12 +1,12 @@
 import pygame
-import tiles
-import utils
-import batteryGen
+import classes.objects.tiles as tiles
+import classes.utility.utils as utils
+import classes.objects.batteryGen as batteryGen
 import math
 
 # Using this temporarly! -> import textures
 
-import textures
+import classes.utility.textures as textures
 
 class World():
 

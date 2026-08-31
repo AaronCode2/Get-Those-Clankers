@@ -1,7 +1,7 @@
 import pygame
-import utils
-import world
-import ui
+import classes.utility.utils as utils
+import classes.manager.world as world
+import classes.ui.ui as ui
 from pygame._sdl2 import Window
 
 class Game():
