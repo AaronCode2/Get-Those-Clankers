@@ -77,6 +77,8 @@ defaultImageSizes = 64
 scrollWheel = pygame.Vector2(0, 0)
 tileMaxFrames = 1.0
 
+batteryIndicatorPos = pygame.Vector2(180, 30)
+
 adjmousePos = pygame.Vector2(-24, -24)
 
 class SnapType(Enum):
@@ -274,8 +276,8 @@ def configureRotatedImageForPreview(width, height, type, rotation):
 BatteryDisplayHudPositions = {
 
     "TimeLeft": pygame.Vector2(12, 30),
-    "WattsUsed": pygame.Vector2(12, 60),
-    "WattsGenerated": pygame.Vector2(12, 80)
+    "WattsUsed": pygame.Vector2(13, 65),
+    "WattsGenerated": pygame.Vector2(13, 100)
 }
 
 ColorPlattes = {

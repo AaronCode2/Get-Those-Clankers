@@ -21,7 +21,7 @@ class UI():
         self.wattsGenerated = "10W"
         self.timeLeft = 120
 
-        self.batteryIndicator.position = pygame.Vector2(180, 5)
+        self.batteryIndicator.position = pygame.Vector2(utils.batteryIndicatorPos.x, utils.batteryIndicatorPos.y)
         self.batteryIndicator.level = utils.BatteryLevel.BATTERY_FULL
         self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][self.batteryIndicator.level.value])
         self.batteryIndicator.animation_speed = 1
@@ -29,9 +29,9 @@ class UI():
 
     def setBatteryStuff(self, batteryLevel, timeLeft, wattsUsed, wattsGenerated):
 
-        self.wattsGenerated = "Generated:" + str(wattsGenerated) + "W"
-        self.wattsUsed = "Consumed:" + str(wattsUsed) + "W"
         self.timeLeft = "Time:" + utils.formatToClock(timeLeft)
+        self.wattsUsed = "Used:" + str(wattsUsed) + "W"
+        self.wattsGenerated = "Made:" + str(wattsGenerated) + "W"
 
         if(self.batteryIndicator.level != batteryLevel):
             self.batteryIndicator.level = batteryLevel
@@ -40,9 +40,6 @@ class UI():
     def update(self, window):
 
         self.draw(window)
-        self.batteryIndicator.update(utils.deltaTime)
-
-        window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
     def draw(self, window):
 
@@ -54,9 +51,15 @@ class UI():
         self.drawGuiPlates(window, pygame.Vector2(4, 3), pygame.Vector2(10, 10))
 
         textTimeLeft = utils.font.render(self.timeLeft, True, utils.ColorPlattes["Future Blue"])
-        # text = utils.font.render(self.timeLeft, True, utils.ColorPlattes["Future Blue"])
+        textWattsUsed = utils.font.render(self.wattsUsed, True, utils.ColorPlattes["Future Blue"])
+        textwattsMade = utils.font.render(self.wattsGenerated, True, utils.ColorPlattes["Future Blue"])
 
         window.blit(textTimeLeft, utils.BatteryDisplayHudPositions["TimeLeft"])
+        window.blit(textWattsUsed, utils.BatteryDisplayHudPositions["WattsUsed"])
+        window.blit(textwattsMade, utils.BatteryDisplayHudPositions["WattsGenerated"])
+
+        self.batteryIndicator.update(utils.deltaTime)
+        window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
 
     def drawGuiPlates(self, window, size: pygame.Vector2, position: pygame.Vector2):
