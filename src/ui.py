@@ -14,17 +14,27 @@ class UI():
             textures.images["batteryIndicator"]["FramesY"],
             [textures.images["batteryIndicator"]["FramesX"]] * 6,
             textures.images["batteryIndicator"]["animationNames"],
-            2
+            True
         )
 
-        self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][utils.BatteryLevel.BATTERY_DRAIN_1.value])
+        self.batteryIndicator.position = pygame.Vector2(180, 5)
+        self.batteryIndicator.level = utils.BatteryLevel.BATTERY_FULL
+        self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][self.batteryIndicator.level.value])
+        self.batteryIndicator.animation_speed = 1
+
+    def setBatteryLevel(self, batteryLevel):
+
+        if(self.batteryIndicator.level != batteryLevel):
+            self.batteryIndicator.level = batteryLevel
+            self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][self.batteryIndicator.level.value])
+
 
     def update(self, window):
 
         self.draw(window)
         self.batteryIndicator.update(utils.deltaTime)
 
-        window.blit(self.batteryIndicator.current_frame, (400, 400))
+        window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
     def draw(self, window):
 

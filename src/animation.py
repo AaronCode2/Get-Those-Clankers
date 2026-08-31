@@ -32,7 +32,7 @@ class AnimationManager:
         # in fps
         self._animation_speed: float = 5
 
-        # I did some editing, added a scale property and used .convert_alpha for fast bilting,
+        # I did some editing, added a scale property and used .convert_alpha for fast bilting, - MessyGear
         # Make sure when creating images you use .convert_alpha() to get more performance
 
         sprite_sheet = pygame.image.load(f"assets/{self.asset_path}").convert_alpha()
