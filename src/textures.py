@@ -71,5 +71,18 @@ images = {
             },
         },
 
+        "batteryIndicator": {
+
+            "location": "ui/battery_indicator.png",
+            "FramesX": 2,
+            "FramesY": 6,
+
+            "animationNames": [
+                "BATTERY_FULL", "BATTERY_DRAIN_1", 
+                "BATTERY_DRAIN_2", "BATTERY_DRAIN_3",
+                "BATTERY_DRAIN_4", "BATTERY_EMPTY"
+            ]
+        },
+
 
 }

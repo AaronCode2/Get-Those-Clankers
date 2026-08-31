@@ -1,6 +1,7 @@
 import pygame
 import utils
 import textures
+import animation
 
 class UI():
 
@@ -8,15 +9,28 @@ class UI():
 
         self.configureImages()
 
+        self.batteryIndicator = animation.AnimationManager(
+            textures.images["batteryIndicator"]["location"],
+            textures.images["batteryIndicator"]["FramesY"],
+            [textures.images["batteryIndicator"]["FramesX"]] * 6,
+            textures.images["batteryIndicator"]["animationNames"],
+            2
+        )
+
+        self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][utils.BatteryLevel.BATTERY_DRAIN_1.value])
+
     def update(self, window):
 
         self.draw(window)
+        self.batteryIndicator.update(utils.deltaTime)
+
+        window.blit(self.batteryIndicator.current_frame, (400, 400))
 
     def draw(self, window):
 
         self.displayKeyGuides(window)
 
-        self.drawGuiPlates(window, pygame.Vector2(3, 3), pygame.Vector2(300, 400))
+        self.drawGuiPlates(window, pygame.Vector2(4, 3), pygame.Vector2(10, 10))
 
     def drawGuiPlates(self, window, size: pygame.Vector2, position: pygame.Vector2):
 
@@ -25,26 +39,80 @@ class UI():
         for y in range(int(size.y)):
             for x in range(int(size.x)):
 
-                srcRect = pygame.Rect(
-                    0, 0, 
-                    textures.images["keys"]["image"]["FrameWidth"],
-                    textures.images["keys"]["image"]["FrameHeight"]
-                )
-
                 platePosition = pygame.Vector2(
 
                     textures.images["keys"]["image"]["FrameWidth"] * x + position.x,
                     textures.images["keys"]["image"]["FrameHeight"] * y + position.y,
                 ) 
                 
-                if(y == 0 and x == 0):
-                    srcRect = pygame.Rect(
-                        0, 0,
-                        textures.images["keys"]["image"]["FrameWidth"],
-                        textures.images["keys"]["image"]["FrameHeight"]
-                    )
+                srcRect = self.configureguiPlateSelection(x, y, size)
                 
                 window.blit(textures.images["guiPlates"]["image"]["surface"], platePosition, srcRect)
+
+    def configureguiPlateSelection(self, x: int, y: int, size: pygame.Vector2):
+
+        if(y == 0 and x != 0 and x != size.x - 1):
+                return pygame.Rect(
+                    textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.TOP_MIDDLE][0]), 
+                    0,
+                    textures.images["guiPlates"]["image"]["FrameWidth"],
+                    textures.images["guiPlates"]["image"]["FrameHeight"]
+                )
+        elif(y == 0 and x == size.x - 1):
+            return pygame.Rect(
+                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CORNER_TOP_RIGHT][0]), 
+                0,
+                textures.images["guiPlates"]["image"]["FrameWidth"],
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+            )
+        elif(y != 0 and x == 0 and y != size.y - 1):
+            return pygame.Rect(
+                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE_LEFT_SIDE][0]), 
+                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE_LEFT_SIDE][1]),
+                textures.images["guiPlates"]["image"]["FrameWidth"],
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+            )
+        elif(y != 0 and x != 0 and y != size.y - 1 and x != size.x - 1):
+            return pygame.Rect(
+                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE][0]), 
+                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE][1]),
+                textures.images["guiPlates"]["image"]["FrameWidth"],
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+            )
+        elif(y != 0 and y != size.y - 1 and x == size.x - 1):
+            return pygame.Rect(
+                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE_RIGHT_SIDE][0]), 
+                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE_RIGHT_SIDE][1]),
+                textures.images["guiPlates"]["image"]["FrameWidth"],
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+            )
+        elif(y == size.y - 1 and x == 0):
+            return pygame.Rect(
+                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CORNER_BOTTOM_LEFT][0]), 
+                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CORNER_BOTTOM_LEFT][1]),
+                textures.images["guiPlates"]["image"]["FrameWidth"],
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+            )
+        elif(y == size.y - 1 and x != 0 and x != size.x - 1):
+            return pygame.Rect(
+                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.BOTTOM_MIDDLE][0]), 
+                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.BOTTOM_MIDDLE][1]),
+                textures.images["guiPlates"]["image"]["FrameWidth"],
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+            )
+        elif(y == size.y - 1 and x == size.x - 1):
+            return pygame.Rect(
+                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CONER_BOTTOM_RIGHT][0]), 
+                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CONER_BOTTOM_RIGHT][1]),
+                textures.images["guiPlates"]["image"]["FrameWidth"],
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+            )
+
+        return pygame.Rect(
+            0, 0, 
+            textures.images["keys"]["image"]["FrameWidth"],
+            textures.images["keys"]["image"]["FrameHeight"]
+        )
 
     def displayKeyGuides(self, window):
 

@@ -207,7 +207,7 @@ class World():
                 utils.defaultImageSizes, utils.defaultImageSizes
             )
 
-    def _devTilePlacer(self, window):
+    def updateTilePlacer(self, window):
 
         mouseEvent, mousePos, snapMode = self.handleInputplacer(window)
         mouseRect = pygame.Rect(mousePos[0], mousePos[1], utils.defaultImageSizes, utils.defaultImageSizes)
@@ -268,7 +268,7 @@ class World():
 
     def update(self, window):
 
-        self._devTilePlacer(window)
+        self.updateTilePlacer(window)
 
         for tile in self.tiles:
 

@@ -24,15 +24,15 @@ class GuiPlates(Enum):
 guiPlatesFrameMap = {
 
     GuiPlates.CORNER_TOP_LEFT: (0, 0),
-    GuiPlates.TOP_MIDDLE: (0, 1),
-    GuiPlates.CORNER_TOP_RIGHT: (0, 2),
+    GuiPlates.TOP_MIDDLE: (1, 0),
+    GuiPlates.CORNER_TOP_RIGHT: (2, 0),
 
-    GuiPlates.MIDDLE_LEFT_SIDE: (1, 0),
+    GuiPlates.MIDDLE_LEFT_SIDE: (0, 1),
     GuiPlates.MIDDLE: (1, 1),
-    GuiPlates.MIDDLE_RIGHT_SIDE: (1, 2),
+    GuiPlates.MIDDLE_RIGHT_SIDE: (2, 1),
 
-    GuiPlates.CORNER_BOTTOM_LEFT: (2, 0),
-    GuiPlates.BOTTOM_MIDDLE: (2, 1),
+    GuiPlates.CORNER_BOTTOM_LEFT: (0, 2),
+    GuiPlates.BOTTOM_MIDDLE: (1, 2),
     GuiPlates.CONER_BOTTOM_RIGHT: (2, 2)
 }
 
