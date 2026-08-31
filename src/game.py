@@ -1,6 +1,7 @@
 import pygame
 import utils
 import world
+import ui
 from pygame._sdl2 import Window
 
 class Game():
@@ -16,16 +17,18 @@ class Game():
         self.clock = pygame.time.Clock()
 
         self.fillColor = (86, 88, 123)
-        self.font = pygame.font.Font("assets/fonts/jetbrains.ttf", 30)
+        utils.font = pygame.font.Font("assets/fonts/jetbrains.ttf", 30)
 
         utils.screenRect = pygame.Rect(0, 0, self.window.width, self.window.height)
 
         self.world = world.World()
+        self.ui = ui.UI()
 
     def update(self):
 
         # This where everything should go e.g player.update()
         self.world.update(self.window)
+        self.ui.update(self.window)
 
     def processEvents(self):
 
@@ -44,7 +47,7 @@ class Game():
 
             self.processEvents()
 
-            fpsText = self.font.render(str(int(self.clock.get_fps())), True, (255, 0, 0))
+            fpsText = utils.font.render(str(int(self.clock.get_fps())), True, (255, 0, 0))
 
             utils.deltaTime = self.clock.tick(self.fps) / 1000
 

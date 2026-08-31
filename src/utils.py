@@ -3,6 +3,28 @@ from enum import Enum
 
 # For constants and utility
 
+font = None
+
+class keyGuides(Enum):
+
+    CRTL_TO_SNAP = 0
+    WASD_TO_MOVE = 1
+    R_TO_ROTATE = 2
+
+keyGuidesTexts = {
+
+    keyGuides.CRTL_TO_SNAP: "Snap Mode",
+    keyGuides.WASD_TO_MOVE: "Move",
+    keyGuides.R_TO_ROTATE: "Rotate Object",
+
+    "textOffsets": {
+
+        keyGuides.CRTL_TO_SNAP: 0,
+        keyGuides.WASD_TO_MOVE: 160,
+        keyGuides.R_TO_ROTATE: 230,
+    } 
+}
+
 class RotationType(Enum):
 
     DOWN = 0
@@ -165,14 +187,14 @@ def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):
                     case SnapType.RIGHT_SIDE:
 
                         return pygame.Rect(
-                            selectedTile.position.x + defaultImageSizes + snapdetect2Adj.y,
+                            selectedTile.position.x + defaultImageSizes + snapdetect3Adj.y,
                             selectedTile.position.y,
                             defaultImageSizes, defaultImageSizes
                         )
                     case SnapType.LEFT_SIDE:
 
                         return pygame.Rect(
-                            selectedTile.position.x - defaultImageSizes - snapdetect2Adj.y,
+                            selectedTile.position.x - defaultImageSizes - snapdetect3Adj.y,
                             selectedTile.position.y,
                             defaultImageSizes, defaultImageSizes
                         )

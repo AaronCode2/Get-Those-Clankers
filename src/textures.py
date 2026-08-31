@@ -57,5 +57,18 @@ images = {
                 "FrameHeight": None
             },
 
+        },
+
+        "keys": {
+
+            "location": "assets/ui/keys.png",
+            "maxFramesX": 3,
+            "FramesY": 1,
+            "image": {
+
+                "surface": None,
+                "FrameWidth": None,
+                "FrameHeight": None
+            },
         }
 }
