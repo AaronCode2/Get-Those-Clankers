@@ -17,7 +17,10 @@ class GuiPlates(Enum):
 
     CORNER_BOTTOM_LEFT = 6,
     BOTTOM_MIDDLE = 7,
-    CONER_BOTTOM_RIGHT = 8,
+    CORNER_BOTTOM_RIGHT = 8,
+
+    SMALL_BUTTON_UNPRESSED = 9
+    SMALL_BUTTON_PRESSED = 10
 
 # The x and y mapped for the guiPlate frames
 
@@ -33,7 +36,7 @@ guiPlatesFrameMap = {
 
     GuiPlates.CORNER_BOTTOM_LEFT: (0, 2),
     GuiPlates.BOTTOM_MIDDLE: (1, 2),
-    GuiPlates.CONER_BOTTOM_RIGHT: (2, 2)
+    GuiPlates.CORNER_BOTTOM_RIGHT: (2, 2)
 }
 
 class KeyGuides(Enum):
@@ -64,6 +67,11 @@ class RotationType(Enum):
     RIGHT = 3
 
 deltaTime = 0.3
+
+class SlotIndex(Enum):
+
+    AMOUNT = 0,
+    TYPE = 0,
 
 screenRect = pygame.Rect()
 windowResized = False

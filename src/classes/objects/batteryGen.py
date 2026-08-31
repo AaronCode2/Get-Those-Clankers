@@ -1,6 +1,6 @@
 import pygame
-import textures
-import utils
+import classes.utility.textures as textures
+import classes.utility.utils as utils
 from time import time
 
 class BatteryGenenator():

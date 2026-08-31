@@ -1,7 +1,9 @@
 import pygame
-import utils
-import textures
+import classes.utility.utils as utils
+import classes.utility.textures as textures
 import animation
+import classes.ui.inventory as inventory
+import classes.animation
 
 class UI():
 
@@ -20,6 +22,8 @@ class UI():
         self.wattsUsed = "10W"
         self.wattsGenerated = "10W"
         self.timeLeft = 120
+
+        self.inventory = inventory.Inventory()
 
         self.batteryIndicator.position = pygame.Vector2(utils.batteryIndicatorPos.x, utils.batteryIndicatorPos.y)
         self.batteryIndicator.level = utils.BatteryLevel.BATTERY_FULL
@@ -130,8 +134,8 @@ class UI():
             )
         elif(y == size.y - 1 and x == size.x - 1):
             return pygame.Rect(
-                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CONER_BOTTOM_RIGHT][0]), 
-                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CONER_BOTTOM_RIGHT][1]),
+                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CORNER_BOTTOM_RIGHT][0]), 
+                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CORNER_BOTTOM_RIGHT][1]),
                 textures.images["guiPlates"]["image"]["FrameWidth"],
                 textures.images["guiPlates"]["image"]["FrameHeight"]
             )

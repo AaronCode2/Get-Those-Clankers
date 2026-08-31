@@ -1,8 +1,8 @@
 import pygame
-import utils
+import classes.utility.utils as utils
 
 # temp
-import textures
+import classes.utility.textures as textures
 
 class Tile:
 
