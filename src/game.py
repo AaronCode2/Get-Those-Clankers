@@ -18,6 +18,7 @@ class Game():
 
         self.fillColor = (86, 88, 123)
         utils.font = pygame.font.Font("assets/fonts/jetbrains.ttf", 30)
+        utils.smfont = pygame.font.Font("assets/fonts/jetbrains.ttf", 24)
 
         utils.screenRect = pygame.Rect(0, 0, self.window.width, self.window.height)
 
@@ -72,7 +73,7 @@ class Game():
 
             key = pygame.key.get_just_pressed()
             
-            if(key[pygame.K_e]):
+            if(key[pygame.K_z]):
 
                 if(self.fps == 0):
                     self.fps = 60

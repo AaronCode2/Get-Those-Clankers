@@ -84,5 +84,16 @@ images = {
             ]
         },
 
+        "Items": {
 
+            "location": "assets/ui/items.png",
+            "FramesX": 8,
+            "FramesY": 1,
+            "image": {
+
+                "surface": None,
+                "FrameWidth": None,
+                "FrameHeight": None
+            },
+        }
 }

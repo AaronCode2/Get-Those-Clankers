@@ -268,7 +268,8 @@ class World():
 
     def update(self, window):
 
-        self.updateTilePlacer(window)
+        if(utils.activateTilePlacer):
+            self.updateTilePlacer(window)
 
         for tile in self.tiles:
 

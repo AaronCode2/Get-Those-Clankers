@@ -1,9 +1,8 @@
 import pygame
 import classes.utility.utils as utils
 import classes.utility.textures as textures
-from src.classes.objects import animation
 import classes.ui.inventory as inventory
-
+import classes.utility.animation as animation
 
 class UI():
 
@@ -43,12 +42,43 @@ class UI():
 
     def update(self, window):
 
+        keypress = pygame.key.get_just_pressed()
+
+        if(keypress[pygame.K_e]):
+            self.inventory.toggle = not self.inventory.toggle
+
         self.draw(window)
 
     def draw(self, window):
 
         self.displayKeyGuides(window)
         self.drawBatteryDisplayHud(window)
+
+        if(self.inventory.toggle):
+            self.drawInventory(window)
+
+        self.drawHotBar(window)
+
+    def drawInventory(self, window):
+
+        inventoryPos = pygame.Vector2(
+
+            utils.screenRect.width - utils.inventoryPosAdj.x,
+            utils.screenRect.height - utils.inventoryPosAdj.y,
+        )
+
+        self.drawGuiPlates(window, pygame.Vector2(6, 8), inventoryPos)
+
+    def drawHotBar(self, window):
+
+        hotBarPos = pygame.Vector2(
+
+            utils.screenRect.width - utils.HotBarPosAdj.x,
+            utils.screenRect.height - utils.HotBarPosAdj.y,
+        )
+
+        self.drawGuiPlates(window, pygame.Vector2(6, 2), hotBarPos)
+        self.inventory.update(window)
 
     def drawBatteryDisplayHud(self, window):
 
@@ -62,7 +92,9 @@ class UI():
         window.blit(textWattsUsed, utils.BatteryDisplayHudPositions["WattsUsed"])
         window.blit(textwattsMade, utils.BatteryDisplayHudPositions["WattsGenerated"])
 
-        self.batteryIndicator.update()
+        # The utils.deltaTime might be causing this Julien
+
+        self.batteryIndicator.update(utils.deltaTime)
         window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
 

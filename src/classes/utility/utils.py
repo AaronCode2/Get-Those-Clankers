@@ -4,6 +4,7 @@ from enum import Enum
 # For constants and utility
 
 font = None
+smFont = None
 
 class GuiPlates(Enum):
 
@@ -36,7 +37,10 @@ guiPlatesFrameMap = {
 
     GuiPlates.CORNER_BOTTOM_LEFT: (0, 2),
     GuiPlates.BOTTOM_MIDDLE: (1, 2),
-    GuiPlates.CORNER_BOTTOM_RIGHT: (2, 2)
+    GuiPlates.CORNER_BOTTOM_RIGHT: (2, 2),
+
+    GuiPlates.SMALL_BUTTON_UNPRESSED: (0, 3),
+    GuiPlates.SMALL_BUTTON_PRESSED: (1, 3)
 }
 
 class KeyGuides(Enum):
@@ -67,14 +71,41 @@ class RotationType(Enum):
     RIGHT = 3
 
 deltaTime = 0.3
+hotBarindex = 4
+
+def mouseHover(rect: pygame.Rect):
+
+    mouse = pygame.mouse.get_pos()
+
+    return rect.collidepoint(pygame.Vector2(mouse[0], mouse[1]))
 
 class SlotIndex(Enum):
 
-    AMOUNT = 0,
-    TYPE = 0,
+    AMOUNT = 0
+    TYPE = 1
+
+class ItemType(Enum):
+
+    NONE = -1
+    SCRAP_IGNOT = 0
+    RINGED_TIN = 1
+    SCREW = 2
+    BOLT = 3
+    RAW_IRON = 4
+    SOFT_STEEL = 5
+    SOLAR_PANEL = 6
+    BARRIER = 7
 
 screenRect = pygame.Rect()
 windowResized = False
+
+activateTilePlacer = True
+
+inventoryTextPos = pygame.Vector2(10, 10)
+itemPosAdj = pygame.Vector2(15, 15)
+inventoryPosAdj = pygame.Vector2(382, 480)
+HotBarPosAdj = pygame.Vector2(382, 109)
+inventorySlotPosAdj = pygame.Vector2(357, 460)
 
 snapdetectAdj = pygame.Vector2(-5, -5)
 snapdetect2Adj = pygame.Vector2(-5, -48)
@@ -291,7 +322,8 @@ BatteryDisplayHudPositions = {
 ColorPlattes = {
 
     "Future Blue": (39, 137, 205),
-    "Supreme Yellow": (248, 197, 58)
+    "Supreme Yellow": (248, 197, 58),
+    "Pale White": (236, 235, 231)
 }
 
 def formatToClock(seconds: int):
