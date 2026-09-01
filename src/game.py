@@ -18,6 +18,7 @@ class Game():
 
         self.fillColor = (86, 88, 123)
         utils.font = pygame.font.Font("assets/fonts/jetbrains.ttf", 30)
+        utils.smfont = pygame.font.Font("assets/fonts/jetbrains.ttf", 24)
 
         utils.screenRect = pygame.Rect(0, 0, self.window.width, self.window.height)
 

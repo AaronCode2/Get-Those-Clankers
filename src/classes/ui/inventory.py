@@ -4,7 +4,7 @@ import classes.utility.textures as textures
 
 Slot = {
 
-    utils.SlotIndex.AMOUNT: 0,
+    utils.SlotIndex.AMOUNT: 22,
     utils.SlotIndex.TYPE: utils.ItemType.SCRAP_IGNOT
 }
 
@@ -73,11 +73,19 @@ class Inventory():
                     textures.images["Items"]["image"]["FrameHeight"],
                 )
 
-                itemRect = pygame.Vector2(
+                itemPos = pygame.Vector2(
 
                     buttonRect.x + utils.itemPosAdj.x,
                     buttonRect.y + utils.itemPosAdj.y,
                 )
+
+                textPos = pygame.Vector2(
+
+                    itemPos.x + utils.inventoryTextPos.x,
+                    itemPos.y + utils.inventoryTextPos.y
+                ) 
+
+                text = utils.smfont.render(str(self.slots[y][x][utils.SlotIndex.AMOUNT]), True, utils.ColorPlattes["Pale White"])
 
                 if(not buttonRect.collidepoint(self.mousepos)):
                     buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_UNPRESSED)
@@ -85,7 +93,10 @@ class Inventory():
                     buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_PRESSED)
 
                 window.blit(textures.images["guiPlates"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y), buttonSrcRect)
-                window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(itemRect.x, itemRect.y), itemSrcRect)
+                window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(itemPos.x, itemPos.y), itemSrcRect)
+                window.blit(text, textPos)
+
+
 
     def drawHotBar(self, window):
 

@@ -4,6 +4,7 @@ from enum import Enum
 # For constants and utility
 
 font = None
+smFont = None
 
 class GuiPlates(Enum):
 
@@ -74,7 +75,7 @@ deltaTime = 0.3
 class SlotIndex(Enum):
 
     AMOUNT = 0
-    TYPE = 0
+    TYPE = 1
 
 class ItemType(Enum):
 
@@ -93,6 +94,7 @@ windowResized = False
 
 activateTilePlacer = True
 
+inventoryTextPos = pygame.Vector2(10, 10)
 itemPosAdj = pygame.Vector2(15, 15)
 inventoryPosAdj = pygame.Vector2(382, 480)
 HotBarPosAdj = pygame.Vector2(382, 109)
@@ -313,7 +315,8 @@ BatteryDisplayHudPositions = {
 ColorPlattes = {
 
     "Future Blue": (39, 137, 205),
-    "Supreme Yellow": (248, 197, 58)
+    "Supreme Yellow": (248, 197, 58),
+    "Pale White": (236, 235, 231)
 }
 
 def formatToClock(seconds: int):
