@@ -63,6 +63,11 @@ keyGuidesTexts = {
     } 
 }
 
+class WhichInventory(Enum):
+
+    INVENTORY = 0,
+    HOTBAR = 1,
+
 class RotationType(Enum):
 
     DOWN = 0
@@ -71,7 +76,8 @@ class RotationType(Enum):
     RIGHT = 3
 
 deltaTime = 0.3
-hotBarindex = 4
+hotBarindex = 5
+inventoryCols = 5
 
 def mouseHover(rect: pygame.Rect):
 
@@ -127,6 +133,7 @@ itemPosAdj = pygame.Vector2(15, 15)
 inventoryPosAdj = pygame.Vector2(382, 480)
 HotBarPosAdj = pygame.Vector2(382, 109)
 inventorySlotPosAdj = pygame.Vector2(357, 460)
+HotBarSlotPosAdj = pygame.Vector2(357, 90)
 
 snapdetectAdj = pygame.Vector2(-5, -5)
 snapdetect2Adj = pygame.Vector2(-5, -48)
