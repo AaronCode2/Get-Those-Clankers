@@ -135,6 +135,8 @@ HotBarPosAdj = pygame.Vector2(382, 109)
 inventorySlotPosAdj = pygame.Vector2(357, 460)
 HotBarSlotPosAdj = pygame.Vector2(357, 90)
 
+inevntoryStackSize = 84
+
 snapdetectAdj = pygame.Vector2(-5, -5)
 snapdetect2Adj = pygame.Vector2(-5, -48)
 snapdetect3Adj = pygame.Vector2(-2, -10)
