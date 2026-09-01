@@ -54,6 +54,8 @@ class Inventory():
 
     def update(self, window):
 
+        # So we don't activate that world tile feature when user on inventory!
+        
         if(self.toggle):
             utils.activateTilePlacer = False
         else:
@@ -62,8 +64,6 @@ class Inventory():
         self.updateInventory(window)
 
         self.mousepos = pygame.mouse.get_pos()
-
-        self.draw(window)
 
     def getSrcRectForButton(self, guiPlate: utils.GuiPlates):
 
@@ -215,6 +215,3 @@ class Inventory():
 
         textures.images["Items"]["image"]["FrameWidth"] = textures.images["Items"]["image"]["surface"].width / textures.images["Items"]["FramesX"]
         textures.images["Items"]["image"]["FrameHeight"] = textures.images["Items"]["image"]["surface"].height
-      
-    def draw(self, window):
-        pass
