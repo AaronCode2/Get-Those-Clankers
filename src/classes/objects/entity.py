@@ -1,5 +1,5 @@
 import pygame
-from src.classes.utility import utils
+import classes.utility.utils as utils
 
 class Entity:
     def __init__(

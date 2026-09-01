@@ -62,7 +62,7 @@ class UI():
         window.blit(textWattsUsed, utils.BatteryDisplayHudPositions["WattsUsed"])
         window.blit(textwattsMade, utils.BatteryDisplayHudPositions["WattsGenerated"])
 
-        self.batteryIndicator.update(utils.deltaTime)
+        self.batteryIndicator.update()
         window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
 

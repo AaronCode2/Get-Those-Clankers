@@ -2,6 +2,9 @@ import pygame
 from animation import AnimationManager
 from animatedEntity import AnimatedEntity
 from src.classes.utility import utils
+from src.classes.objects.animation import AnimationManager
+from src.classes.objects.animatedEntity import AnimatedEntity
+import classes.utility.utils as utils
 
 class Player(AnimatedEntity):
     def __init__(self, position: pygame.Vector2):
