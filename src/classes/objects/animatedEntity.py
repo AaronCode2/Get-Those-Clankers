@@ -1,6 +1,6 @@
 import pygame
 from classes.objects.entity import Entity
-from classes.objects.animation import AnimationManager
+from classes.utility.animation import AnimationManager
 
 
 class AnimatedEntity(Entity):
