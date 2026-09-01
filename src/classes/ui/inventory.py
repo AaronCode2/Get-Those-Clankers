@@ -43,6 +43,9 @@ class Inventory():
         self.slots[2][2].amount = 12
         self.slots[2][2].type = utils.ItemType.SOFT_STEEL
 
+        self.slots[3][1].amount = 15
+        self.slots[3][1].type = utils.ItemType.SCREW
+
         self.selectedSlot = None
         self.slotSelectedSrcRect = None
         self.slotSelectedPos = None
@@ -129,7 +132,12 @@ class Inventory():
             itemPos.y + utils.inventoryTextPos.y
         )
 
-        return buttonRect, itemSrcRect, itemPos, textPos
+        if(not utils.mouseHover(buttonRect)):
+            buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_UNPRESSED)
+        else:
+            buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_PRESSED)
+
+        return buttonRect, itemSrcRect, itemPos, textPos, buttonSrcRect
 
     def updateInventory(self, window):
 
@@ -141,50 +149,53 @@ class Inventory():
                 if(not self.toggle and y != utils.hotBarindex):
                     continue
 
-                buttonRect, itemSrcRect, itemPos, textPos = self.getInventoryRects(x, y)
+                buttonRect, itemSrcRect, itemPos, textPos, buttonSrcRect = self.getInventoryRects(x, y)
 
-                if(not utils.mouseHover(buttonRect)):
-                    buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_UNPRESSED)
-                else:
-                    buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_PRESSED)
+                self.handleUserInput(self.slots[y][x], itemSrcRect, x, y, buttonRect, mouseKey)
 
-                if(utils.mouseClickedL(buttonRect) and self.selectedSlot == None):
-                    
-                    # We call copy(), so we don't get the change slots set to reset
-                    self.doInventoryItemMoving(self.slots[y][x], itemSrcRect, x, y)
-                elif(utils.mouseClickedR(buttonRect)):
-                    self.doInventorySpilting(self.slots[y][x])
-
-                if(mouseKey[0] and self.selectedSlot != None and utils.mouseHover(buttonRect)):
-
-                    if(self.slots[y][x].type == self.selectedSlot.type):
-
-                        self.slots[y][x].amount += self.selectedSlot.amount
-                        self.selectedSlot = None
-                    elif(self.slots[y][x].amount == 0):
-
-                        self.slots[y][x] = copy(self.selectedSlot)
-                        self.selectedSlot = None
-
-                text = utils.smfont.render(str(self.slots[y][x].amount), True, utils.ColorPlattes["Pale White"])
                 window.blit(textures.images["guiPlates"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y), buttonSrcRect)
 
                 if(self.slots[y][x].amount != 0):
+
+                    text = utils.smfont.render(str(self.slots[y][x].amount), True, utils.ColorPlattes["Pale White"])
                     window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(itemPos.x, itemPos.y), itemSrcRect)
                     window.blit(text, textPos)
                     
+        self.handleUserDropFeature(mouseKey)
+
+        self.updateSelectedSlot(window)
+
+    def handleUserDropFeature(self, mouseKey):
+
         if(mouseKey[0] and self.selectedSlot != None):
             self.slots[int(self.slotSelectedPos.y)][int(self.slotSelectedPos.x)] = copy(self.selectedSlot)
             self.selectedSlot = None
 
-        self.updateSelectedSlot(window)
+    def handleUserInput(self, slot: Slot, itemSrcRect: pygame.Rect, x, y, buttonRect: pygame.Rect, mouseKey):
 
-    def doInventoryItemMoving(self, slot : Slot, itemSrcRect: pygame.Rect, x, y):
-            
+        if(utils.mouseClickedL(buttonRect) and self.selectedSlot == None):
+            self.doItemMoving(self.slots[y][x], itemSrcRect, x, y)
+        elif(utils.mouseClickedR(buttonRect)):
+            self.doSpilting(self.slots[y][x])
+
+        if(mouseKey[0] and self.selectedSlot != None and utils.mouseHover(buttonRect)):
+
+            if(self.slots[y][x].type == self.selectedSlot.type):
+
+                self.slots[y][x].amount += self.selectedSlot.amount
+                self.selectedSlot = None
+            elif(self.slots[y][x].amount == 0):
+
+                self.slots[y][x] = copy(self.selectedSlot)
+                self.selectedSlot = None
+
+    def doItemMoving(self, slot: Slot, itemSrcRect: pygame.Rect, x, y):
+
+        # We call copy(), so we don't get the change slots set to reset
         self.getSelectedSlot(copy(self.slots[y][x]), itemSrcRect, pygame.Vector2(x, y))
         self.slots[y][x].reset()
 
-    def doInventorySpilting(self, currentSlot: Slot):
+    def doSpilting(self, currentSlot: Slot):
 
         amountOfslot = currentSlot.amount
 
