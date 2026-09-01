@@ -20,8 +20,9 @@ class Entity:
 
     def update(self):
         # This looks weird I know, but it's acctualy the right way to do it
-        self.velocity += self.acceleration * utils.deltaTime * 0.5
+        self.velocity += self.acceleration * (utils.deltaTime * 0.5)
         self.hitbox.midbottom += self.velocity * utils.deltaTime
         self.velocity += self.acceleration * utils.deltaTime * 0.5
 
-        self.acceleration = 0
+        self.acceleration.x = 0
+        self.acceleration.y = 0
