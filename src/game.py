@@ -72,7 +72,7 @@ class Game():
 
             key = pygame.key.get_just_pressed()
             
-            if(key[pygame.K_e]):
+            if(key[pygame.K_z]):
 
                 if(self.fps == 0):
                     self.fps = 60

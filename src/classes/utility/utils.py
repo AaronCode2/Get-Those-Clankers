@@ -36,7 +36,10 @@ guiPlatesFrameMap = {
 
     GuiPlates.CORNER_BOTTOM_LEFT: (0, 2),
     GuiPlates.BOTTOM_MIDDLE: (1, 2),
-    GuiPlates.CORNER_BOTTOM_RIGHT: (2, 2)
+    GuiPlates.CORNER_BOTTOM_RIGHT: (2, 2),
+
+    GuiPlates.SMALL_BUTTON_UNPRESSED: (0, 3),
+    GuiPlates.SMALL_BUTTON_PRESSED: (1, 3)
 }
 
 class KeyGuides(Enum):
@@ -75,6 +78,12 @@ class SlotIndex(Enum):
 
 screenRect = pygame.Rect()
 windowResized = False
+
+activateTilePlacer = True
+
+inventoryPosAdj = pygame.Vector2(382, 480)
+HotBarPosAdj = pygame.Vector2(382, 109)
+inventorySlotPosAdj = pygame.Vector2(357, 460)
 
 snapdetectAdj = pygame.Vector2(-5, -5)
 snapdetect2Adj = pygame.Vector2(-5, -48)
