@@ -71,6 +71,13 @@ class RotationType(Enum):
     RIGHT = 3
 
 deltaTime = 0.3
+hotBarindex = 4
+
+def mouseHover(rect: pygame.Rect):
+
+    mouse = pygame.mouse.get_pos()
+
+    return rect.collidepoint(pygame.Vector2(mouse[0], mouse[1]))
 
 class SlotIndex(Enum):
 
