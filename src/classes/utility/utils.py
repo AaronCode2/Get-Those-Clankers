@@ -73,14 +73,27 @@ deltaTime = 0.3
 
 class SlotIndex(Enum):
 
-    AMOUNT = 0,
-    TYPE = 0,
+    AMOUNT = 0
+    TYPE = 0
+
+class ItemType(Enum):
+
+    NONE = -1
+    SCRAP_IGNOT = 0
+    RINGED_TIN = 1
+    SCREW = 2
+    BOLT = 3
+    RAW_IRON = 4
+    SOFT_STEEL = 5
+    SOLAR_PANEL = 6
+    BARRIER = 7
 
 screenRect = pygame.Rect()
 windowResized = False
 
 activateTilePlacer = True
 
+itemPosAdj = pygame.Vector2(15, 15)
 inventoryPosAdj = pygame.Vector2(382, 480)
 HotBarPosAdj = pygame.Vector2(382, 109)
 inventorySlotPosAdj = pygame.Vector2(357, 460)

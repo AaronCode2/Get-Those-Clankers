@@ -5,7 +5,7 @@ import classes.utility.textures as textures
 Slot = {
 
     utils.SlotIndex.AMOUNT: 0,
-    utils.SlotIndex.TYPE: 0
+    utils.SlotIndex.TYPE: utils.ItemType.SCRAP_IGNOT
 }
 
 class Inventory():
@@ -29,7 +29,7 @@ class Inventory():
             [Slot] * 5,
         ]
 
-        print(self.slots)
+        self.configureItemTextures()
 
     def update(self, window):
 
@@ -65,12 +65,27 @@ class Inventory():
                     textures.images["guiPlates"]["image"]["FrameHeight"]
                 )
 
+                itemSrcRect = pygame.Rect(
+
+                    textures.images["Items"]["image"]["FrameWidth"] * self.slots[y][x][utils.SlotIndex.TYPE].value,
+                    0,
+                    textures.images["Items"]["image"]["FrameWidth"],
+                    textures.images["Items"]["image"]["FrameHeight"],
+                )
+
+                itemRect = pygame.Vector2(
+
+                    buttonRect.x + utils.itemPosAdj.x,
+                    buttonRect.y + utils.itemPosAdj.y,
+                )
+
                 if(not buttonRect.collidepoint(self.mousepos)):
                     buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_UNPRESSED)
                 else:
                     buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_PRESSED)
 
                 window.blit(textures.images["guiPlates"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y), buttonSrcRect)
+                window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(itemRect.x, itemRect.y), itemSrcRect)
 
     def drawHotBar(self, window):
 
@@ -90,8 +105,14 @@ class Inventory():
                 buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_PRESSED)
 
             window.blit(textures.images["guiPlates"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y), buttonSrcRect)
-            
 
+    def configureItemTextures(self):
+
+        textures.images["Items"]["image"]["surface"] = pygame.image.load(textures.images["Items"]["location"]).convert_alpha()
+
+        textures.images["Items"]["image"]["FrameWidth"] = textures.images["Items"]["image"]["surface"].width / textures.images["Items"]["FramesX"]
+        textures.images["Items"]["image"]["FrameHeight"] = textures.images["Items"]["image"]["surface"].height
+      
     def draw(self, window):
 
         self.drawHotBar(window)
