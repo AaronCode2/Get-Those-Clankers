@@ -49,9 +49,10 @@ class Inventory():
 
         if(self.toggle):
             utils.activateTilePlacer = False
-            self.drawInventory(window)
         else:
             utils.activateTilePlacer = True
+
+        self.updateInventory(window)
 
         self.mousepos = pygame.mouse.get_pos()
 
@@ -65,73 +66,6 @@ class Inventory():
                 textures.images["guiPlates"]["image"]["FrameWidth"],
                 textures.images["guiPlates"]["image"]["FrameHeight"]
             )
-
-    def drawInventory(self, window):
-
-        mouseKey = pygame.mouse.get_just_released()
-
-        for y in range(utils.inventoryCols):
-            for x in range(len(self.slots[0])):
-
-                buttonRect = pygame.Rect(
-
-                    utils.screenRect.width - utils.inventorySlotPosAdj.x + (textures.images["guiPlates"]["image"]["FrameWidth"] * x),
-                    utils.screenRect.height - utils.inventorySlotPosAdj.y + (textures.images["guiPlates"]["image"]["FrameHeight"] * y),
-                    textures.images["guiPlates"]["image"]["FrameWidth"],
-                    textures.images["guiPlates"]["image"]["FrameHeight"]
-                )
-
-                itemSrcRect = pygame.Rect(
-
-                    textures.images["Items"]["image"]["FrameWidth"] * self.slots[y][x].type.value,
-                    0,
-                    textures.images["Items"]["image"]["FrameWidth"],
-                    textures.images["Items"]["image"]["FrameHeight"],
-                )
-
-                itemPos = pygame.Vector2(
-
-                    buttonRect.x + utils.itemPosAdj.x,
-                    buttonRect.y + utils.itemPosAdj.y,
-                )
-
-                textPos = pygame.Vector2(
-
-                    itemPos.x + utils.inventoryTextPos.x,
-                    itemPos.y + utils.inventoryTextPos.y
-                ) 
-
-                text = utils.smfont.render(str(self.slots[y][x].amount), True, utils.ColorPlattes["Pale White"])
-
-                if(not utils.mouseHover(buttonRect)):
-                    buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_UNPRESSED)
-                else:
-                    buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_PRESSED)
-                
-                if(utils.mouseClickedL(buttonRect) and self.selectedSlot == None):
-
-                    # We call copy(), so we don't get the change slots set to reset
-                    self.getSelectedSlot(copy(self.slots[y][x]), copy(itemSrcRect), copy(pygame.Vector2(x, y)))
-                    self.slots[y][x].reset()
-
-                if(mouseKey[0] and self.selectedSlot != None and utils.mouseHover(buttonRect)):
-
-                    if(self.slots[y][x].amount == 0):
-                        self.slots[y][x] = copy(self.selectedSlot)
-                        self.selectedSlot = None
-                        self.slotSelectedPos = None
-
-                window.blit(textures.images["guiPlates"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y), buttonSrcRect)
-
-                if(self.slots[y][x].amount != 0):
-                    window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(itemPos.x, itemPos.y), itemSrcRect)
-                    window.blit(text, textPos)
-
-        if(mouseKey[0] and self.selectedSlot != None):
-            self.slots[int(self.slotSelectedPos.y)][int(self.slotSelectedPos.x)] = copy(self.selectedSlot)
-            self.selectedSlot = None
-
-        self.updateSelectedSlot(window)
 
     def updateSelectedSlot(self, window):
 
@@ -157,92 +91,78 @@ class Inventory():
         self.slotSelectedSrcRect = itemSrcRect
         self.slotSelectedPos = slotPos
 
-    def getAllInventoryRects(self, it: pygame.Vector2, type: utils.WhichInventory):
+    def updateInventory(self, window):
 
-        adjuster = utils.inventorySlotPosAdj if(type == utils.WhichInventory.INVENTORY) else utils.HotBarSlotPosAdj
+        mouseKey = pygame.mouse.get_just_released()
 
-        buttonRect = pygame.Rect(
+        for y in range(len(self.slots)):
+            for x in range(len(self.slots[0])):
 
-            utils.screenRect.width - adjuster.x + (textures.images["guiPlates"]["image"]["FrameWidth"] * int(it.x)),
-            utils.screenRect.height - adjuster.y + 
-            (textures.images["guiPlates"]["image"]["FrameHeight"] * 
-            int(it.y) if type == utils.WhichInventory.INVENTORY else 0),
-            textures.images["guiPlates"]["image"]["FrameWidth"],
-            textures.images["guiPlates"]["image"]["FrameHeight"]
-        )
+                if(not self.toggle and y != utils.hotBarindex):
+                    continue
 
-        itemSrcRect = pygame.Rect(
+                adjuster = utils.inventorySlotPosAdj if(y != len(self.slots) - 1) else utils.HotBarSlotPosAdj
 
-            textures.images["Items"]["image"]["FrameWidth"] * self.slots[int(it.y)][int(it.x)].type.value,
-            0,
-            textures.images["Items"]["image"]["FrameWidth"],
-            textures.images["Items"]["image"]["FrameHeight"],
-        )
+                buttonRect = pygame.Rect(
 
-        itemPos = pygame.Vector2(
+                    utils.screenRect.width - adjuster.x + (textures.images["guiPlates"]["image"]["FrameWidth"] * x),
+                    utils.screenRect.height - adjuster.y + 
+                    (textures.images["guiPlates"]["image"]["FrameHeight"] * 
+                    y if(y != len(self.slots) - 1) else 0),
+                    textures.images["guiPlates"]["image"]["FrameWidth"],
+                    textures.images["guiPlates"]["image"]["FrameHeight"]
+                )
 
-            buttonRect.x + utils.itemPosAdj.x,
-            buttonRect.y + utils.itemPosAdj.y,
-        )
+                itemSrcRect = pygame.Rect(
 
-        textPos = pygame.Vector2(
+                    textures.images["Items"]["image"]["FrameWidth"] * self.slots[y][x].type.value,
+                    0,
+                    textures.images["Items"]["image"]["FrameWidth"],
+                    textures.images["Items"]["image"]["FrameHeight"],
+                )
 
-            itemPos.x + utils.inventoryTextPos.x,
-            itemPos.y + utils.inventoryTextPos.y
-        )
+                itemPos = pygame.Vector2(
 
-        if(not utils.mouseHover(buttonRect)):
-            buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_UNPRESSED)
-        else:
-            buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_PRESSED)
+                    buttonRect.x + utils.itemPosAdj.x,
+                    buttonRect.y + utils.itemPosAdj.y,
+                )
 
-        return buttonRect, buttonSrcRect, itemSrcRect, itemPos, textPos
+                textPos = pygame.Vector2(
 
-    def drawHotBar(self, window):
+                    itemPos.x + utils.inventoryTextPos.x,
+                    itemPos.y + utils.inventoryTextPos.y
+                )
 
-        for i in range(5):
+                if(not utils.mouseHover(buttonRect)):
+                    buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_UNPRESSED)
+                else:
+                    buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_PRESSED)
 
-            # buttonRect = pygame.Rect(
+                if(utils.mouseClickedL(buttonRect) and self.selectedSlot == None):
+                    
+                    # We call copy(), so we don't get the change slots set to reset
+                    self.getSelectedSlot(copy(self.slots[y][x]), itemSrcRect, pygame.Vector2(x, y))
+                    self.slots[y][x].reset()
 
-            #     utils.screenRect.width - 358 + (textures.images["guiPlates"]["image"]["FrameWidth"] * i),
-            #     utils.screenRect.height - 90,
-            #     textures.images["guiPlates"]["image"]["FrameWidth"],
-            #     textures.images["guiPlates"]["image"]["FrameHeight"]
-            # )
+                if(mouseKey[0] and self.selectedSlot != None and utils.mouseHover(buttonRect)):
 
-            # if(not utils.mouseHover(buttonRect)):
-            #     buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_UNPRESSED)
-            # else:
-            #     buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_PRESSED)
+                    if(self.slots[y][x].amount == 0):
+                        self.slots[y][x] = copy(self.selectedSlot)
+                        self.selectedSlot = None
+                        self.slotSelectedPos = None
 
-            # itemSrcRect = pygame.Rect(
+                text = utils.smfont.render(str(self.slots[y][x].amount), True, utils.ColorPlattes["Pale White"])
+                window.blit(textures.images["guiPlates"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y), buttonSrcRect)
 
-            #     textures.images["Items"]["image"]["FrameWidth"] * self.slots[utils.hotBarindex][i].type.value,
-            #     0,
-            #     textures.images["Items"]["image"]["FrameWidth"],
-            #     textures.images["Items"]["image"]["FrameHeight"],
-            # )
+                if(self.slots[y][x].amount != 0):
+                    window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(itemPos.x, itemPos.y), itemSrcRect)
+                    window.blit(text, textPos)
+                    
+        if(mouseKey[0] and self.selectedSlot != None):
+            self.slots[int(self.slotSelectedPos.y)][int(self.slotSelectedPos.x)] = copy(self.selectedSlot)
+            self.selectedSlot = None
 
-            # itemPos = pygame.Vector2(
-
-            #     buttonRect.x + utils.itemPosAdj.x,
-            #     buttonRect.y + utils.itemPosAdj.y,
-            # )
-
-            # textPos = pygame.Vector2(
-
-            #     itemPos.x + utils.inventoryTextPos.x,
-            #     itemPos.y + utils.inventoryTextPos.y
-            # ) 
-
-            buttonRect, buttonSrcRect, itemSrcRect, itemPos, textPos = self.getAllInventoryRects(pygame.Vector2(i, utils.hotBarindex), utils.WhichInventory.HOTBAR)
-
-            text = utils.smfont.render(str(self.slots[utils.hotBarindex][i].amount), True, utils.ColorPlattes["Pale White"])
-
-            window.blit(textures.images["guiPlates"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y), buttonSrcRect)
-            if(self.slots[utils.hotBarindex][i].amount != 0):
-                window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(itemPos.x, itemPos.y), itemSrcRect)
-                window.blit(text, textPos)
+        self.updateSelectedSlot(window)
 
     def configureItemTextures(self):
 
@@ -252,5 +172,4 @@ class Inventory():
         textures.images["Items"]["image"]["FrameHeight"] = textures.images["Items"]["image"]["surface"].height
       
     def draw(self, window):
-
-        self.drawHotBar(window)
+        pass
