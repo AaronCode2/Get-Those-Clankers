@@ -92,7 +92,7 @@ class UI():
         window.blit(textWattsUsed, utils.BatteryDisplayHudPositions["WattsUsed"])
         window.blit(textwattsMade, utils.BatteryDisplayHudPositions["WattsGenerated"])
 
-        # The utils.deltaTime might be causing this Julien
+        # The utils.deltaTime might be causing this Julien - thanks for fixing it
 
         self.batteryIndicator.update(utils.deltaTime)
         window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)

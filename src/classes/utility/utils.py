@@ -79,6 +79,27 @@ def mouseHover(rect: pygame.Rect):
 
     return rect.collidepoint(pygame.Vector2(mouse[0], mouse[1]))
 
+def mouseClickedL(rect: pygame.Rect):
+
+    mouse = pygame.mouse.get_pos()
+    mouseButtons = pygame.mouse.get_just_pressed()
+
+    return rect.collidepoint(pygame.Vector2(mouse[0], mouse[1])) and mouseButtons[0]
+
+def mouseClickedM(rect: pygame.Rect):
+
+    mouse = pygame.mouse.get_pos()
+    mouseButtons = pygame.mouse.get_just_pressed()
+
+    return rect.collidepoint(pygame.Vector2(mouse[0], mouse[1])) and mouseButtons[1]
+
+def mouseClickedR(rect: pygame.Rect):
+
+    mouse = pygame.mouse.get_pos()
+    mouseButtons = pygame.mouse.get_just_pressed()
+
+    return rect.collidepoint(pygame.Vector2(mouse[0], mouse[1])) and mouseButtons[2]
+
 class SlotIndex(Enum):
 
     AMOUNT = 0

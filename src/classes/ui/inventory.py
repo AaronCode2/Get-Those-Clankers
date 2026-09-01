@@ -8,6 +8,11 @@ class Slot():
 
         self.amount = 0
         self.type = utils.ItemType.NONE
+
+    def reset(self):
+        self.amount = 0
+        self.type = utils.ItemType.NONE
+
 class Inventory():
 
     def __init__(self):
@@ -94,12 +99,19 @@ class Inventory():
                     buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_UNPRESSED)
                 else:
                     buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_PRESSED)
+                
+                if(utils.mouseClickedL(buttonRect)):
+                    self.selectedSlotMover(self.slots[y][x], itemPos)
+                    self.slots[y][x].reset()
 
                 window.blit(textures.images["guiPlates"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y), buttonSrcRect)
 
                 if(self.slots[y][x].amount != 0):
                     window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(itemPos.x, itemPos.y), itemSrcRect)
                     window.blit(text, textPos)
+
+    def selectedSlotMover(self, slot: Slot, itemPos):
+            pass
 
     def drawHotBar(self, window):
 
