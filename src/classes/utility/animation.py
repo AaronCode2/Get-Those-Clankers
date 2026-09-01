@@ -1,7 +1,8 @@
 import pygame
 from typing import TypedDict, Callable
 from pathlib import Path
-from json import dumps, loads
+import classes.utility.utils as utils
+
 
 class AnimationData(TypedDict):
     frames: list[pygame.Surface]
@@ -114,14 +115,14 @@ class AnimationManager:
             self._current_frame_index = 0
             self._timer = 0.0
 
-    def update(self, delta_time: float):
-        self._timer += delta_time
+    def update(self):
+        self._timer += utils.deltaTime
 
         last_index = self._current_frame_index
         self._current_frame_index = int(self._timer * self._animation_speed) % self.current_animation["num_frames"]
 
         if self._current_frame_index == 0 and last_index == self.current_animation["num_frames"] - 1:
-            self._timer = (self._timer * self._animation_speed) % self.current_animation["num_frames"]
+            self._timer -= self.current_animation["num_frames"] / self._animation_speed
 
 
 
