@@ -4,8 +4,9 @@ from classes.objects.animation import AnimationManager
 
 
 class AnimatedEntity(Entity):
-    def __init__(self, position: pygame.Vector2, animation_manager: AnimationManager, hitbox_size : tuple[int, int]):
+    def __init__(self, position: pygame.Vector2, animation_manager: AnimationManager, hitbox_size : tuple[int, int], starting_animation: str = "idle"):
         self.animation = animation_manager
+        self.animation.set_animation(starting_animation)
         self._rect = self.animation.current_frame.get_rect(topleft=position)
 
         super().__init__(self._rect.midbottom, hitbox_size)
