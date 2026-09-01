@@ -94,7 +94,7 @@ class UI():
 
         # The utils.deltaTime might be causing this Julien
 
-        self.batteryIndicator.update(utils.deltaTime)
+        self.batteryIndicator.update()
         window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
 
