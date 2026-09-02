@@ -1,5 +1,6 @@
 import pygame
-import classes.utility.utils
+import classes.utility.utils as utils
+import classes.utility.textures as textures
 
 class Crafter():
 
@@ -10,7 +11,35 @@ class Crafter():
         print("Craft system activated")
 
     def update(self, window):
-        self.draw(window)
 
-    def draw(self, window):
-        pass
+        self.drawBackgroundOverlay(window)
+
+    def drawBackgroundOverlay(self, window):
+
+        crafterPosNorPlate, crafterPosMarPlate1, crafterPosMarPlate2 = self.getBackgroundOverlayRect()
+
+        textures.drawGuiPlates(window, pygame.Vector2(10, 13), crafterPosNorPlate)
+        textures.drawGuiPlates(window, pygame.Vector2(6, 12), crafterPosMarPlate1, utils.TypeOfGuiPlates.MARGIN)
+        textures.drawGuiPlates(window, pygame.Vector2(3, 12), crafterPosMarPlate2, utils.TypeOfGuiPlates.MARGIN)
+
+    def getBackgroundOverlayRect(self):
+
+        crafterPosNorPlate = pygame.Vector2(
+
+            utils.screenRect.width - utils.crafterPosAdj.x,
+            utils.screenRect.height - utils.crafterPosAdj.y,
+        )
+
+        crafterPosMarPlate1 = pygame.Vector2(
+
+            crafterPosNorPlate.x + utils.crafterPosMarPlatePosAdj1.x,
+            crafterPosNorPlate.y + utils.crafterPosMarPlatePosAdj1.y,
+        )
+
+        crafterPosMarPlate2 = pygame.Vector2(
+
+            crafterPosNorPlate.x + utils.crafterPosMarPlatePosAdj2.x,
+            crafterPosNorPlate.y + utils.crafterPosMarPlatePosAdj2.y,
+        )
+
+        return crafterPosNorPlate, crafterPosMarPlate1, crafterPosMarPlate2
