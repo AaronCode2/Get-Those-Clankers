@@ -73,9 +73,9 @@ guiPlatesFrameMap = {
     GuiPlates.MAR_MIDDLE: (1, 6),
     GuiPlates.MAR_MIDDLE_RIGHT_SIDE: (2, 6),
 
-    GuiPlates.MAR_CORNER_BOTTOM_LEFT: (0, 6),
-    GuiPlates.MAR_BOTTOM_MIDDLE: (1, 6),
-    GuiPlates.MAR_CORNER_BOTTOM_RIGHT: (2, 6),
+    GuiPlates.MAR_CORNER_BOTTOM_LEFT: (0, 7),
+    GuiPlates.MAR_BOTTOM_MIDDLE: (1, 7),
+    GuiPlates.MAR_CORNER_BOTTOM_RIGHT: (2, 7),
 }
 
 class KeyGuides(Enum):
@@ -185,7 +185,9 @@ inventoryOptionPosAdj = pygame.Vector2(382, 590)
 craftButtonAdj = pygame.Vector2(20, 20)
 craftTextAdj = pygame.Vector2(26, 12)
 
-crafterPosAdj = pygame.Vector2(900, 590)
+crafterPosAdj = pygame.Vector2(1010, 590)
+crafterPosMarPlatePosAdj1 = pygame.Vector2(10, 20)
+crafterPosMarPlatePosAdj2 = pygame.Vector2(400, 20)
 
 inventoryStackSize = 84
 

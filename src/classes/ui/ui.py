@@ -101,14 +101,27 @@ class UI():
 
     def drawCrafter(self, window):
 
-        crafterPos = pygame.Vector2(
+        crafterPosNorPlate = pygame.Vector2(
 
             utils.screenRect.width - utils.crafterPosAdj.x,
             utils.screenRect.height - utils.crafterPosAdj.y,
         )
 
-        self.drawGuiPlates(window, pygame.Vector2(8, 10), crafterPos)
-        pass
+        crafterPosMarPlate1 = pygame.Vector2(
+
+            crafterPosNorPlate.x + utils.crafterPosMarPlatePosAdj1.x,
+            crafterPosNorPlate.y + utils.crafterPosMarPlatePosAdj1.y,
+        )
+
+        crafterPosMarPlate2 = pygame.Vector2(
+
+            crafterPosNorPlate.x + utils.crafterPosMarPlatePosAdj2.x,
+            crafterPosNorPlate.y + utils.crafterPosMarPlatePosAdj2.y,
+        )
+
+        self.drawGuiPlates(window, pygame.Vector2(10, 13), crafterPosNorPlate)
+        self.drawGuiPlates(window, pygame.Vector2(6, 12), crafterPosMarPlate1, utils.TypeOfGuiPlates.MARGIN)
+        self.drawGuiPlates(window, pygame.Vector2(3, 12), crafterPosMarPlate2, utils.TypeOfGuiPlates.MARGIN)
 
     def drawInventoryOptions(self, window):
 
@@ -181,7 +194,7 @@ class UI():
                     textures.images["keys"]["image"]["FrameHeight"] * y + position.y,
                 ) 
                 
-                srcRect = self.configureguiPlateSelection(x, y, size)
+                srcRect = self.configureguiPlateSelection(x, y, size, typeGuiPlate)
                 
                 window.blit(textures.images["guiPlates"]["image"]["surface"], platePosition, srcRect)
 
@@ -205,6 +218,8 @@ class UI():
 
             elif(y == size.y - 1 and x == size.x - 1):
                 return self.getGuiPlatesSrcRect(utils.GuiPlates.CORNER_BOTTOM_RIGHT)
+
+            return self.getGuiPlatesSrcRect(utils.GuiPlates.CORNER_TOP_LEFT)
         else:
 
             if(y == 0 and x != 0 and x != size.x - 1):
@@ -225,12 +240,7 @@ class UI():
             elif(y == size.y - 1 and x == size.x - 1):
                 return self.getGuiPlatesSrcRect(utils.GuiPlates.MAR_CORNER_BOTTOM_RIGHT)
 
-
-        return pygame.Rect(
-            0, 0, 
-            textures.images["guiPlates"]["image"]["FrameWidth"],
-            textures.images["guiPlates"]["image"]["FrameHeight"]
-        )
+            return self.getGuiPlatesSrcRect(utils.GuiPlates.MAR_CORNER_TOP_LEFT)
 
     def displayKeyGuides(self, window):
 
