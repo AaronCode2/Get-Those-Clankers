@@ -3,6 +3,23 @@ from enum import Enum
 
 # For constants and utility
 
+dev_PositionAdjuster = pygame.Vector2(800, 500)
+dev_PositionAdjusterToggle = False
+# This for UI stuff
+def dev_updatePositionsAdjuster():
+
+    mousePos = pygame.mouse.get_pos()
+    key = pygame.key.get_just_pressed()
+    global dev_PositionAdjusterToggle
+
+    if(key[pygame.K_p]):
+        dev_PositionAdjusterToggle = not dev_PositionAdjusterToggle
+
+    if(dev_PositionAdjusterToggle):
+        dev_PositionAdjuster.x = mousePos[0]
+        dev_PositionAdjuster.y = mousePos[1]
+        print("X:", dev_PositionAdjuster.x, "Y:", dev_PositionAdjuster.y)
+
 font = None
 smfont = None
 
@@ -43,6 +60,12 @@ class GuiPlates(Enum):
     MAR_BOTTOM_MIDDLE = 20
     MAR_CORNER_BOTTOM_RIGHT = 21
 
+    XL_BUTTON_UNPRESSED = 22
+    XL_BUTTON_PRESSED = 23
+
+    XL_ORANGE_BUTTON_UNPRESSED = 23
+    XL_ORANGE_BUTTON_PRESSED = 24
+
 # The x and y mapped for the guiPlate frames
 
 guiPlatesFrameMap = {
@@ -76,6 +99,12 @@ guiPlatesFrameMap = {
     GuiPlates.MAR_CORNER_BOTTOM_LEFT: (0, 7),
     GuiPlates.MAR_BOTTOM_MIDDLE: (1, 7),
     GuiPlates.MAR_CORNER_BOTTOM_RIGHT: (2, 7),
+
+    GuiPlates.XL_BUTTON_UNPRESSED: (0, 8, 3, 1),
+    GuiPlates.XL_BUTTON_PRESSED: (3, 8, 3, 1),
+
+    GuiPlates.XL_ORANGE_BUTTON_UNPRESSED: (0, 9, 3, 1),
+    GuiPlates.XL_ORANGE_BUTTON_PRESSED: (3, 9, 3, 1)
 }
 
 class KeyGuides(Enum):
@@ -182,12 +211,19 @@ inventorySlotPosAdj = pygame.Vector2(357, 460)
 HotBarSlotPosAdj = pygame.Vector2(357, 90)
 inventoryOptionPosAdj = pygame.Vector2(382, 590)
 
-craftButtonAdj = pygame.Vector2(20, 20)
-craftTextAdj = pygame.Vector2(26, 12)
+largeButtonSizeWidth = 192
+largeButtonSizeHeight = 64
+
+# Crafter and craft are two different things! don't get confused
+
+crafterButtonAdj = pygame.Vector2(20, 20)
+crafterTextAdj = pygame.Vector2(26, 12)
 
 crafterPosAdj = pygame.Vector2(1010, 590)
 crafterPosMarPlatePosAdj1 = pygame.Vector2(10, 20)
 crafterPosMarPlatePosAdj2 = pygame.Vector2(400, 20)
+
+craftButtonAdj = pygame.Vector2(612, 116)
 
 inventoryStackSize = 84
 

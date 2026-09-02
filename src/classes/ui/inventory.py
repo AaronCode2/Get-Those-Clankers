@@ -46,14 +46,14 @@ class Inventory():
         self.slots[3][1].amount = 15
         self.slots[3][1].type = utils.ItemType.SCREW
 
-        self.isCrafterToggled = False
+        self.isCrafterToggled = True
         self.selectedSlot = None
         self.slotSelectedSrcRect = None
         self.slotSelectedPos = None
 
         self.configureItemTextures()
 
-    def update(self, window, craftToggle: bool):
+    def update(self, window):
 
         # So we don't activate that world tile feature when user on inventory!
         
@@ -63,7 +63,7 @@ class Inventory():
             utils.activateTilePlacer = True
 
         self.drawInventoryBackground(window)
-        craftToggle = self.drawInventoryOptions(window)
+        self.drawInventoryOptions(window)
         self.updateInventory(window)
 
         self.mousepos = pygame.mouse.get_pos()
@@ -264,14 +264,14 @@ class Inventory():
 
         craftbuttonPos = pygame.Vector2(
 
-            inventoryOptionsPos.x + utils.craftButtonAdj.x,
-            inventoryOptionsPos.y + utils.craftButtonAdj.y
+            inventoryOptionsPos.x + utils.crafterButtonAdj.x,
+            inventoryOptionsPos.y + utils.crafterButtonAdj.y
         )
 
         craftTextPos = pygame.Vector2(
 
-            craftbuttonPos.x + utils.craftTextAdj.x,
-            craftbuttonPos.y + utils.craftTextAdj.y,
+            craftbuttonPos.x + utils.crafterTextAdj.x,
+            craftbuttonPos.y + utils.crafterTextAdj.y,
         )
 
         return inventoryOptionsPos, craftbuttonPos, craftTextPos
