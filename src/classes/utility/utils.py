@@ -5,7 +5,9 @@ from enum import Enum
 
 dev_PositionAdjuster = pygame.Vector2(800, 500)
 dev_PositionAdjusterToggle = False
+
 # This for UI stuff
+
 def dev_updatePositionsAdjuster():
 
     mousePos = pygame.mouse.get_pos()
