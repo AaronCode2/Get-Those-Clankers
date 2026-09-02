@@ -22,7 +22,7 @@ class Inventory():
 
     def __init__(self):
 
-        self.toggle = True
+        self.toggle = False
         self.mousepos = pygame.mouse.get_pos()
 
         # a 5x6 inventory! - 30slots
@@ -59,24 +59,28 @@ class Inventory():
         
         if(self.toggle):
             utils.activateTilePlacer = False
+            self.drawInventoryOptions(window)
         else:
             utils.activateTilePlacer = True
 
+
         self.drawInventoryBackground(window)
-        self.drawInventoryOptions(window)
         self.updateInventory(window)
 
         self.mousepos = pygame.mouse.get_pos()
 
     def drawInventoryBackground(self, window):
+        
+        if(self.toggle):
+            inventoryPos = pygame.Vector2(
 
-        inventoryPos = pygame.Vector2(
+                utils.screenRect.width - utils.inventoryPosAdj.x,
+                utils.screenRect.height - utils.inventoryPosAdj.y,
+            )
 
-            utils.screenRect.width - utils.inventoryPosAdj.x,
-            utils.screenRect.height - utils.inventoryPosAdj.y,
-        )
+            textures.drawGuiPlates(window, pygame.Vector2(6, 8), inventoryPos)
 
-        textures.drawGuiPlates(window, pygame.Vector2(6, 8), inventoryPos)
+
         self.drawBackgroundHotBar(window)
 
 
