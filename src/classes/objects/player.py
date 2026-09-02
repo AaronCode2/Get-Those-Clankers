@@ -8,9 +8,8 @@ class Player(AnimatedEntity):
         animation = AnimationManager("player/player.png", 2, [4, 4], ["walk", "idle"])
 
         super().__init__(position, animation, (20, 15))
-        a = 2
+
 
     def update(self):
         super().update()
-        self.apply_force(pygame.Vector2(0, 0))
 
