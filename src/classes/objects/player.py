@@ -10,6 +10,11 @@ class Player(AnimatedEntity):
         super().__init__(position, animation, (20, 15))
 
 
+
     def update(self):
         super().update()
+        # My life has been quite hard so yeah I'm stupid
+
+
+        
 
