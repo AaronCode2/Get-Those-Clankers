@@ -107,7 +107,7 @@ class UI():
             utils.screenRect.height - utils.crafterPosAdj.y,
         )
 
-        self.drawGuiPlates(window, pygame.Vector2(8, 8), crafterPos)
+        self.drawGuiPlates(window, pygame.Vector2(8, 10), crafterPos)
         pass
 
     def drawInventoryOptions(self, window):
@@ -170,7 +170,7 @@ class UI():
         self.batteryIndicator.update()
         window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
-    def drawGuiPlates(self, window, size: pygame.Vector2, position: pygame.Vector2):
+    def drawGuiPlates(self, window, size: pygame.Vector2, position: pygame.Vector2, typeGuiPlate = utils.TypeOfGuiPlates.NORMAL):
 
         for y in range(int(size.y)):
             for x in range(int(size.x)):
@@ -185,25 +185,46 @@ class UI():
                 
                 window.blit(textures.images["guiPlates"]["image"]["surface"], platePosition, srcRect)
 
-    def configureguiPlateSelection(self, x: int, y: int, size: pygame.Vector2):
+    def configureguiPlateSelection(self, x: int, y: int, size: pygame.Vector2, typeGuiPlate: utils.TypeOfGuiPlates):
 
-        if(y == 0 and x != 0 and x != size.x - 1):
-            return self.getGuiPlatesSrcRect(utils.GuiPlates.TOP_MIDDLE)
-        elif(y == 0 and x == size.x - 1):
-            return self.getGuiPlatesSrcRect(utils.GuiPlates.CORNER_TOP_RIGHT)
-        elif(y != 0 and x == 0 and y != size.y - 1):
-            return self.getGuiPlatesSrcRect(utils.GuiPlates.MIDDLE_LEFT_SIDE)
-        elif(y != 0 and x != 0 and y != size.y - 1 and x != size.x - 1):
-            return self.getGuiPlatesSrcRect(utils.GuiPlates.MIDDLE)
-        elif(y != 0 and y != size.y - 1 and x == size.x - 1):
-            return self.getGuiPlatesSrcRect(utils.GuiPlates.MIDDLE_RIGHT_SIDE)
-        elif(y == size.y - 1 and x == 0):
-            return self.getGuiPlatesSrcRect(utils.GuiPlates.CORNER_BOTTOM_LEFT)
-        elif(y == size.y - 1 and x != 0 and x != size.x - 1):
-            return self.getGuiPlatesSrcRect(utils.GuiPlates.BOTTOM_MIDDLE)
+        if(typeGuiPlate == utils.TypeOfGuiPlates.NORMAL):
+            if(y == 0 and x != 0 and x != size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.TOP_MIDDLE)
+            elif(y == 0 and x == size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.CORNER_TOP_RIGHT)
+            elif(y != 0 and x == 0 and y != size.y - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.MIDDLE_LEFT_SIDE)
+            elif(y != 0 and x != 0 and y != size.y - 1 and x != size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.MIDDLE)
+            elif(y != 0 and y != size.y - 1 and x == size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.MIDDLE_RIGHT_SIDE)
+            elif(y == size.y - 1 and x == 0):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.CORNER_BOTTOM_LEFT)
+            elif(y == size.y - 1 and x != 0 and x != size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.BOTTOM_MIDDLE)
 
-        elif(y == size.y - 1 and x == size.x - 1):
-            return self.getGuiPlatesSrcRect(utils.GuiPlates.CORNER_BOTTOM_RIGHT)
+            elif(y == size.y - 1 and x == size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.CORNER_BOTTOM_RIGHT)
+        else:
+
+            if(y == 0 and x != 0 and x != size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.MAR_TOP_MIDDLE)
+            elif(y == 0 and x == size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.MAR_CORNER_TOP_RIGHT)
+            elif(y != 0 and x == 0 and y != size.y - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.MAR_MIDDLE_LEFT_SIDE)
+            elif(y != 0 and x != 0 and y != size.y - 1 and x != size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.MAR_MIDDLE)
+            elif(y != 0 and y != size.y - 1 and x == size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.MAR_MIDDLE_RIGHT_SIDE)
+            elif(y == size.y - 1 and x == 0):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.MAR_CORNER_BOTTOM_LEFT)
+            elif(y == size.y - 1 and x != 0 and x != size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.MAR_BOTTOM_MIDDLE)
+
+            elif(y == size.y - 1 and x == size.x - 1):
+                return self.getGuiPlatesSrcRect(utils.GuiPlates.MAR_CORNER_BOTTOM_RIGHT)
+
 
         return pygame.Rect(
             0, 0, 

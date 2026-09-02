@@ -6,6 +6,11 @@ from enum import Enum
 font = None
 smfont = None
 
+class TypeOfGuiPlates(Enum):
+
+    NORMAL = 0
+    MARGIN = 1
+
 class GuiPlates(Enum):
 
     CORNER_TOP_LEFT = 0
@@ -26,7 +31,17 @@ class GuiPlates(Enum):
     LARGE_BUTTON_UNPRESSED = 11
     LARGE_BUTTON_PRESSED = 12
 
-    SELECTOR = 13
+    MAR_CORNER_TOP_LEFT = 13
+    MAR_TOP_MIDDLE = 14
+    MAR_CORNER_TOP_RIGHT = 15
+
+    MAR_MIDDLE_LEFT_SIDE = 16
+    MAR_MIDDLE = 17
+    MAR_MIDDLE_RIGHT_SIDE = 18
+
+    MAR_CORNER_BOTTOM_LEFT = 19
+    MAR_BOTTOM_MIDDLE = 20
+    MAR_CORNER_BOTTOM_RIGHT = 21
 
 # The x and y mapped for the guiPlate frames
 
@@ -47,10 +62,20 @@ guiPlatesFrameMap = {
     GuiPlates.SMALL_BUTTON_UNPRESSED: (0, 3),
     GuiPlates.SMALL_BUTTON_PRESSED: (1, 3),
 
-    GuiPlates.LARGE_BUTTON_UNPRESSED: (0, 5, 2, 1), 
-    GuiPlates.LARGE_BUTTON_PRESSED: (2, 5, 2, 1),
+    GuiPlates.LARGE_BUTTON_UNPRESSED: (0, 4, 2, 1), 
+    GuiPlates.LARGE_BUTTON_PRESSED: (2, 4, 2, 1),
 
-    GuiPlates.SELECTOR: (4, 0) 
+    GuiPlates.MAR_CORNER_TOP_LEFT: (0, 5),
+    GuiPlates.MAR_TOP_MIDDLE: (1, 5),
+    GuiPlates.MAR_CORNER_TOP_RIGHT: (2, 5),
+
+    GuiPlates.MAR_MIDDLE_LEFT_SIDE: (0, 6),
+    GuiPlates.MAR_MIDDLE: (1, 6),
+    GuiPlates.MAR_MIDDLE_RIGHT_SIDE: (2, 6),
+
+    GuiPlates.MAR_CORNER_BOTTOM_LEFT: (0, 6),
+    GuiPlates.MAR_BOTTOM_MIDDLE: (1, 6),
+    GuiPlates.MAR_CORNER_BOTTOM_RIGHT: (2, 6),
 }
 
 class KeyGuides(Enum):
@@ -160,7 +185,7 @@ inventoryOptionPosAdj = pygame.Vector2(382, 590)
 craftButtonAdj = pygame.Vector2(20, 20)
 craftTextAdj = pygame.Vector2(26, 12)
 
-crafterPosAdj = pygame.Vector2(900, 480)
+crafterPosAdj = pygame.Vector2(900, 590)
 
 inventoryStackSize = 84
 

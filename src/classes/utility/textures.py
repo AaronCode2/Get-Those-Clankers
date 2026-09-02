@@ -62,7 +62,7 @@ images = {
 
             "location": "assets/ui/guiPlates.png",
             "FramesX": 4,
-            "FramesY": 6,
+            "FramesY": 8,
             "image": {
 
                 "surface": None,
