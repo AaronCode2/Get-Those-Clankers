@@ -1,5 +1,5 @@
 import pygame
-from src.classes.objects.animation import AnimationManager
+from src.classes.utility.animation import AnimationManager
 from src.classes.objects.animatedEntity import AnimatedEntity
 import classes.utility.utils as utils
 
