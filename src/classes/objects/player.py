@@ -12,6 +12,11 @@ class Player(AnimatedEntity):
             
 
 
+
     def update(self):
         super().update()
+        # My life has been quite hard so yeah I'm stupid
+
+
+        
 
