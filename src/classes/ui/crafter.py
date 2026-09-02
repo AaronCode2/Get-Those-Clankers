@@ -5,7 +5,7 @@ class Crafter():
 
     def __init__(self):
 
-        self.toggle = False
+        self.toggle = True
 
         print("Craft system activated")
 
