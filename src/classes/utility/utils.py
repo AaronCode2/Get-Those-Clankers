@@ -49,6 +49,8 @@ class KeyGuides(Enum):
     WASD_TO_MOVE = 1
     R_TO_ROTATE = 2
 
+detectBoxAdj = pygame.Vector2(10, -20)
+
 keyGuidesTexts = {
 
     KeyGuides.CRTL_TO_SNAP: "Snap Mode",
@@ -392,3 +394,76 @@ class TileType(Enum):
 
     BARRIER = 0
     SOLAR_PANEL = 1
+
+class dirType(Enum):
+
+    HORIZONTAL = 0
+    VERTICAL = 1 
+
+def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, mouseRect: pygame.Rect):
+
+    match(snapType):
+
+        case SnapType.RIGHT_SIDE:
+
+            return (
+
+                (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
+                    selectedTile.position.x + defaultImageSizes <= mouseRect.x and
+                    selectedTile.position.y <= mouseRect.y and
+                    selectedTile.position.y + defaultImageSizes >= mouseRect.y
+            ) if(directionType == dirType.HORIZONTAL) else (   
+
+                    (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
+                    selectedTile.position.x + defaultImageSizes < mouseRect.x and 
+                    selectedTile.position.y <= mouseRect.y and
+                    selectedTile.position.y + defaultImageSizes >= mouseRect.y
+                )
+
+        case SnapType.LEFT_SIDE:
+
+            return(
+
+                (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
+                selectedTile.position.x >= mouseRect.x and 
+                selectedTile.position.y <= mouseRect.y and
+                selectedTile.position.y + defaultImageSizes >= mouseRect.y
+            ) if(directionType == dirType.HORIZONTAL) else (
+
+                (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
+                selectedTile.position.x > mouseRect.x and
+                selectedTile.position.y <= mouseRect.y and
+                selectedTile.position.y + defaultImageSizes >= mouseRect.y  
+            )
+
+        case SnapType.DOWN_SIDE:
+
+            return (
+
+                (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
+                selectedTile.position.y + defaultImageSizes + snapdetect2Adj.y <= mouseRect.y and
+                selectedTile.position.x <= mouseRect.x and  
+                selectedTile.position.x + defaultImageSizes >= mouseRect.x
+            ) if(directionType == dirType.HORIZONTAL) else (
+
+                (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
+                selectedTile.position.y >= mouseRect.y and
+                selectedTile.position.x <= mouseRect.x and  
+                selectedTile.position.x + defaultImageSizes >= mouseRect.x
+            )
+            
+        case SnapType.UP_SIDE:
+
+            return (
+
+                (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
+                selectedTile.position.y >= mouseRect.y and
+                selectedTile.position.x <= mouseRect.x and  
+                selectedTile.position.x + defaultImageSizes >= mouseRect.x
+            ) if(directionType == dirType.HORIZONTAL) else (
+
+                (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
+                selectedTile.position.y + defaultImageSizes <= mouseRect.y and
+                selectedTile.position.x <= mouseRect.x and  
+                selectedTile.position.x + defaultImageSizes >= mouseRect.x
+            )

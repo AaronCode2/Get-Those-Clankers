@@ -17,24 +17,7 @@ class World():
 
         self.initTextures()
         self.batteryGenator = batteryGen.BatteryGenenator()
-
-
-        self.defaultRotation = utils.RotationType.DOWN
-        self.previewTile = {
-
-            "image": textures.images["Tiles"]["image"]["surface"].copy(),
-            "srcRect": None
-        }
-        self.selectedTileType = utils.TileType.SOLAR_PANEL
-
-        self.previewTile["image"].set_alpha(100)
-        self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
-                textures.images["Tiles"]["image"]["FrameWidth"],
-                textures.images["Tiles"]["image"]["FrameHeight"],
-                self.selectedTileType,
-                self.defaultRotation
-        )
-        self.destPreviewRect = pygame.Vector2(0, 0)
+        self.setupPrieviewTile()
 
         self.tiles.append(
 
@@ -46,7 +29,28 @@ class World():
             )
         )
 
-    def drawPreviewPlacer(self, mousePos, window):
+    def setupPrieviewTile(self):
+
+        self.defaultRotation = utils.RotationType.DOWN
+        self.previewTile = {
+
+            "image": textures.images["Tiles"]["image"]["surface"].copy(),
+            "srcRect": None
+        }
+
+        self.selectedTileType = utils.TileType.SOLAR_PANEL
+
+        self.previewTile["image"].set_alpha(100)
+        self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
+                textures.images["Tiles"]["image"]["FrameWidth"],
+                textures.images["Tiles"]["image"]["FrameHeight"],
+                self.selectedTileType,
+                self.defaultRotation
+        )
+
+        self.destPreviewRect = pygame.Vector2(0, 0)
+
+    def drawPreviewPlacer(self, window):
         
         window.blit(
             self.previewTile["image"], 
@@ -54,7 +58,7 @@ class World():
             self.previewTile["srcRect"]
         )
 
-    def handleInputplacer(self, window):
+    def handleInputplacer(self):
 
         mousePos = pygame.mouse.get_pos()
         mouseEvent = pygame.mouse.get_just_pressed()
@@ -70,41 +74,36 @@ class World():
 
         # Make them rotate when input and do stuff to get it working right :)
 
-        if(self.getScrollwheelInput().y != 0 or keypress[pygame.K_r]):
-
-            if self.defaultRotation != utils.RotationType.RIGHT:
-                self.defaultRotation = utils.RotationType((self.defaultRotation.value + 1))
-            else:
-                self.defaultRotation = utils.RotationType.DOWN
-
-            self.previewTile["image"] = pygame.transform.rotate(
-                textures.images["Tiles"]["image"]["surface"], 
-                utils.rotations[self.defaultRotation]
-            ).convert_alpha()
-
-            self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
-                textures.images["Tiles"]["image"]["FrameWidth"],
-                textures.images["Tiles"]["image"]["FrameHeight"],
-                self.selectedTileType,
-                self.defaultRotation
-            )
-
-            utils.scrollWheel = pygame.Vector2(0, 0)
+        if(utils.scrollWheel.y != 0 or keypress[pygame.K_r]):
+            self.rotationPreviewTile()
 
         return mouseEvent, mousePos, snapMode
 
-    def snapModeActivate(self, window, mouseRect):
+    def rotationPreviewTile(self):
+
+        if self.defaultRotation != utils.RotationType.RIGHT:
+            self.defaultRotation = utils.RotationType((self.defaultRotation.value + 1))
+        else:
+            self.defaultRotation = utils.RotationType.DOWN
+
+        self.previewTile["image"] = pygame.transform.rotate(
+            textures.images["Tiles"]["image"]["surface"], 
+            utils.rotations[self.defaultRotation]
+        ).convert_alpha()
+
+        self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
+            textures.images["Tiles"]["image"]["FrameWidth"],
+            textures.images["Tiles"]["image"]["FrameHeight"],
+            self.selectedTileType,
+            self.defaultRotation
+        )
+
+        utils.scrollWheel = pygame.Vector2(0, 0)
+
+    def checkNieghborTileForSnapping(self, detectAreaRange: pygame.Rect, mouseRect: pygame.Rect):
+
+        selectedTile = None
         
-        detectAreaRange = pygame.Rect(
-                (mouseRect.x + utils.adjmousePos.x) - utils.defaultImageSizes / 2, 
-                (mouseRect.y + utils.adjmousePos.y) - utils.defaultImageSizes / 2, 
-                utils.defaultImageSizes * 2, utils.defaultImageSizes * 2
-            )
-
-        utils.debugDraw(window, detectAreaRange)
-
-        selectedTile = -1
-
         closestDistance = 0xffff
 
         for tile in self.tiles:
@@ -125,120 +124,57 @@ class World():
                     closestDistance = distance
                     selectedTile = tile
 
+        return selectedTile
 
-        if(selectedTile != -1):
+    def activateSnapping(self, window, mouseRect):
+        
+        detectAreaRange = pygame.Rect(
+            (mouseRect.x + utils.adjmousePos.x) - utils.defaultImageSizes / 2, 
+            (mouseRect.y + utils.adjmousePos.y) - utils.defaultImageSizes / 2, 
+            utils.defaultImageSizes * 2, utils.defaultImageSizes * 2
+        )
+
+        utils.debugDraw(window, detectAreaRange)
+
+        selectedTile = self.checkNieghborTileForSnapping(detectAreaRange, mouseRect)
+        return self.findSnapSpot(selectedTile, mouseRect, window)
+
+    def findSnapSpot(self, selectedTile, mouseRect, window):
+
+        if(selectedTile != None):
 
             utils.debugDraw(window, pygame.Rect(selectedTile.position.x, selectedTile.position.y, utils.defaultImageSizes, utils.defaultImageSizes))
-            # Calcualate snap points , btw this is just for snapping, nothing else. 200 lines for snapping
 
-            #  May need to change defaultImageSize to tile.size
+            for i in range(utils.SnapType.__len__()):
+                for j in range(utils.dirType.__len__()):
 
-            if(
-                (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
-                selectedTile.position.x + utils.defaultImageSizes <= mouseRect.x and
-                selectedTile.position.y <= mouseRect.y and
-                selectedTile.position.y + utils.defaultImageSizes >= mouseRect.y
-            ):
+                    if(utils.isRightSnapConfig(utils.SnapType(i), selectedTile,utils.dirType(j), mouseRect)):
 
-                #  Right side [=]<!>
-                return utils.getSnapConfig(utils.SnapType.RIGHT_SIDE, selectedTile, selectedTile.rotation)
-            elif(
-                (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
-                selectedTile.position.x >= mouseRect.x and 
-                selectedTile.position.y <= mouseRect.y and
-                selectedTile.position.y + utils.defaultImageSizes >= mouseRect.y
-            ):
-
-                #  Left side <!>[=]
-                return utils.getSnapConfig(utils.SnapType.LEFT_SIDE, selectedTile, selectedTile.rotation)
-            elif(
-                (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
-                selectedTile.position.y + utils.defaultImageSizes + utils.snapdetect2Adj.y <= mouseRect.y and
-                selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
-            ):
-                # Down side [=]
-                #           <!>
-                return utils.getSnapConfig(utils.SnapType.DOWN_SIDE, selectedTile, selectedTile.rotation)
-            elif(
-                (selectedTile.rotation == utils.RotationType.DOWN or selectedTile.rotation == utils.RotationType.UP) and
-                selectedTile.position.y >= mouseRect.y and
-                selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
-            ):
-                #         <!>
-                # Up side [=]
-                return utils.getSnapConfig(utils.SnapType.UP_SIDE, selectedTile, selectedTile.rotation)
+                        return utils.getSnapConfig(utils.SnapType(i), selectedTile, selectedTile.rotation)
                 
-            elif(
-                (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
-                selectedTile.position.y + utils.defaultImageSizes <= mouseRect.y and
-                selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
-            ):
-                return utils.getSnapConfig(utils.SnapType.UP_SIDE, selectedTile, selectedTile.rotation)
-            elif(
-                (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
-                selectedTile.position.y >= mouseRect.y and
-                selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + utils.defaultImageSizes >= mouseRect.x
-            ):
-                return utils.getSnapConfig(utils.SnapType.DOWN_SIDE, selectedTile, selectedTile.rotation)
-            elif(
-
-                (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
-                selectedTile.position.x + utils.defaultImageSizes < mouseRect.x and 
-                selectedTile.position.y <= mouseRect.y and
-                selectedTile.position.y + utils.defaultImageSizes >= mouseRect.y
-            ):
-                return utils.getSnapConfig(utils.SnapType.RIGHT_SIDE, selectedTile, selectedTile.rotation)
-            elif(
-
-                (selectedTile.rotation == utils.RotationType.LEFT or selectedTile.rotation == utils.RotationType.RIGHT) and
-                selectedTile.position.x > mouseRect.x and
-                selectedTile.position.y <= mouseRect.y and
-                selectedTile.position.y + utils.defaultImageSizes >= mouseRect.y   
-            ):
-                return utils.getSnapConfig(utils.SnapType.LEFT_SIDE, selectedTile, selectedTile.rotation)                
-
         return pygame.Rect(
                 mouseRect.x + utils.adjmousePos.x, 
                 mouseRect.y + utils.adjmousePos.y, 
                 utils.defaultImageSizes, utils.defaultImageSizes
             )
 
-    def updateTilePlacer(self, window):
+    def getRegularRect(self, mouseRect: pygame.Rect):
 
-        mouseEvent, mousePos, snapMode = self.handleInputplacer(window)
-        mouseRect = pygame.Rect(mousePos[0], mousePos[1], utils.defaultImageSizes, utils.defaultImageSizes)
-
-        if(not snapMode):
-
-            self.destPreviewRect = pygame.Rect(
-                mousePos[0] + utils.adjmousePos.x, 
-                mousePos[1] + utils.adjmousePos.y, 
-                utils.defaultImageSizes, utils.defaultImageSizes
-            )
-        else:
-
-            self.destPreviewRect = self.snapModeActivate(window, mouseRect)
-                    
-        self.drawPreviewPlacer(mousePos, window)
-
-        # utils.debugDraw(window,self.destPreviewRect)
-        
-        # placing and deleting tiles
-
-        
-        detectBox = pygame.Rect(
-
-            self.destPreviewRect.x + 10,
-            self.destPreviewRect.y + 10,
-            self.destPreviewRect.width - 20,
-            self.destPreviewRect.height - 20,
+        return pygame.Rect(
+            mouseRect.x + utils.adjmousePos.x, 
+            mouseRect.y + utils.adjmousePos.y, 
+            utils.defaultImageSizes, utils.defaultImageSizes
         )
 
-        utils.debugDraw(window, detectBox)
+    def handleplacingTiles(self, mouseEvent, mouseRect: pygame.Rect):
+
+        detectBox = pygame.Rect(
+
+            self.destPreviewRect.x + utils.detectBoxAdj.x,
+            self.destPreviewRect.y + utils.detectBoxAdj.x,
+            self.destPreviewRect.width + utils.detectBoxAdj.y,
+            self.destPreviewRect.height + utils.detectBoxAdj.y,
+        )
 
         if(mouseEvent[0]):
 
@@ -263,8 +199,15 @@ class World():
                     self.tiles.remove(tile)
                     return
 
-    def getScrollwheelInput(self):
-        return utils.scrollWheel
+    def updateTilePlacer(self, window):
+
+        mouseEvent, mousePos, snapMode = self.handleInputplacer()
+        mouseRect = pygame.Rect(mousePos[0], mousePos[1], utils.defaultImageSizes, utils.defaultImageSizes)
+
+        self.destPreviewRect = self.activateSnapping(window, mouseRect) if(snapMode) else self.getRegularRect(mouseRect)
+                    
+        self.drawPreviewPlacer(window)
+        self.handleplacingTiles(mouseEvent, mouseRect)
 
     def update(self, window):
 

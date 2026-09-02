@@ -116,66 +116,27 @@ class UI():
     def configureguiPlateSelection(self, x: int, y: int, size: pygame.Vector2):
 
         if(y == 0 and x != 0 and x != size.x - 1):
-                return pygame.Rect(
-                    textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.TOP_MIDDLE][0]), 
-                    0,
-                    textures.images["guiPlates"]["image"]["FrameWidth"],
-                    textures.images["guiPlates"]["image"]["FrameHeight"]
-                )
+            return self.getguiPlatesSrcRect(utils.GuiPlates.TOP_MIDDLE)
         elif(y == 0 and x == size.x - 1):
-            return pygame.Rect(
-                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CORNER_TOP_RIGHT][0]), 
-                0,
-                textures.images["guiPlates"]["image"]["FrameWidth"],
-                textures.images["guiPlates"]["image"]["FrameHeight"]
-            )
+            return self.getguiPlatesSrcRect(utils.GuiPlates.CORNER_TOP_RIGHT)
         elif(y != 0 and x == 0 and y != size.y - 1):
-            return pygame.Rect(
-                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE_LEFT_SIDE][0]), 
-                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE_LEFT_SIDE][1]),
-                textures.images["guiPlates"]["image"]["FrameWidth"],
-                textures.images["guiPlates"]["image"]["FrameHeight"]
-            )
+            return self.getguiPlatesSrcRect(utils.GuiPlates.MIDDLE_LEFT_SIDE)
         elif(y != 0 and x != 0 and y != size.y - 1 and x != size.x - 1):
-            return pygame.Rect(
-                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE][0]), 
-                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE][1]),
-                textures.images["guiPlates"]["image"]["FrameWidth"],
-                textures.images["guiPlates"]["image"]["FrameHeight"]
-            )
+            return self.getguiPlatesSrcRect(utils.GuiPlates.MIDDLE)
         elif(y != 0 and y != size.y - 1 and x == size.x - 1):
-            return pygame.Rect(
-                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE_RIGHT_SIDE][0]), 
-                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.MIDDLE_RIGHT_SIDE][1]),
-                textures.images["guiPlates"]["image"]["FrameWidth"],
-                textures.images["guiPlates"]["image"]["FrameHeight"]
-            )
+            return self.getguiPlatesSrcRect(utils.GuiPlates.MIDDLE_RIGHT_SIDE)
         elif(y == size.y - 1 and x == 0):
-            return pygame.Rect(
-                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CORNER_BOTTOM_LEFT][0]), 
-                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CORNER_BOTTOM_LEFT][1]),
-                textures.images["guiPlates"]["image"]["FrameWidth"],
-                textures.images["guiPlates"]["image"]["FrameHeight"]
-            )
+            return self.getguiPlatesSrcRect(utils.GuiPlates.CORNER_BOTTOM_LEFT)
         elif(y == size.y - 1 and x != 0 and x != size.x - 1):
-            return pygame.Rect(
-                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.BOTTOM_MIDDLE][0]), 
-                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.BOTTOM_MIDDLE][1]),
-                textures.images["guiPlates"]["image"]["FrameWidth"],
-                textures.images["guiPlates"]["image"]["FrameHeight"]
-            )
+            return self.getguiPlatesSrcRect(utils.GuiPlates.BOTTOM_MIDDLE)
+
         elif(y == size.y - 1 and x == size.x - 1):
-            return pygame.Rect(
-                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CORNER_BOTTOM_RIGHT][0]), 
-                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[utils.GuiPlates.CORNER_BOTTOM_RIGHT][1]),
-                textures.images["guiPlates"]["image"]["FrameWidth"],
-                textures.images["guiPlates"]["image"]["FrameHeight"]
-            )
+            return self.getguiPlatesSrcRect(utils.GuiPlates.CORNER_BOTTOM_RIGHT)
 
         return pygame.Rect(
             0, 0, 
-            textures.images["keys"]["image"]["FrameWidth"],
-            textures.images["keys"]["image"]["FrameHeight"]
+            textures.images["guiPlates"]["image"]["FrameWidth"],
+            textures.images["guiPlates"]["image"]["FrameHeight"]
         )
 
     def displayKeyGuides(self, window):
@@ -205,6 +166,15 @@ class UI():
 
             window.blit(textguide, positionText)
             window.blit(textures.images["keys"]["image"]["surface"], position, srcRect)
+
+    def getguiPlatesSrcRect(self, guiPlate: utils.GuiPlates):
+
+        return pygame.Rect(
+                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[guiPlate][0]), 
+                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[guiPlate][1]),
+                textures.images["guiPlates"]["image"]["FrameWidth"],
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+            )
     
     def configureImages(self):
 

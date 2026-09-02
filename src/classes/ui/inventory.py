@@ -22,7 +22,7 @@ class Inventory():
 
     def __init__(self):
 
-        self.toggle = True
+        self.toggle = False
         self.mousepos = pygame.mouse.get_pos()
 
         # a 5x6 inventory! - 30slots
