@@ -3,6 +3,8 @@ import classes.utility.utils as utils
 import classes.utility.textures as textures
 import classes.ui.inventory as inventory
 import classes.utility.animation as animation
+import classes.ui.crafter as crafter
+from time import time
 
 class UI():
 
@@ -22,13 +24,15 @@ class UI():
         self.wattsGenerated = "10W"
         self.timeLeft = 120
 
+        self.timeStamp = time()
+
         self.inventory = inventory.Inventory()
+        self.crafter = crafter.Crafter()
 
         self.batteryIndicator.position = pygame.Vector2(utils.batteryIndicatorPos.x, utils.batteryIndicatorPos.y)
         self.batteryIndicator.level = utils.BatteryLevel.BATTERY_FULL
         self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][self.batteryIndicator.level.value])
         self.batteryIndicator.animation_speed = 1
-
 
     def setBatteryStuff(self, batteryLevel, timeLeft, wattsUsed, wattsGenerated):
 
@@ -56,7 +60,9 @@ class UI():
 
         if(self.inventory.toggle):
             self.drawInventory(window)
-            self.drawInventoryOptions(window)
+            
+            if(self.crafter.toggle):
+                self.drawCrafter(window)
 
         self.drawHotBar(window)
 
@@ -69,6 +75,7 @@ class UI():
         )
 
         self.drawGuiPlates(window, pygame.Vector2(6, 8), inventoryPos)
+        self.drawInventoryOptions(window)
 
     def getAllInventoryOptionsRect(self):
 
@@ -92,13 +99,33 @@ class UI():
 
         return inventoryOptionsPos, craftbuttonPos, craftTextPos
 
+    def drawCrafter(self, window):
+
+        crafterPos = pygame.Vector2(
+
+            utils.screenRect.width - utils.crafterPosAdj.x,
+            utils.screenRect.height - utils.crafterPosAdj.y,
+        )
+
+        self.drawGuiPlates(window, pygame.Vector2(8, 8), crafterPos)
+        pass
+
     def drawInventoryOptions(self, window):
 
         inventoryOptionsPos, craftbuttonPos, craftTextPos = self.getAllInventoryOptionsRect()
 
-        craftText = utils.smfont.render("Craft", True, utils.ColorPlattes["Glass Orange"])
-
-        craftButtonState = utils.GuiPlates.LARGE_BUTTON_UNPRESSED 
+        craftButtonState = utils.GuiPlates.LARGE_BUTTON_PRESSED
+        color = utils.ColorPlattes["Glass Orange"]
+        
+        if(utils.mouseClickedL(
+            pygame.Rect(
+                craftbuttonPos.x, craftbuttonPos.y, 
+                textures.images["guiPlates"]["image"]["FrameWidth"] * 2,
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+        ))):
+            self.crafter.toggle = not self.crafter.toggle
+        elif(not self.crafter.toggle):
+            craftButtonState = utils.GuiPlates.LARGE_BUTTON_UNPRESSED
 
         if(utils.mouseHover(
             pygame.Rect(
@@ -106,7 +133,10 @@ class UI():
                 textures.images["guiPlates"]["image"]["FrameWidth"] * 2,
                 textures.images["guiPlates"]["image"]["FrameHeight"]
         ))):
-            craftButtonState = utils.GuiPlates.LARGE_BUTTON_PRESSED 
+            color = utils.ColorPlattes["Supreme Yellow"]
+
+        craftText = utils.smfont.render("Craft", True, color)
+
 
         self.drawGuiPlates(window, pygame.Vector2(6, 2), inventoryOptionsPos)
         self.drawGuiSinglePlate(window, craftbuttonPos, craftButtonState)

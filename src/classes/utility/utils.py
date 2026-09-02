@@ -91,6 +91,14 @@ class RotationType(Enum):
 deltaTime = 0.3
 hotBarindex = 5
 inventoryCols = 5
+clickdelay = 0.005
+
+def mouseClickedOnceL(rect: pygame.Rect):
+
+    mouse = pygame.mouse.get_pos()
+    mouseButtons = pygame.mouse.get_just_released()
+
+    return rect.collidepoint(pygame.Vector2(mouse[0], mouse[1])) and mouseButtons[0]
 
 def mouseHover(rect: pygame.Rect):
 
@@ -151,6 +159,8 @@ inventoryOptionPosAdj = pygame.Vector2(382, 590)
 
 craftButtonAdj = pygame.Vector2(20, 20)
 craftTextAdj = pygame.Vector2(26, 12)
+
+crafterPosAdj = pygame.Vector2(900, 480)
 
 inventoryStackSize = 84
 
@@ -317,9 +327,6 @@ def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):
                             selectedTile.position.y,
                             defaultImageSizes, defaultImageSizes
                         )
-
-
-
 
 def configureRotatedImageForPreview(width, height, type, rotation):
 

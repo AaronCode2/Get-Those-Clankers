@@ -151,6 +151,7 @@ class Inventory():
 
                 buttonRect, itemSrcRect, itemPos, textPos, buttonSrcRect = self.getInventoryRects(x, y)
 
+                # if(self.slots[y][x].type != utils.ItemType.NONE):
                 self.handleUserInput(self.slots[y][x], itemSrcRect, x, y, buttonRect, mouseKey)
 
                 window.blit(textures.images["guiPlates"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y), buttonSrcRect)
@@ -173,9 +174,9 @@ class Inventory():
 
     def handleUserInput(self, slot: Slot, itemSrcRect: pygame.Rect, x, y, buttonRect: pygame.Rect, mouseKey):
 
-        if(utils.mouseClickedL(buttonRect) and self.selectedSlot == None):
+        if(utils.mouseClickedL(buttonRect) and self.selectedSlot == None and self.slots[y][x].type ):
             self.doItemMoving(self.slots[y][x], itemSrcRect, x, y)
-        elif(utils.mouseClickedR(buttonRect)):
+        elif(utils.mouseClickedR(buttonRect) and self.slots[y][x].type != utils.ItemType.NONE):
             self.doSpilting(self.slots[y][x])
 
         if(mouseKey[0] and self.selectedSlot != None and utils.mouseHover(buttonRect)):
