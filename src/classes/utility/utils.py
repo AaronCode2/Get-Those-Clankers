@@ -4,7 +4,7 @@ from enum import Enum
 # For constants and utility
 
 font = None
-smFont = None
+smfont = None
 
 class GuiPlates(Enum):
 
@@ -16,12 +16,17 @@ class GuiPlates(Enum):
     MIDDLE = 4
     MIDDLE_RIGHT_SIDE = 5
 
-    CORNER_BOTTOM_LEFT = 6,
-    BOTTOM_MIDDLE = 7,
-    CORNER_BOTTOM_RIGHT = 8,
+    CORNER_BOTTOM_LEFT = 6
+    BOTTOM_MIDDLE = 7
+    CORNER_BOTTOM_RIGHT = 8
 
     SMALL_BUTTON_UNPRESSED = 9
     SMALL_BUTTON_PRESSED = 10
+
+    LARGE_BUTTON_UNPRESSED = 11
+    LARGE_BUTTON_PRESSED = 12
+
+    SELECTOR = 13
 
 # The x and y mapped for the guiPlate frames
 
@@ -40,7 +45,12 @@ guiPlatesFrameMap = {
     GuiPlates.CORNER_BOTTOM_RIGHT: (2, 2),
 
     GuiPlates.SMALL_BUTTON_UNPRESSED: (0, 3),
-    GuiPlates.SMALL_BUTTON_PRESSED: (1, 3)
+    GuiPlates.SMALL_BUTTON_PRESSED: (1, 3),
+
+    GuiPlates.LARGE_BUTTON_UNPRESSED: (0, 5, 2, 1), 
+    GuiPlates.LARGE_BUTTON_PRESSED: (2, 5, 2, 1),
+
+    GuiPlates.SELECTOR: (4, 0) 
 }
 
 class KeyGuides(Enum):
@@ -64,6 +74,7 @@ keyGuidesTexts = {
         KeyGuides.R_TO_ROTATE: 230,
     } 
 }
+
 
 class WhichInventory(Enum):
 
@@ -136,8 +147,12 @@ inventoryPosAdj = pygame.Vector2(382, 480)
 HotBarPosAdj = pygame.Vector2(382, 109)
 inventorySlotPosAdj = pygame.Vector2(357, 460)
 HotBarSlotPosAdj = pygame.Vector2(357, 90)
+inventoryOptionPosAdj = pygame.Vector2(382, 590)
 
-inevntoryStackSize = 84
+craftButtonAdj = pygame.Vector2(20, 20)
+craftTextAdj = pygame.Vector2(26, 12)
+
+inventoryStackSize = 84
 
 snapdetectAdj = pygame.Vector2(-5, -5)
 snapdetect2Adj = pygame.Vector2(-5, -48)
@@ -355,7 +370,8 @@ ColorPlattes = {
 
     "Future Blue": (39, 137, 205),
     "Supreme Yellow": (248, 197, 58),
-    "Pale White": (236, 235, 231)
+    "Pale White": (236, 235, 231),
+    "Glass Orange": (241, 100, 31)
 }
 
 def formatToClock(seconds: int):

@@ -56,6 +56,7 @@ class UI():
 
         if(self.inventory.toggle):
             self.drawInventory(window)
+            self.drawInventoryOptions(window)
 
         self.drawHotBar(window)
 
@@ -68,6 +69,48 @@ class UI():
         )
 
         self.drawGuiPlates(window, pygame.Vector2(6, 8), inventoryPos)
+
+    def getAllInventoryOptionsRect(self):
+
+        inventoryOptionsPos = pygame.Vector2(
+
+            utils.screenRect.width - utils.inventoryOptionPosAdj.x,
+            utils.screenRect.height - utils.inventoryOptionPosAdj.y
+        )
+
+        craftbuttonPos = pygame.Vector2(
+
+            inventoryOptionsPos.x + utils.craftButtonAdj.x,
+            inventoryOptionsPos.y + utils.craftButtonAdj.y
+        )
+
+        craftTextPos = pygame.Vector2(
+
+            craftbuttonPos.x + utils.craftTextAdj.x,
+            craftbuttonPos.y + utils.craftTextAdj.y,
+        )
+
+        return inventoryOptionsPos, craftbuttonPos, craftTextPos
+
+    def drawInventoryOptions(self, window):
+
+        inventoryOptionsPos, craftbuttonPos, craftTextPos = self.getAllInventoryOptionsRect()
+
+        craftText = utils.smfont.render("Craft", True, utils.ColorPlattes["Glass Orange"])
+
+        craftButtonState = utils.GuiPlates.LARGE_BUTTON_UNPRESSED 
+
+        if(utils.mouseHover(
+            pygame.Rect(
+                craftbuttonPos.x, craftbuttonPos.y, 
+                textures.images["guiPlates"]["image"]["FrameWidth"] * 2,
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+        ))):
+            craftButtonState = utils.GuiPlates.LARGE_BUTTON_PRESSED 
+
+        self.drawGuiPlates(window, pygame.Vector2(6, 2), inventoryOptionsPos)
+        self.drawGuiSinglePlate(window, craftbuttonPos, craftButtonState)
+        window.blit(craftText, craftTextPos)
 
     def drawHotBar(self, window):
 
@@ -97,7 +140,6 @@ class UI():
         self.batteryIndicator.update()
         window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
-
     def drawGuiPlates(self, window, size: pygame.Vector2, position: pygame.Vector2):
 
         for y in range(int(size.y)):
@@ -116,22 +158,22 @@ class UI():
     def configureguiPlateSelection(self, x: int, y: int, size: pygame.Vector2):
 
         if(y == 0 and x != 0 and x != size.x - 1):
-            return self.getguiPlatesSrcRect(utils.GuiPlates.TOP_MIDDLE)
+            return self.getGuiPlatesSrcRect(utils.GuiPlates.TOP_MIDDLE)
         elif(y == 0 and x == size.x - 1):
-            return self.getguiPlatesSrcRect(utils.GuiPlates.CORNER_TOP_RIGHT)
+            return self.getGuiPlatesSrcRect(utils.GuiPlates.CORNER_TOP_RIGHT)
         elif(y != 0 and x == 0 and y != size.y - 1):
-            return self.getguiPlatesSrcRect(utils.GuiPlates.MIDDLE_LEFT_SIDE)
+            return self.getGuiPlatesSrcRect(utils.GuiPlates.MIDDLE_LEFT_SIDE)
         elif(y != 0 and x != 0 and y != size.y - 1 and x != size.x - 1):
-            return self.getguiPlatesSrcRect(utils.GuiPlates.MIDDLE)
+            return self.getGuiPlatesSrcRect(utils.GuiPlates.MIDDLE)
         elif(y != 0 and y != size.y - 1 and x == size.x - 1):
-            return self.getguiPlatesSrcRect(utils.GuiPlates.MIDDLE_RIGHT_SIDE)
+            return self.getGuiPlatesSrcRect(utils.GuiPlates.MIDDLE_RIGHT_SIDE)
         elif(y == size.y - 1 and x == 0):
-            return self.getguiPlatesSrcRect(utils.GuiPlates.CORNER_BOTTOM_LEFT)
+            return self.getGuiPlatesSrcRect(utils.GuiPlates.CORNER_BOTTOM_LEFT)
         elif(y == size.y - 1 and x != 0 and x != size.x - 1):
-            return self.getguiPlatesSrcRect(utils.GuiPlates.BOTTOM_MIDDLE)
+            return self.getGuiPlatesSrcRect(utils.GuiPlates.BOTTOM_MIDDLE)
 
         elif(y == size.y - 1 and x == size.x - 1):
-            return self.getguiPlatesSrcRect(utils.GuiPlates.CORNER_BOTTOM_RIGHT)
+            return self.getGuiPlatesSrcRect(utils.GuiPlates.CORNER_BOTTOM_RIGHT)
 
         return pygame.Rect(
             0, 0, 
@@ -167,14 +209,28 @@ class UI():
             window.blit(textguide, positionText)
             window.blit(textures.images["keys"]["image"]["surface"], position, srcRect)
 
-    def getguiPlatesSrcRect(self, guiPlate: utils.GuiPlates):
+    def drawGuiSinglePlate(self, window, position: pygame.Vector2, guiPlate: utils.GuiPlates):
 
-        return pygame.Rect(
+        window.blit(textures.images["guiPlates"]["image"]["surface"], position, self.getGuiPlatesSrcRect(guiPlate))
+
+
+    def getGuiPlatesSrcRect(self, guiPlate: utils.GuiPlates):
+
+        if(len(utils.guiPlatesFrameMap[guiPlate]) == 2):
+            return pygame.Rect(
                 textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[guiPlate][0]), 
                 textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[guiPlate][1]),
                 textures.images["guiPlates"]["image"]["FrameWidth"],
                 textures.images["guiPlates"]["image"]["FrameHeight"]
             )
+        else:
+            return pygame.Rect(
+                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[guiPlate][0]), 
+                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[guiPlate][1]),
+                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[guiPlate][2]),
+                textures.images["guiPlates"]["image"]["FrameHeight"] * float(utils.guiPlatesFrameMap[guiPlate][3])
+            )
+
     
     def configureImages(self):
 
