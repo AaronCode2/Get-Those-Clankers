@@ -1,19 +1,14 @@
 from enum import Enum
+import classes.utility.utils as utils
 
 # All the crafter stuff plus more
-
-class itemsIndex(Enum):
-
-    SCRAP_IGNOT = 0
-    RINGED_TIN = 1
-    SCREW = 2
-    BOLT = 3
-    RAW_IRON = 4
-    SOFT_STEEL = 5
-    SOLAR_PANEL = 6
-    BARRIER = 7
-
 # ItemGiven is how much is gotten from crafting that
+
+class RecipeCrafts(Enum):
+
+    CRAFT_SOLAR_PANEL = 0
+    CRAFT_BARRIER = 1
+    CRAFT_SOFT_STEEL = 2
 
 class RecipeIndex(Enum):
 
@@ -23,42 +18,39 @@ class RecipeIndex(Enum):
 
 recipes = {
 
-    itemsIndex.SOLAR_PANEL: {
+    RecipeCrafts.CRAFT_SOLAR_PANEL: {
 
         RecipeIndex.ItemGiven: 1,
 
         RecipeIndex.ItemNeeded: (
-            (
-                (itemsIndex.SOFT_STEEL, 1),
-                (itemsIndex.BOLT, 4)
-            )
+
+            (utils.ItemType.SOFT_STEEL, 1),
+            (utils.ItemType.BOLT, 4)
         ),
 
         RecipeIndex.ItemDescription: "Makes stuff!"
     },
 
-    itemsIndex.BARRIER: {   
+    RecipeCrafts.CRAFT_BARRIER: {   
 
         RecipeIndex.ItemGiven: 5,
 
         RecipeIndex.ItemNeeded: (
-            (
-                (itemsIndex.RINGED_TIN, 1),
-                (itemsIndex.BOLT, 4)
-            )
+
+            (utils.ItemType.RINGED_TIN, 1),
+            (utils.ItemType.BOLT, 4)
         ),
 
         RecipeIndex.ItemDescription: "Makes stuff!"
     },
 
-    itemsIndex.SOFT_STEEL: {
+    RecipeCrafts.CRAFT_SOFT_STEEL: {
 
         RecipeIndex.ItemGiven: 4,
 
-        RecipeIndex.ItemNeeded: (
-            (
-                (itemsIndex.RAW_IRON, 4),
-            )
+        RecipeIndex.ItemNeeded:(
+
+            (utils.ItemType.RAW_IRON, 4),
         ),
 
         RecipeIndex.ItemDescription: "Makes stuff!"

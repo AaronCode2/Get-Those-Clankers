@@ -1,6 +1,7 @@
 import pygame
 import classes.utility.utils as utils
 import classes.utility.textures as textures
+import classes.utility.crafterRecipes as crafterRecipes
 
 class Crafter():
 
@@ -17,8 +18,20 @@ class Crafter():
         # The crafter is split in two sections
 
         self.drawSectionInfo(window)
+        self.drawSectionCraftItems(window)
 
     # Crafter symbol: :=: , it looks cool
+
+    def getSectionCraftItemsRect(self):
+        pass
+
+    
+    def drawSectionCraftItems(self, window):
+
+        for i in range(len(crafterRecipes.RecipeCrafts)):
+            print("a")
+
+            # recipe
 
     def drawSectionInfo(self, window):
 

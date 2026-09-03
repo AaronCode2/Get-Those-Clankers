@@ -228,6 +228,8 @@ crafterPosMarPlatePosAdj2 = pygame.Vector2(400, 20)
 craftButtonAdj = pygame.Vector2(612, 116)
 craftButtonTextAdj = pygame.Vector2(563, 107)
 
+crafterGridSize = pygame.Vector2(4, 5)
+
 inventoryStackSize = 84
 
 snapdetectAdj = pygame.Vector2(-5, -5)
