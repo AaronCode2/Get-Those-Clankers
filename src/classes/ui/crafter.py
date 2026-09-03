@@ -26,7 +26,6 @@ class Crafter():
     def getSectionCraftItemsRect(self):
         pass
 
-    
     def drawSectionCraftItems(self, window, inventory):
 
         utils.dev_updatePositionsAdjuster()

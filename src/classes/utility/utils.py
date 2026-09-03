@@ -211,6 +211,9 @@ def convertToTileType(ItemType: ItemType):
         case ItemType.BARRIER:
             return TileType.BARRIER
 
+        case _:
+            return None
+
 screenRect = pygame.Rect()
 windowResized = False
 

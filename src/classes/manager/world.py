@@ -18,6 +18,7 @@ class World():
         self.initTextures()
 
         self.currentSelectedSlot = None
+        self.currentSelectedSlotIndex = None
         self.batteryGenator = batteryGen.BatteryGenenator()
         self.setupPrieviewTile()
 
@@ -49,11 +50,8 @@ class World():
             "image": textures.images["Tiles"]["image"]["surface"].copy(),
             "srcRect": None
         }
-
         
         self.selectedTileType = utils.TileType.SOLAR_PANEL
-
-
 
         self.destPreviewRect = pygame.Vector2(0, 0)
 
@@ -196,6 +194,15 @@ class World():
                     isTilePlaceable = False
                     return
             if(isTilePlaceable):
+
+                if(self.currentSelectedSlot != None):
+
+                    if(self.currentSelectedSlot.amount >= 1):
+                        self.currentSelectedSlot.amount -= 1
+                    else:
+                        self.currentSelectedSlot = None
+                        return
+
                 self.tiles.append(tiles.Tile(
                     pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
                     self.selectedTileType, self.defaultRotation
@@ -224,6 +231,10 @@ class World():
     def update(self, window):
 
         if(self.currentSelectedSlot != None):
+
+            if(self.currentSelectedSlot.amount == 0):
+                self.currentSelectedSlot.type = utils.ItemType.NONE
+
             self.selectedTileType = utils.convertToTileType(self.currentSelectedSlot.type)
         else:
             self.selectedTileType = None
