@@ -99,6 +99,6 @@ recipes = {
             (utils.ItemType.RAW_IRON, 1),
         ),
 
-        RecipeIndex.ItemDescription: "Makes stuff!"
+        RecipeIndex.ItemDescription: "add some Iron \n It's good"
     },
 }

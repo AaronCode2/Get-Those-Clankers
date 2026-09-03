@@ -24,6 +24,7 @@ def dev_updatePositionsAdjuster():
 
 font = None
 smfont = None
+ssmfont = None
 
 class TypeOfGuiPlates(Enum):
 
@@ -245,6 +246,8 @@ scrollWheel = pygame.Vector2(0, 0)
 tileMaxFrames = 1.0
 
 batteryIndicatorPos = pygame.Vector2(180, 30)
+
+descriptionPosAdj = pygame.Vector2(599, 556)
 
 adjmousePos = pygame.Vector2(-24, -24)
 

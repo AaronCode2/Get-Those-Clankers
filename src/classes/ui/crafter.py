@@ -8,6 +8,7 @@ class Crafter():
     def __init__(self):
 
         self.isCraftable = True
+        self.selectedRecipe = None
 
         print("Craft system activated")
 
@@ -61,26 +62,41 @@ class Crafter():
                 crafterRecipeButtonPos.y + utils.itemPosAdj.y,
             )
 
-            if(utils.mouseHover(pygame.Rect(
+            if(utils.mouseClickedL(pygame.Rect(
                 crafterRecipeButtonPos.x, crafterRecipeButtonPos.y, 
                 utils.smallButtonSize, utils.smallButtonSize 
             ))):
+                if(self.selectedRecipe != crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)]):
+                    self.selectedRecipe =  crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)]
+                else:
+                    self.selectedRecipe = None
+
+            if(self.selectedRecipe == crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)]):
                 guiPlateButton = utils.GuiPlates.SMALL_BUTTON_PRESSED
             else:
                 guiPlateButton = utils.GuiPlates.SMALL_BUTTON_UNPRESSED
+
 
             textures.drawGuiSinglePlate(window, crafterRecipeButtonPos, guiPlateButton)
             window.blit(textures.images["Items"]["image"]["surface"], itemPos, itemSrcRect)
             
     def drawSectionInfo(self, window):
 
-        craftButtonPos, craftTextPos, guiPlate, crafterText, crafterTextColor = self.getSectionInfoRects()
+        craftButtonPos, craftTextPos, guiPlate, crafterText, crafterTextColor, descriptionPos = self.getSectionInfoRects()
 
         craftText = utils.font.render(crafterText, True, crafterTextColor)
 
         textures.drawGuiSinglePlate(window, craftButtonPos, guiPlate)
         window.blit(craftText, craftTextPos)
 
+        if(self.selectedRecipe != None):
+
+            descriptionText = utils.ssmfont.render(
+                self.selectedRecipe[crafterRecipes.RecipeIndex.ItemDescription], 
+                True, utils.ColorPlattes["Pale White"]
+            )
+            window.blit(descriptionText, descriptionPos)
+        
     def getSectionInfoRects(self):
 
         utils.dev_updatePositionsAdjuster()
@@ -95,6 +111,14 @@ class Crafter():
             utils.screenRect.width - utils.craftButtonTextAdj.x,
             utils.screenRect.height - utils.craftButtonTextAdj.y
         ) 
+
+        utils.dev_updatePositionsAdjuster()
+
+        descriptionPos = pygame.Vector2(
+
+            utils.screenRect.width - utils.descriptionPosAdj.x,
+            utils.screenRect.height - utils.descriptionPosAdj.y
+        )
 
         if(self.isCraftable):
 
@@ -114,7 +138,7 @@ class Crafter():
             crafterText = ": = :"
             crafterTextColor = utils.ColorPlattes["Grey Cloud"]
 
-        return craftButtonPos, craftTextPos, guiPlate, crafterText, crafterTextColor
+        return craftButtonPos, craftTextPos, guiPlate, crafterText, crafterTextColor, descriptionPos
 
     def drawBackgroundOverlay(self, window):
 
