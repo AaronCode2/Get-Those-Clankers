@@ -23,7 +23,7 @@ class BatteryGenenator():
 
         # Meaursed in KWatts/hour, 
 
-        self.wattsGenerated = 64
+        self.wattsGenerated = 106
         self.capacity = 106 
         self.day = 0
         self.timeLeftText = 120
@@ -115,8 +115,6 @@ class BatteryGenenator():
 
         percentage = math.ceil((self.wattsGenerated / self.capacity) * 100) 
 
-        print(percentage)
-
         for i in range(utils.batteryStages):
 
             if(percentage >= i * 20):
@@ -135,7 +133,6 @@ class BatteryGenenator():
     def setBatteryLevel(self, batterylevel):
 
         self.srcRect.x = float(textures.images["Battery"]["image"]["FrameWidth"] * batterylevel.value)
-        self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][batterylevel.value])
         self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][batterylevel.value])
 
     def handleGridExports(self):

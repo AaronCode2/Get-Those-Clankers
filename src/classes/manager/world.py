@@ -27,10 +27,24 @@ class World():
             tiles.Tile(
                 pygame.Vector2(
                 300, 200
-                ), utils.TileType.BARRIER,
+                ), utils.TileType.SOLAR_PANEL,
                 utils.RotationType.DOWN
             )
         )
+        self.tiles.append(
+            tiles.Tile(
+                pygame.Vector2(
+                400, 260
+                ), utils.TileType.BARRIER,
+                utils.RotationType.DOWN
+        ))
+        self.tiles.append(
+            tiles.Tile(
+                pygame.Vector2(
+                600, 230
+                ), utils.TileType.SOLAR_PANEL,
+                utils.RotationType.DOWN
+        ))
 
     def updateTileSrcRect(self):
 
