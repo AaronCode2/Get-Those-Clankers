@@ -20,6 +20,8 @@ class RecipeIndex(Enum):
     ItemGiven = 2,
     ItemDescription = 3
 
+# 17 chars per \n @RecipeIndex.ItemDescription
+
 recipes = {
 
     RecipeCrafts.CRAFT_SOLAR_PANEL: {
@@ -33,7 +35,8 @@ recipes = {
             (utils.ItemType.BOLT, 4)
         ),
 
-        RecipeIndex.ItemDescription: "Makes stuff!"
+
+        RecipeIndex.ItemDescription: "Use to power the\nbatteries and is\nslow,can be placed\non the ground"
     },
 
     RecipeCrafts.CRAFT_BARRIER: {   
@@ -47,7 +50,7 @@ recipes = {
             (utils.ItemType.BOLT, 4)
         ),
 
-        RecipeIndex.ItemDescription: "Makes stuff!"
+        RecipeIndex.ItemDescription: "Make defenses and\nplace them on the\nground"
     },
 
     RecipeCrafts.CRAFT_SOFT_STEEL: {
@@ -60,7 +63,7 @@ recipes = {
             (utils.ItemType.RAW_IRON, 4),
         ),
 
-        RecipeIndex.ItemDescription: "Makes stuff!"
+        RecipeIndex.ItemDescription: "Very useful for\ncrafting"
     },
 
     RecipeCrafts.CRAFT_BOLT: {
@@ -73,7 +76,7 @@ recipes = {
             (utils.ItemType.RAW_IRON, 1),
         ),
 
-        RecipeIndex.ItemDescription: "Makes stuff!"
+        RecipeIndex.ItemDescription: "Gives us utils and\ncore ingredient\nfor upgrading"
     },
 
     RecipeCrafts.CRAFT_SCREW: {
@@ -86,7 +89,7 @@ recipes = {
             (utils.ItemType.RAW_IRON, 1),
         ),
 
-        RecipeIndex.ItemDescription: "Makes stuff!"
+        RecipeIndex.ItemDescription: "Can be great to\nhave around"
     },
 
     RecipeCrafts.CRAFT_SCRAP_INGOT: {
@@ -99,6 +102,6 @@ recipes = {
             (utils.ItemType.RAW_IRON, 1),
         ),
 
-        RecipeIndex.ItemDescription: "add some Iron \n It's good"
+        RecipeIndex.ItemDescription: "Better Iron and\ncheaper steel"
     },
 }

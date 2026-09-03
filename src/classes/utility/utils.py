@@ -3,7 +3,7 @@ from enum import Enum
 
 # For constants and utility
 
-dev_PositionAdjuster = pygame.Vector2(800, 500)
+dev_PositionAdjuster = pygame.Vector2(10, 500)
 dev_PositionAdjusterToggle = False
 
 # This for UI stuff
@@ -233,6 +233,12 @@ craftButtonTextAdj = pygame.Vector2(563, 107)
 
 crafterGridSize = pygame.Vector2(4, 5)
 crafterRecipeButtonPosAdj = pygame.Vector2(976, 611)
+
+itemRequiredPosAdj = pygame.Vector2(598, 373)
+itemRequiredTextPosAdj = 40
+
+itemGivenPosAdj = pygame.Vector2(594, 152)
+itemGivenTextPosAdj = 37
 
 inventoryStackSize = 84
 

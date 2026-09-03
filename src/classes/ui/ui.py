@@ -59,7 +59,7 @@ class UI():
         self.drawBatteryDisplayHud(window)
 
         if(self.inventory.isCrafterToggled and self.inventory.toggle):
-           self.crafter.update(window)
+           self.crafter.update(window, self.inventory)
 
         self.inventory.update(window)
 

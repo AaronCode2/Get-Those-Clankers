@@ -46,6 +46,9 @@ class Inventory():
         self.slots[3][1].amount = 15
         self.slots[3][1].type = utils.ItemType.SCREW
 
+        self.slots[4][1].amount = 4
+        self.slots[4][1].type = utils.ItemType.RAW_IRON
+
         self.isCrafterToggled = True
         self.selectedSlot = None
         self.slotSelectedSrcRect = None
@@ -111,6 +114,16 @@ class Inventory():
         )
 
         textures.drawGuiPlates(window, pygame.Vector2(6, 2), hotBarPos)
+
+    def inventoryHasItem(self, type: utils.ItemType, amount: int):
+
+        for y in range(len(self.slots)):
+            for x in range(len(self.slots[0])):
+
+                if(self.slots[y][x].type == type and amount <= self.slots[y][x].amount):
+                    return True
+
+        return False
 
     def getSelectedSlot(self, slot: Slot, itemSrcRect: pygame.Rect, slotPos: pygame.Vector2):
 
