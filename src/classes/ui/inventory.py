@@ -22,7 +22,7 @@ class Inventory():
 
     def __init__(self):
 
-        self.toggle = False
+        self.toggle = True
         self.mousepos = pygame.mouse.get_pos()
 
         # a 5x6 inventory! - 30slots
@@ -70,7 +70,7 @@ class Inventory():
         self.mousepos = pygame.mouse.get_pos()
 
     def drawInventoryBackground(self, window):
-        
+
         if(self.toggle):
             inventoryPos = pygame.Vector2(
 
@@ -252,7 +252,7 @@ class Inventory():
         ))):
             color = utils.ColorPlattes["Supreme Yellow"]
     
-        craftText = utils.smfont.render("Craft", True, color)
+        craftText = utils.smfont.render("Crafter", True, color)
     
         textures.drawGuiPlates(window, pygame.Vector2(6, 2), inventoryOptionsPos)
         textures.drawGuiSinglePlate(window, craftbuttonPos, craftButtonState)

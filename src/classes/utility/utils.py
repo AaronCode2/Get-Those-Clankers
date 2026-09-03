@@ -219,13 +219,14 @@ largeButtonSizeHeight = 64
 # Crafter and craft are two different things! don't get confused
 
 crafterButtonAdj = pygame.Vector2(20, 20)
-crafterTextAdj = pygame.Vector2(26, 12)
+crafterTextAdj = pygame.Vector2(18, 12)
 
 crafterPosAdj = pygame.Vector2(1010, 590)
 crafterPosMarPlatePosAdj1 = pygame.Vector2(10, 20)
 crafterPosMarPlatePosAdj2 = pygame.Vector2(400, 20)
 
 craftButtonAdj = pygame.Vector2(612, 116)
+craftButtonTextAdj = pygame.Vector2(563, 107)
 
 inventoryStackSize = 84
 
@@ -443,7 +444,8 @@ ColorPlattes = {
     "Future Blue": (39, 137, 205),
     "Supreme Yellow": (248, 197, 58),
     "Pale White": (236, 235, 231),
-    "Glass Orange": (241, 100, 31)
+    "Glass Orange": (241, 100, 31),
+    "Grey Cloud": (128, 123, 128)
 }
 
 def formatToClock(seconds: int):

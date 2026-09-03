@@ -6,6 +6,8 @@ class Crafter():
 
     def __init__(self):
 
+        self.isCraftable = True
+
         print("Craft system activated")
 
     def update(self, window):
@@ -18,13 +20,14 @@ class Crafter():
 
     # Crafter symbol: :=: , it looks cool
 
-
-
     def drawSectionInfo(self, window):
 
-        craftButtonPos, craftTextPos, guiPlate = self.getSectionInfoRects()
+        craftButtonPos, craftTextPos, guiPlate, crafterText, crafterTextColor = self.getSectionInfoRects()
+
+        craftText = utils.font.render(crafterText, True, crafterTextColor)
 
         textures.drawGuiSinglePlate(window, craftButtonPos, guiPlate)
+        window.blit(craftText, craftTextPos)
 
     def getSectionInfoRects(self):
 
@@ -37,20 +40,29 @@ class Crafter():
         ) 
 
         craftTextPos = pygame.Vector2(
-            utils.screenRect.width - utils.dev_PositionAdjuster.x,
-            utils.screenRect.height - utils.dev_PositionAdjuster.y
+            utils.screenRect.width - utils.craftButtonTextAdj.x,
+            utils.screenRect.height - utils.craftButtonTextAdj.y
         ) 
 
-        if(utils.mouseHover(pygame.Rect(
-            craftButtonPos.x, craftButtonPos.y, 
-            utils.largeButtonSizeWidth, 
-            utils.largeButtonSizeHeight
-        ))):
-            guiPlate = utils.GuiPlates.XL_ORANGE_BUTTON_PRESSED
-        else:
-            guiPlate = utils.GuiPlates.XL_ORANGE_BUTTON_UNPRESSED
+        if(self.isCraftable):
 
-        return craftButtonPos, craftTextPos, guiPlate
+            crafterText = "CRAFT" 
+            crafterTextColor = utils.ColorPlattes["Pale White"]
+            
+            if(utils.mouseHover(pygame.Rect(
+                craftButtonPos.x, craftButtonPos.y, 
+                utils.largeButtonSizeWidth, 
+                utils.largeButtonSizeHeight
+            ))):
+                guiPlate = utils.GuiPlates.XL_ORANGE_BUTTON_PRESSED
+            else:
+                guiPlate = utils.GuiPlates.XL_ORANGE_BUTTON_UNPRESSED
+        else:
+            guiPlate = utils.GuiPlates.XL_BUTTON_UNPRESSED
+            crafterText = ": = :"
+            crafterTextColor = utils.ColorPlattes["Grey Cloud"]
+
+        return craftButtonPos, craftTextPos, guiPlate, crafterText, crafterTextColor
 
     def drawBackgroundOverlay(self, window):
 
