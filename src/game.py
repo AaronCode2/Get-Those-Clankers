@@ -30,6 +30,9 @@ class Game():
 
         # This where everything should go e.g player.update()
         self.world.update(self.window)
+
+        self.world.setCurrentselectedSlot(self.ui.getInventoryHotBarSelectedSlot())
+
         self.ui.setBatteryStuff(
             self.world.batteryGenator.level, 
             self.world.batteryGenator.timeLeft, 

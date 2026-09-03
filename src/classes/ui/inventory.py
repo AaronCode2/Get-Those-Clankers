@@ -22,10 +22,12 @@ class Inventory():
 
     def __init__(self):
 
-        self.toggle = True
+        self.toggle = False
         self.mousepos = pygame.mouse.get_pos()
 
-        # a 5x6 inventory! - 30slots
+
+        self.setupHotBarSelector()
+         # a 5x6 inventory! - 30slots
 
         self.slots = [
 
@@ -49,12 +51,28 @@ class Inventory():
         self.slots[4][1].amount = 4
         self.slots[4][1].type = utils.ItemType.RAW_IRON
 
+        self.slots[5][2].amount = 4
+        self.slots[5][2].type = utils.ItemType.SOLAR_PANEL
+
+        
+        self.slots[5][4].amount = 8
+        self.slots[5][4].type = utils.ItemType.BARRIER
+
         self.isCrafterToggled = True
         self.selectedSlot = None
         self.slotSelectedSrcRect = None
         self.slotSelectedPos = None
 
         self.configureItemTextures()
+
+    def setupHotBarSelector(self):
+
+        self._selectedHotBarSlotIndex = 1
+        self._selectedHotBarSlot = None
+
+        textures.images["Selector"]["image"]["surface"] = pygame.image.load(textures.images["Selector"]["location"]).convert_alpha()
+        textures.images["Selector"]["image"]["surface"] = pygame.transform.scale2x(textures.images["Selector"]["image"]["surface"]).convert_alpha()
+               
 
     def update(self, window):
 
@@ -83,7 +101,6 @@ class Inventory():
 
             textures.drawGuiPlates(window, pygame.Vector2(6, 8), inventoryPos)
 
-
         self.drawBackgroundHotBar(window)
 
 
@@ -103,7 +120,9 @@ class Inventory():
         ) 
         
         window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(mousePos[0], mousePos[1]), self.slotSelectedSrcRect)
-        window.blit(text, textPos)
+
+        if(self.selectedSlot.amount != 0):
+            window.blit(text, textPos)
 
     def drawBackgroundHotBar(self, window):
 
@@ -112,6 +131,9 @@ class Inventory():
             utils.screenRect.width - utils.HotBarPosAdj.x,
             utils.screenRect.height - utils.HotBarPosAdj.y,
         )
+
+        if(utils.mouseHover(pygame.Rect(hotBarPos.x, hotBarPos.y, utils.hotBarSizeWidth, utils.hotBarSizeHeight))):
+            utils.activateTilePlacer = False
 
         textures.drawGuiPlates(window, pygame.Vector2(6, 2), hotBarPos)
 
@@ -213,10 +235,29 @@ class Inventory():
                     text = utils.smfont.render(str(self.slots[y][x].amount), True, utils.ColorPlattes["Pale White"])
                     window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(itemPos.x, itemPos.y), itemSrcRect)
                     window.blit(text, textPos)
+
+                self.updateSelectorHotBarSlot(window, x, buttonRect)
                     
         self.handleUserDropFeature(mouseKey)
 
         self.updateSelectedSlot(window)
+
+    def updateSelectorHotBarSlot(self, window, x: int, buttonRect: pygame.Rect):
+
+        if(self._selectedHotBarSlotIndex == x and not self.toggle):
+            window.blit(textures.images["Selector"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y))
+        else:
+
+            if(utils.mouseClickedOnceL(buttonRect)):
+                self._selectedHotBarSlotIndex = x
+
+                if(self.slots[utils.hotBarindex][x].type != utils.ItemType.NONE):
+                    self._selectedHotBarSlot = self.slots[utils.hotBarindex][self._selectedHotBarSlotIndex]
+                else:
+                    self._selectedHotBarSlot = None
+
+    def getSelectedHotBarSlot(self):
+        return self._selectedHotBarSlot
 
     def handleUserDropFeature(self, mouseKey):
 
@@ -226,7 +267,10 @@ class Inventory():
 
     def handleUserInput(self, slot: Slot, itemSrcRect: pygame.Rect, x, y, buttonRect: pygame.Rect, mouseKey):
 
-        if(utils.mouseClickedL(buttonRect) and self.selectedSlot == None and self.slots[y][x].type ):
+        if(not self.toggle):
+            return
+
+        if(utils.mouseClickedL(buttonRect) and self.selectedSlot == None and self.slots[y][x].type):
             self.doItemMoving(self.slots[y][x], itemSrcRect, x, y)
         elif(utils.mouseClickedR(buttonRect) and self.slots[y][x].type != utils.ItemType.NONE):
             self.doSpilting(self.slots[y][x])

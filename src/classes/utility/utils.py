@@ -201,8 +201,21 @@ class ItemType(Enum):
     SOLAR_PANEL = 6
     BARRIER = 7
 
+def convertToTileType(ItemType: ItemType):
+
+    match(ItemType):
+
+        case ItemType.SOLAR_PANEL:
+            return TileType.SOLAR_PANEL
+
+        case ItemType.BARRIER:
+            return TileType.BARRIER
+
 screenRect = pygame.Rect()
 windowResized = False
+
+hotBarSizeWidth = 64 * 6
+hotBarSizeHeight = 64 * 2
 
 activateTilePlacer = True
 

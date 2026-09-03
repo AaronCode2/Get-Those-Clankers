@@ -107,6 +107,9 @@ class UI():
 
             window.blit(textguide, positionText)
             window.blit(textures.images["keys"]["image"]["surface"], position, srcRect)
+
+    def getInventoryHotBarSelectedSlot(self):
+        return self.inventory.getSelectedHotBarSlot()
     
     def configureImages(self):
 

@@ -97,6 +97,19 @@ images = {
                 "FrameWidth": None,
                 "FrameHeight": None
             },
+        },
+
+        "Selector": {
+
+            "location": "assets/ui/selector.png",
+            "FramesX": 1,
+            "FramesY": 1,
+            "image": {
+
+                "surface": None,
+                "FrameWidth": 64,
+                "FrameHeight": 64
+            },
         }
 }
 

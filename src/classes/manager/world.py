@@ -16,6 +16,8 @@ class World():
         self.tiles = []
 
         self.initTextures()
+
+        self.currentSelectedSlot = None
         self.batteryGenator = batteryGen.BatteryGenenator()
         self.setupPrieviewTile()
 
@@ -29,6 +31,16 @@ class World():
             )
         )
 
+    def updateTileSrcRect(self):
+
+        self.previewTile["image"].set_alpha(100)
+        self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
+            textures.images["Tiles"]["image"]["FrameWidth"],
+            textures.images["Tiles"]["image"]["FrameHeight"],
+            self.selectedTileType,
+            self.defaultRotation
+        )
+
     def setupPrieviewTile(self):
 
         self.defaultRotation = utils.RotationType.DOWN
@@ -38,17 +50,15 @@ class World():
             "srcRect": None
         }
 
+        
         self.selectedTileType = utils.TileType.SOLAR_PANEL
 
-        self.previewTile["image"].set_alpha(100)
-        self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
-                textures.images["Tiles"]["image"]["FrameWidth"],
-                textures.images["Tiles"]["image"]["FrameHeight"],
-                self.selectedTileType,
-                self.defaultRotation
-        )
+
 
         self.destPreviewRect = pygame.Vector2(0, 0)
+
+    def setCurrentselectedSlot(self, slot):
+        self.currentSelectedSlot = slot
 
     def drawPreviewPlacer(self, window):
         
@@ -201,6 +211,8 @@ class World():
 
     def updateTilePlacer(self, window):
 
+        self.updateTileSrcRect()
+
         mouseEvent, mousePos, snapMode = self.handleInputplacer()
         mouseRect = pygame.Rect(mousePos[0], mousePos[1], utils.defaultImageSizes, utils.defaultImageSizes)
 
@@ -211,7 +223,12 @@ class World():
 
     def update(self, window):
 
-        if(utils.activateTilePlacer):
+        if(self.currentSelectedSlot != None):
+            self.selectedTileType = utils.convertToTileType(self.currentSelectedSlot.type)
+        else:
+            self.selectedTileType = None
+
+        if(utils.activateTilePlacer and self.selectedTileType != None):
             self.updateTilePlacer(window)
 
         for tile in self.tiles:
