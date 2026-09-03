@@ -3,7 +3,7 @@ from game import *
 
 def init():
 
-    pygame.display.set_caption("Pygame Window")
+    pygame.display.set_caption("Yet To Be Decided")
     pygame.init()
     pygame.font.init()
 

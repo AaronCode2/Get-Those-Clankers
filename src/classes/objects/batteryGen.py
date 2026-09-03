@@ -116,6 +116,11 @@ class BatteryGenenator():
         percentage = math.ceil((self.wattsGenerated / self.capacity) * 100) 
 
         print(percentage)
+
+        for i in range(utils.batteryStages):
+
+            if(percentage >= i * 20):
+                self.setBatteryLevel(utils.BatteryLevel(utils.batteryStages - i))
         # if(time() - int(self.timeStamp) >= self.timeLeft):
 
         #     self.timeStamp = time()
