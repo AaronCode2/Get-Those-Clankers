@@ -213,8 +213,10 @@ inventorySlotPosAdj = pygame.Vector2(357, 460)
 HotBarSlotPosAdj = pygame.Vector2(357, 90)
 inventoryOptionPosAdj = pygame.Vector2(382, 590)
 
-largeButtonSizeWidth = 192
-largeButtonSizeHeight = 64
+smallButtonSize = 64
+
+XLButtonSizeWidth = 192
+XLButtonSizeHeight = 64
 
 # Crafter and craft are two different things! don't get confused
 
@@ -229,6 +231,7 @@ craftButtonAdj = pygame.Vector2(612, 116)
 craftButtonTextAdj = pygame.Vector2(563, 107)
 
 crafterGridSize = pygame.Vector2(4, 5)
+crafterRecipeButtonPosAdj = pygame.Vector2(976, 611)
 
 inventoryStackSize = 84
 

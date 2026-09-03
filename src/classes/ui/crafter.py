@@ -28,11 +28,50 @@ class Crafter():
     
     def drawSectionCraftItems(self, window):
 
+        utils.dev_updatePositionsAdjuster()
+        y = 0
+
         for i in range(len(crafterRecipes.RecipeCrafts)):
-            print("a")
 
-            # recipe
+            index = i
 
+            if(i % 5 == 0): 
+                y += 1
+                i = 0 
+
+            crafterRecipeButtonPos = pygame.Vector2(
+
+                utils.screenRect.width - utils.crafterRecipeButtonPosAdj.x + (utils.smallButtonSize * i),
+                utils.screenRect.height - utils.crafterRecipeButtonPosAdj.y + (utils.smallButtonSize * y),
+            )
+
+            itemType = crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)][crafterRecipes.RecipeIndex.ItemTypeGiven]
+
+            itemSrcRect = pygame.Rect(
+
+                textures.images["Items"]["image"]["FrameWidth"] * itemType.value,
+                0,
+                textures.images["Items"]["image"]["FrameWidth"],
+                textures.images["Items"]["image"]["FrameHeight"],
+            )
+
+            itemPos = pygame.Vector2(
+
+                crafterRecipeButtonPos.x + utils.itemPosAdj.x,
+                crafterRecipeButtonPos.y + utils.itemPosAdj.y,
+            )
+
+            if(utils.mouseHover(pygame.Rect(
+                crafterRecipeButtonPos.x, crafterRecipeButtonPos.y, 
+                utils.smallButtonSize, utils.smallButtonSize 
+            ))):
+                guiPlateButton = utils.GuiPlates.SMALL_BUTTON_PRESSED
+            else:
+                guiPlateButton = utils.GuiPlates.SMALL_BUTTON_UNPRESSED
+
+            textures.drawGuiSinglePlate(window, crafterRecipeButtonPos, guiPlateButton)
+            window.blit(textures.images["Items"]["image"]["surface"], itemPos, itemSrcRect)
+            
     def drawSectionInfo(self, window):
 
         craftButtonPos, craftTextPos, guiPlate, crafterText, crafterTextColor = self.getSectionInfoRects()
@@ -64,8 +103,8 @@ class Crafter():
             
             if(utils.mouseHover(pygame.Rect(
                 craftButtonPos.x, craftButtonPos.y, 
-                utils.largeButtonSizeWidth, 
-                utils.largeButtonSizeHeight
+                utils.XLButtonSizeWidth, 
+                utils.XLButtonSizeHeight
             ))):
                 guiPlate = utils.GuiPlates.XL_ORANGE_BUTTON_PRESSED
             else:
