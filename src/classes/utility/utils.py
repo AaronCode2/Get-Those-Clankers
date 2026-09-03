@@ -230,6 +230,12 @@ inventorySlotPosAdj = pygame.Vector2(357, 460)
 HotBarSlotPosAdj = pygame.Vector2(357, 90)
 inventoryOptionPosAdj = pygame.Vector2(382, 590)
 
+solarImportMin = 1
+solarImportMax = 4
+
+batterydelateMin = 3
+batterydelateMax = 10
+
 smallButtonSize = 64
 
 XLButtonSizeWidth = 192
@@ -250,6 +256,8 @@ craftButtonTextAdj = pygame.Vector2(563, 107)
 crafterGridSize = pygame.Vector2(4, 5)
 crafterRecipeButtonPosAdj = pygame.Vector2(976, 611)
 
+batteryBackgroundHudPos = pygame.Vector2(10, 10)
+
 itemRequiredPosAdj = pygame.Vector2(598, 373)
 itemRequiredTextPosAdj = 40
 
@@ -267,7 +275,7 @@ defaultImageSizes = 64
 scrollWheel = pygame.Vector2(0, 0)
 tileMaxFrames = 1.0
 
-batteryIndicatorPos = pygame.Vector2(180, 30)
+batteryIndicatorPos = pygame.Vector2(200, 30)
 
 descriptionPosAdj = pygame.Vector2(599, 556)
 
@@ -465,8 +473,8 @@ def configureRotatedImageForPreview(width, height, type, rotation):
 BatteryDisplayHudPositions = {
 
     "TimeLeft": pygame.Vector2(12, 30),
-    "WattsUsed": pygame.Vector2(13, 65),
-    "WattsGenerated": pygame.Vector2(13, 100)
+    "WattsGenerated": pygame.Vector2(13, 65),
+    "Day": pygame.Vector2(13, 100)
 }
 
 ColorPlattes = {
@@ -500,6 +508,8 @@ rotations = {
     RotationType.UP: 180,
     RotationType.RIGHT: 270
 }
+
+batteryStages = 5
 
 class BatteryLevel(Enum):
 
