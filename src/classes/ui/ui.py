@@ -12,37 +12,10 @@ class UI():
 
         self.configureImages()
 
-        self.batteryIndicator = animation.AnimationManager(
-            textures.images["batteryIndicator"]["location"],
-            textures.images["batteryIndicator"]["FramesY"],
-            [textures.images["batteryIndicator"]["FramesX"]] * 6,
-            textures.images["batteryIndicator"]["animationNames"],
-            True
-        )
-
-        self.wattsUsed = "10W"
-        self.wattsGenerated = "10W"
-        self.timeLeft = 120
-
         self.timeStamp = time()
 
         self.inventory = inventory.Inventory()
         self.crafter = crafter.Crafter()
-
-        self.batteryIndicator.position = pygame.Vector2(utils.batteryIndicatorPos.x, utils.batteryIndicatorPos.y)
-        self.batteryIndicator.level = utils.BatteryLevel.BATTERY_FULL
-        self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][self.batteryIndicator.level.value])
-        self.batteryIndicator.animation_speed = 1
-
-    def setBatteryStuff(self, batteryLevel, timeLeft, wattsUsed, wattsGenerated):
-
-        self.timeLeft = "Time:" + utils.formatToClock(timeLeft)
-        self.wattsUsed = "Used:" + str(wattsUsed) + "W"
-        self.wattsGenerated = "Made:" + str(wattsGenerated) + "W"
-
-        if(self.batteryIndicator.level != batteryLevel):
-            self.batteryIndicator.level = batteryLevel
-            self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][self.batteryIndicator.level.value])
 
     def update(self, window):
 
@@ -56,29 +29,11 @@ class UI():
     def draw(self, window):
 
         self.displayKeyGuides(window)
-        self.drawBatteryDisplayHud(window)
 
         if(self.inventory.isCrafterToggled and self.inventory.toggle):
            self.crafter.update(window, self.inventory)
 
         self.inventory.update(window)
-
-    def drawBatteryDisplayHud(self, window):
-
-        textures.drawGuiPlates(window, pygame.Vector2(4, 3), pygame.Vector2(10, 10))
-
-        textTimeLeft = utils.font.render(self.timeLeft, True, utils.ColorPlattes["Future Blue"])
-        textWattsUsed = utils.font.render(self.wattsUsed, True, utils.ColorPlattes["Future Blue"])
-        textwattsMade = utils.font.render(self.wattsGenerated, True, utils.ColorPlattes["Future Blue"])
-
-        window.blit(textTimeLeft, utils.BatteryDisplayHudPositions["TimeLeft"])
-        window.blit(textWattsUsed, utils.BatteryDisplayHudPositions["WattsUsed"])
-        window.blit(textwattsMade, utils.BatteryDisplayHudPositions["WattsGenerated"])
-
-        # The utils.deltaTime might be causing this Julien - thanks for fixing it
-
-        self.batteryIndicator.update()
-        window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
     def displayKeyGuides(self, window):
 

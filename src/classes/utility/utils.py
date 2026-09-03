@@ -285,7 +285,7 @@ def getTileRect(position: pygame.Vector2):
 
 def getTilesDetectRect(position: pygame.Vector2):
 
-    return pygame.Rect(position.x - 10, position.y - 10, defaultImageSizes - 10, defaultImageSizes - 10)
+    return pygame.Rect(position.x + 20, position.y + 20, defaultImageSizes - 20, defaultImageSizes - 20)
 
 
 def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):

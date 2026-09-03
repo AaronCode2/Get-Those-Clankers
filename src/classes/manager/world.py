@@ -187,12 +187,13 @@ class World():
         if(mouseEvent[0]):
 
             isTilePlaceable = True
-            
-            for tile in self.tiles:
 
-                if(detectBox.colliderect(utils.getTileRect(tile.position))):
-                    isTilePlaceable = False
-                    return
+            if(self.selectedTileType != utils.TileType.BARRIER):
+                for tile in self.tiles:
+
+                    if(detectBox.colliderect(utils.getTilesDetectRect(tile.position))):
+                        isTilePlaceable = False
+                        return
             if(isTilePlaceable):
 
                 if(self.currentSelectedSlot != None):
@@ -246,7 +247,7 @@ class World():
 
             tile.update(window)
 
-        self.batteryGenator.update(window)
+        self.batteryGenator.update(window, self.tiles)
     
     def initTextures(self):
 
