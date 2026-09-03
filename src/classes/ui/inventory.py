@@ -115,6 +115,27 @@ class Inventory():
 
         textures.drawGuiPlates(window, pygame.Vector2(6, 2), hotBarPos)
 
+    def addInventoryItem(self, type: utils.ItemType, amount: int):
+
+        for y in range(len(self.slots)):
+            for x in range(len(self.slots[0])):
+
+                if(self.slots[y][x].type == type or self.slots[y][x].type == utils.ItemType.NONE):
+
+                    self.slots[y][x].type = type
+                    self.slots[y][x].amount += amount
+                    return
+                
+    def removeInventoryItem(self, type: utils.ItemType, amount: int):
+
+        for y in range(len(self.slots)):
+            for x in range(len(self.slots[0])):
+
+                if(self.slots[y][x].type == type and amount <= self.slots[y][x].amount):
+                    self.slots[y][x].amount -= amount
+                    return True
+        return False
+                    
     def inventoryHasItem(self, type: utils.ItemType, amount: int):
 
         for y in range(len(self.slots)):

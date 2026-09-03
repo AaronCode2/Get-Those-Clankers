@@ -18,7 +18,7 @@ class Crafter():
 
         # The crafter is split in two sections
 
-        self.drawSectionInfo(window)
+        self.drawSectionInfo(window, inventory)
         self.drawSectionCraftItems(window, inventory)
 
     # Crafter symbol: :=: , it looks cool
@@ -94,9 +94,9 @@ class Crafter():
             textures.drawGuiSinglePlate(window, crafterRecipeButtonPos, guiPlateButton)
             window.blit(textures.images["Items"]["image"]["surface"], itemPos, itemSrcRect)
             
-    def drawSectionInfo(self, window):
+    def drawSectionInfo(self, window, inventory):
 
-        craftButtonPos, craftTextPos, guiPlate, crafterText, crafterTextColor, descriptionPos = self.getSectionInfoRects()
+        craftButtonPos, craftTextPos, guiPlate, crafterText, crafterTextColor, descriptionPos = self.getSectionInfoRects(inventory)
 
         craftText = utils.font.render(crafterText, True, crafterTextColor)
 
@@ -180,7 +180,7 @@ class Crafter():
 
             window.blit(descriptionText, descriptionPos)
         
-    def getSectionInfoRects(self):
+    def getSectionInfoRects(self, inventory):
 
         utils.dev_updatePositionsAdjuster()
 
@@ -207,12 +207,37 @@ class Crafter():
 
             crafterText = "CRAFT" 
             crafterTextColor = utils.ColorPlattes["Pale White"]
+            for i in range(len(self.selectedRecipe[crafterRecipes.RecipeIndex.ItemNeeded])):
+
+                if(self.selectedRecipe != None and not inventory.inventoryHasItem(
+                    self.selectedRecipe[crafterRecipes.RecipeIndex.ItemNeeded][i][0],
+                    self.selectedRecipe[crafterRecipes.RecipeIndex.ItemNeeded][i][1]
+                )):
+                    self.selectedRecipe = None
+                    self.isCraftable = False
             
-            if(utils.mouseHover(pygame.Rect(
+            if(self.isCraftable and utils.mouseClickedL(pygame.Rect(
                 craftButtonPos.x, craftButtonPos.y, 
                 utils.XLButtonSizeWidth, 
                 utils.XLButtonSizeHeight
             ))):
+
+                for i in range(len(self.selectedRecipe[crafterRecipes.RecipeIndex.ItemNeeded])):
+
+                    self.selectedRecipe[crafterRecipes.RecipeIndex.ItemNeeded][i][0],
+                    self.selectedRecipe[crafterRecipes.RecipeIndex.ItemNeeded][i][1]
+                    
+                    inventory.removeInventoryItem(
+                        self.selectedRecipe[crafterRecipes.RecipeIndex.ItemNeeded][i][0],
+                        self.selectedRecipe[crafterRecipes.RecipeIndex.ItemNeeded][i][1],
+                    )
+
+                if(self.selectedRecipe != None):
+                    inventory.addInventoryItem(
+                        self.selectedRecipe[crafterRecipes.RecipeIndex.ItemTypeGiven],
+                        self.selectedRecipe[crafterRecipes.RecipeIndex.ItemGiven]
+                    )
+                
                 guiPlate = utils.GuiPlates.XL_ORANGE_BUTTON_PRESSED
             else:
                 guiPlate = utils.GuiPlates.XL_ORANGE_BUTTON_UNPRESSED
