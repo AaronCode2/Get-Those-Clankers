@@ -23,12 +23,8 @@ class Crafter():
 
     # Crafter symbol: :=: , it looks cool
 
-    def getSectionCraftItemsRect(self):
-        pass
-
     def drawSectionCraftItems(self, window, inventory):
 
-        utils.dev_updatePositionsAdjuster()
         y = 0
 
         for i in range(len(crafterRecipes.RecipeCrafts)):
@@ -181,8 +177,6 @@ class Crafter():
         
     def getSectionInfoRects(self, inventory):
 
-        utils.dev_updatePositionsAdjuster()
-
         craftButtonPos = pygame.Vector2(
 
             utils.screenRect.width - utils.craftButtonAdj.x,
@@ -193,8 +187,6 @@ class Crafter():
             utils.screenRect.width - utils.craftButtonTextAdj.x,
             utils.screenRect.height - utils.craftButtonTextAdj.y
         ) 
-
-        utils.dev_updatePositionsAdjuster()
 
         descriptionPos = pygame.Vector2(
 
