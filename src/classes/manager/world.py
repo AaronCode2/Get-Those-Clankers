@@ -2,13 +2,11 @@ import pygame
 import classes.objects.tiles as tiles
 import classes.utility.utils as utils
 import classes.bots.bot as bot
+import classes.utility.animation as animation
 import classes.objects.batteryGen as batteryGen
 import math
 import random
 from copy import copy
-
-# Using this temporarly! -> import textures
-
 import classes.utility.textures as textures
 
 class World():
@@ -321,7 +319,17 @@ class World():
     
     def initTextures(self):
 
-        # textures.images["Tower"]
+        textures.images["Tower"]["image"]["Animation"] = animation.AnimationManager(
+
+            textures.images["Tower"]["location"],
+            textures.images["Tower"]["FramesY"],
+            [textures.images["Tower"]["FramesX"]],
+            [textures.images["Tower"]["AnimationNames"]]
+        )
+
+        textures.images["Tower"]["image"]["Animation"].set_animation(textures.images["Tower"]["AnimationNames"])
+        textures.images["Tower"]["image"]["FrameWidth"] = textures.images["Tower"]["image"]["Animation"].frame_width
+        textures.images["Tower"]["image"]["FrameHeight"] = textures.images["Tower"]["image"]["Animation"].frame_height
 
         textures.images["Tiles"]["image"]["surface"] =  pygame.image.load(
             textures.images["Tiles"]["location"]).convert_alpha()

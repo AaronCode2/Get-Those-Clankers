@@ -1,7 +1,5 @@
 import pygame
 import classes.utility.utils as utils
-
-# temp
 import classes.utility.textures as textures
 
 class Tile:
@@ -10,8 +8,15 @@ class Tile:
 
         self.position = position
         self.type = type
-        self.width = textures.images["Tiles"]["image"]["FrameWidth"]
-        self.height = textures.images["Tiles"]["image"]["FrameHeight"]
+
+        if(type != utils.TileType.GREEN_TOWER):
+
+            self.width = textures.images["Tiles"]["image"]["FrameWidth"]
+            self.height = textures.images["Tiles"]["image"]["FrameHeight"]
+        else:
+
+            self.width = textures.images["Tower"]["image"]["FrameWidth"]
+            self.height = textures.images["Tower"]["image"]["FrameHeight"]
 
         self._hitBox = pygame.Rect(
 

@@ -101,12 +101,13 @@ images = {
 
         "Tower": {
 
-            "location": "assets/towers/towers.png",
+            "location": "towers/tower.png",
             "FramesX": 12,
             "FramesY": 1,
+            "AnimationNames": "idle",
             "image": {
 
-                "surface": None,
+                "Animation": None,
                 "FrameWidth": None,
                 "FrameHeight": None
             },

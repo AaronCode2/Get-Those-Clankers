@@ -539,11 +539,13 @@ class TileType(Enum):
 
     BARRIER = 0
     SOLAR_PANEL = 1
+    GREEN_TOWER = 2
 
 durabiltyForTile = {
 
     TileType.SOLAR_PANEL: 15,
-    TileType.BARRIER: 8
+    TileType.BARRIER: 8,
+    TileType.GREEN_TOWER: 40
 }
 
 hitBoxAdjForTiles = {
@@ -562,6 +564,12 @@ hitBoxAdjForTiles = {
         RotationType.DOWN: pygame.Rect(0, 6, -2, -10),
         RotationType.LEFT: pygame.Rect(5, 3, -11, -6),
         RotationType.RIGHT: pygame.Rect(5, 3, -11, -6),
+    },
+
+    TileType.GREEN_TOWER: {
+
+        RotationType.UP: pygame.Rect(0, 0, 0, 0),
+        RotationType.DOWN: pygame.Rect(0, 0, 0, 0),
     }
 }
 
