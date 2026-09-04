@@ -4,6 +4,7 @@ import classes.utility.utils as utils
 import classes.bots.bot as bot
 import classes.utility.animation as animation
 import classes.objects.batteryGen as batteryGen
+import classes.objects.player as player
 import math
 import random
 from copy import copy
@@ -17,6 +18,7 @@ class World():
 
         self.tiles = []
         self.bots = []
+        self.player = player.Player(pygame.Vector2(500, 500))
 
         self.dev_activateBots = False
 
@@ -323,6 +325,9 @@ class World():
         if(self.dev_activateBots):
             self.dev_deployBots()
 
+
+        self.player.update()#self.tiles)
+        self.player.draw(window)
 
         for bot in self.bots:
 
