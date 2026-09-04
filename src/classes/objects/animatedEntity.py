@@ -1,6 +1,8 @@
 import pygame
 from classes.objects.entity import Entity
 from classes.utility.animation import AnimationManager
+import classes.objects.tiles as tiles
+import classes.utility.utils as utils
 
 
 class AnimatedEntity(Entity):
@@ -32,9 +34,11 @@ class AnimatedEntity(Entity):
     def set_animation(self, animation_name: str):
         self.animation.set_animation(animation_name)
 
-    def update(self):
+    def update(self, collision_tiles: list[tiles.Tile]):
         self.animation.update()
-        super().update()
+        super().update(collision_tiles)
 
-    def draw(self, screen: pygame.Surface):
+    def draw(self, screen: pygame.Surface, debug: bool = False):
         screen.blit(self.surface, self.rect)
+        if debug:
+            utils.debugDraw(screen, self.hitbox)
