@@ -26,6 +26,7 @@ class Crafter():
     def drawSectionCraftItems(self, window, inventory):
 
         y = 0
+        x = 0
 
         for i in range(len(crafterRecipes.RecipeCrafts)):
 
@@ -33,13 +34,16 @@ class Crafter():
 
             if(i % 5 == 0): 
                 y += 1
+                x = 0
                 i = 0 
 
             crafterRecipeButtonPos = pygame.Vector2(
 
-                utils.screenRect.width - utils.crafterRecipeButtonPosAdj.x + (utils.smallButtonSize * i),
+                utils.screenRect.width - utils.crafterRecipeButtonPosAdj.x + (utils.smallButtonSize * x),
                 utils.screenRect.height - utils.crafterRecipeButtonPosAdj.y + (utils.smallButtonSize * y),
             )
+
+            x += 1
 
             itemType = crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)][crafterRecipes.RecipeIndex.ItemTypeGiven]
 

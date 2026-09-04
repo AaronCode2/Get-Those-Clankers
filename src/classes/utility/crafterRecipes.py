@@ -12,6 +12,7 @@ class RecipeCrafts(Enum):
     CRAFT_BOLT = 3
     CRAFT_SCREW = 4
     CRAFT_SCRAP_INGOT = 5
+    CRAFT_RINGED_TIN = 6
 
 class RecipeIndex(Enum):
 
@@ -47,7 +48,6 @@ recipes = {
         RecipeIndex.ItemNeeded: (
 
             (utils.ItemType.RINGED_TIN, 1),
-            (utils.ItemType.BOLT, 4)
         ),
 
         RecipeIndex.ItemDescription: "Make defenses and\nplace them on the\nground"
@@ -103,5 +103,18 @@ recipes = {
         ),
 
         RecipeIndex.ItemDescription: "Better Iron and\ncheaper steel"
+    },
+
+    RecipeCrafts.CRAFT_RINGED_TIN: {
+
+        RecipeIndex.ItemGiven: 8,
+        RecipeIndex.ItemTypeGiven: utils.ItemType.RINGED_TIN,
+
+        RecipeIndex.ItemNeeded:(
+
+            (utils.ItemType.RAW_IRON, 2),
+        ),
+
+        RecipeIndex.ItemDescription: "Some rumble and\ndumble."
     },
 }
