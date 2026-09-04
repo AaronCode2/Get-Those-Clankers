@@ -215,6 +215,7 @@ class ItemType(Enum):
     SOFT_STEEL = 5
     SOLAR_PANEL = 6
     BARRIER = 7
+    GREEN_TOWER = 8
 
 def convertToTileType(ItemType: ItemType):
 
@@ -225,6 +226,9 @@ def convertToTileType(ItemType: ItemType):
 
         case ItemType.BARRIER:
             return TileType.BARRIER
+
+        case ItemType.GREEN_TOWER:
+            return TileType.GREEN_TOWER
 
         case _:
             return None
@@ -585,6 +589,9 @@ def convertToItemType(tileType: TileType):
 
         case tileType.BARRIER:
             return ItemType.BARRIER
+
+        case tileType.GREEN_TOWER:
+            return ItemType.GREEN_TOWER
 
 class dirType(Enum):
 

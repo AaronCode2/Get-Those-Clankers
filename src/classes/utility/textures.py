@@ -9,8 +9,6 @@ class imgIndex[Enum]:
 
 # This is constant and should not be changed for storing texture data
 
-
-
 images = {      
 
         # Tiles
@@ -89,7 +87,7 @@ images = {
         "Items": {
 
             "location": "assets/ui/items.png",
-            "FramesX": 8,
+            "FramesX": 9,
             "FramesY": 1,
             "image": {
 

@@ -13,6 +13,7 @@ class RecipeCrafts(Enum):
     CRAFT_SCREW = 4
     CRAFT_SCRAP_INGOT = 5
     CRAFT_RINGED_TIN = 6
+    CRAFT_GREEN_TOWER = 7
 
 class RecipeIndex(Enum):
 
@@ -116,5 +117,20 @@ recipes = {
         ),
 
         RecipeIndex.ItemDescription: "Some rumble and\ndumble."
+    },
+
+    RecipeCrafts.CRAFT_GREEN_TOWER: {
+
+        RecipeIndex.ItemGiven: 1,
+        RecipeIndex.ItemTypeGiven: utils.ItemType.GREEN_TOWER,
+
+        RecipeIndex.ItemNeeded:(
+
+            (utils.ItemType.RAW_IRON, 4),
+            (utils.ItemType.BOLT, 2),
+            (utils.ItemType.SCRAP_IGNOT, 3),
+        ),
+
+        RecipeIndex.ItemDescription: "Security defense\nuse to attack on\nclankers."
     },
 }

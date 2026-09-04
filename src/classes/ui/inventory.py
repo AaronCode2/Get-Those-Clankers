@@ -58,6 +58,9 @@ class Inventory():
         self.slots[5][4].amount = 40
         self.slots[5][4].type = utils.ItemType.BARRIER
 
+        self.slots[5][1].amount = 10
+        self.slots[5][1].type = utils.ItemType.GREEN_TOWER
+
         self.isCrafterToggled = True
         self.selectedSlot = None
         self.slotSelectedSrcRect = None
@@ -102,7 +105,6 @@ class Inventory():
             textures.drawGuiPlates(window, pygame.Vector2(6, 8), inventoryPos)
 
         self.drawBackgroundHotBar(window)
-
 
     def updateSelectedSlot(self, window):
 

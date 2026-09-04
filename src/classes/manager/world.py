@@ -328,10 +328,13 @@ class World():
             True
         )
 
+        #! Bug at line 336
+
         textures.images["Tower"]["image"]["Animation"].set_animation(textures.images["Tower"]["AnimationNames"])
         textures.images["Tower"]["image"]["FrameWidth"] = textures.images["Tower"]["image"]["Animation"].frame_width
         textures.images["Tower"]["image"]["FrameHeight"] = textures.images["Tower"]["image"]["Animation"].frame_height
-
+        textures.images["Tower"]["image"]["Animation"].animation_speed = 5
+        
         textures.images["Tiles"]["image"]["surface"] =  pygame.image.load(
             textures.images["Tiles"]["location"]).convert_alpha()
 

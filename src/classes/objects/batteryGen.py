@@ -20,7 +20,7 @@ class BatteryGenenator():
         # How many
 
         self.updateDelay = 1
-
+        self.batteryLevel = utils.BatteryLevel.BATTERY_FULL
         # Meaursed in KWatts/hour, 
 
         self.wattsGenerated = 106
@@ -76,8 +76,6 @@ class BatteryGenenator():
         window.blit(textday, utils.BatteryDisplayHudPositions["Day"])
         window.blit(textwattsMade, utils.BatteryDisplayHudPositions["WattsGenerated"])
 
-        # The utils.deltaTime might be causing this Julien - thanks for fixing it
-
         self.batteryIndicator.update()
         window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
@@ -115,9 +113,11 @@ class BatteryGenenator():
 
         percentage = math.ceil((self.wattsGenerated / self.capacity) * 100) 
 
+        #! There is Battery Animation Bug! [BUG]
+
         for i in range(utils.batteryStages):
 
-            if(percentage >= i * 20):
+            if(percentage >= i * 20 and utils.BatteryLevel(utils.batteryStages - i) != self.batteryLevel):
                 self.setBatteryLevel(utils.BatteryLevel(utils.batteryStages - i))
         # if(time() - int(self.timeStamp) >= self.timeLeft):
 
@@ -130,10 +130,11 @@ class BatteryGenenator():
         #     else:
         #         self.dead = True
 
-    def setBatteryLevel(self, batterylevel):
+    def setBatteryLevel(self, batteryLevel):
 
-        self.srcRect.x = float(textures.images["Battery"]["image"]["FrameWidth"] * batterylevel.value)
-        self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][batterylevel.value])
+        self.batteryLevel = batteryLevel
+        self.srcRect.x = float(textures.images["Battery"]["image"]["FrameWidth"] * batteryLevel.value)
+        self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][batteryLevel.value])
 
     def handleGridExports(self):
 
