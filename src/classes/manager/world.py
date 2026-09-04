@@ -3,6 +3,7 @@ import classes.objects.tiles as tiles
 import classes.utility.utils as utils
 import classes.objects.batteryGen as batteryGen
 import math
+from copy import copy
 
 # Using this temporarly! -> import textures
 
@@ -19,6 +20,9 @@ class World():
 
         self.currentSelectedSlot = None
         self.currentSelectedSlotIndex = None
+
+        self._addSelectedSlotType = None
+
         self.batteryGenator = batteryGen.BatteryGenenator()
         self.setupPrieviewTile()
 
@@ -198,11 +202,11 @@ class World():
             self.destPreviewRect.height + utils.detectBoxAdj.y,
         )
 
-        if(mouseEvent[0]):
+        if(mouseEvent[0] and utils.activateTilePlacer and self.selectedTileType != None):
 
             isTilePlaceable = True
 
-            if(self.selectedTileType != utils.TileType.BARRIER):
+            if(self.selectedTileType != utils.TileType.BARRIER and len(tile) != 0):
                 for tile in self.tiles:
 
                     if(detectBox.colliderect(utils.getTilesDetectRect(tile.position))):
@@ -228,19 +232,35 @@ class World():
             for tile in self.tiles:
 
                 if(utils.getTileRect(tile.position).collidepoint(mouseRect.x, mouseRect.y)):
+
+                    self._addSelectedSlotType = utils.convertToItemType(tile.type)
                     self.tiles.remove(tile)
                     return
 
+    # This communicater func to other classes
+
+    def giveAddSelectedSlotType(self):
+
+        if(self._addSelectedSlotType == None):
+            return None
+
+        _copy = copy(self._addSelectedSlotType)
+        self._addSelectedSlotType = None
+
+        return _copy
+
     def updateTilePlacer(self, window):
 
-        self.updateTileSrcRect()
+        if(utils.activateTilePlacer and self.selectedTileType != None):
+            self.updateTileSrcRect()
 
         mouseEvent, mousePos, snapMode = self.handleInputplacer()
         mouseRect = pygame.Rect(mousePos[0], mousePos[1], utils.defaultImageSizes, utils.defaultImageSizes)
 
         self.destPreviewRect = self.activateSnapping(window, mouseRect) if(snapMode) else self.getRegularRect(mouseRect)
-                    
-        self.drawPreviewPlacer(window)
+        if(utils.activateTilePlacer and self.selectedTileType != None):      
+            self.drawPreviewPlacer(window)
+
         self.handleplacingTiles(mouseEvent, mouseRect)
 
     def update(self, window):
@@ -254,8 +274,8 @@ class World():
         else:
             self.selectedTileType = None
 
-        if(utils.activateTilePlacer and self.selectedTileType != None):
-            self.updateTilePlacer(window)
+
+        self.updateTilePlacer(window)
 
         for tile in self.tiles:
 

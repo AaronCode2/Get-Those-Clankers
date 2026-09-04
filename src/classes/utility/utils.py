@@ -525,6 +525,19 @@ class TileType(Enum):
     BARRIER = 0
     SOLAR_PANEL = 1
 
+def convertToItemType(tileType: TileType):
+
+    if(tileType == None):
+        return None
+
+    match(tileType):
+
+        case tileType.SOLAR_PANEL:
+            return ItemType.SOLAR_PANEL
+
+        case tileType.BARRIER:
+            return ItemType.BARRIER
+
 class dirType(Enum):
 
     HORIZONTAL = 0

@@ -26,6 +26,11 @@ class UI():
 
         self.draw(window)
 
+    def addStuffToInventory(self, itemType: utils.ItemType, amount: int):
+
+        if(itemType != None):
+            self.inventory.addInventoryItem(itemType, amount)
+
     def draw(self, window):
 
         self.displayKeyGuides(window)
