@@ -279,6 +279,10 @@ class World():
 
     def update(self, window):
 
+        # Update The towers
+
+        textures.images["Tower"]["image"]["Animation"].update()
+
         if(self.currentSelectedSlot != None):
 
             if(self.currentSelectedSlot.amount == 0):

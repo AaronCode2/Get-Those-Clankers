@@ -52,8 +52,6 @@ class Tile:
 
         else:
 
-            textures.images["Tower"]["image"]["Animation"].update()
-
             window.blit(textures.images["Tower"]["image"]["Animation"].current_frame, self.position)
 
     def setSrcRect(self):
