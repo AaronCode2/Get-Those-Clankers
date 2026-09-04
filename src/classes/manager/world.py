@@ -326,8 +326,8 @@ class World():
             self.dev_deployBots()
 
 
-        self.player.update()#self.tiles)
-        self.player.draw(window)
+        self.player.update(self.tiles)
+        self.player.draw(window, debug=True)
 
         for bot in self.bots:
 

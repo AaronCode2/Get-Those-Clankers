@@ -1,21 +1,22 @@
 import pygame
 from classes.utility.animation import AnimationManager
 from classes.objects.animatedEntity import AnimatedEntity
+import classes.objects.tiles as tiles
 import classes.utility.utils as utils
 
 class Player(AnimatedEntity):
     def __init__(self, position: pygame.Vector2):
         animation = AnimationManager(
-            "player/player.png",
-            2,
-            [4, 4],
-            ["idle", "walk"],
-            2
+            asset_path = "player/player.png",
+            num_of_animations = 2,
+            animations_num_frames = [4, 4],
+            animations_names = ["idle", "walk"],
+            scale_factor = 3
         )
         self.movement_speed = 200
-        super().__init__(position, animation, (20, 15))
+        super().__init__(position, animation, (81, 35))
 
-    def update(self):
+    def update(self, collision_tiles: list[tiles.Tile]):
         keys = pygame.key.get_pressed()
 
         movement_direction = pygame.Vector2(0, 0)
@@ -44,5 +45,5 @@ class Player(AnimatedEntity):
 
 
         self.velocity = movement_direction * self.movement_speed
-        super().update()
+        super().update(collision_tiles)
 
