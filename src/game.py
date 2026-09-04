@@ -2,6 +2,7 @@ import pygame
 import classes.utility.utils as utils
 import classes.manager.world as world
 import classes.ui.ui as ui
+import classes.objects.player as player
 from pygame._sdl2 import Window
 
 class Game():
@@ -23,6 +24,8 @@ class Game():
 
         utils.screenRect = pygame.Rect(0, 0, self.window.width, self.window.height)
 
+
+        self.player = player.Player(pygame.Vector2(500, 500))
         self.world = world.World()
         self.ui = ui.UI()
 
@@ -30,6 +33,8 @@ class Game():
 
         # This where everything should go e.g player.update()
         self.world.update(self.window)
+        self.player.update()
+        self.player.draw(self.window)
 
         # We need to convert Item To Tile, since their diffrenet classes
 
