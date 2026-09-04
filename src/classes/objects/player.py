@@ -37,6 +37,11 @@ class Player(AnimatedEntity):
             self.set_animation("idle")
             self.animation.animation_speed = 1
 
+        if movement_direction.x < 0:
+            self.animation.flipped = True
+        elif movement_direction.x > 0:
+            self.animation.flipped = False
+
 
         self.velocity = movement_direction * self.movement_speed
         super().update()
