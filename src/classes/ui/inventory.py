@@ -22,10 +22,12 @@ class Inventory():
 
     def __init__(self):
 
-        self.toggle = True
+        self.toggle = False
         self.mousepos = pygame.mouse.get_pos()
 
-        # a 5x6 inventory! - 30slots
+
+        self.setupHotBarSelector()
+         # a 5x6 inventory! - 30slots
 
         self.slots = [
 
@@ -46,11 +48,34 @@ class Inventory():
         self.slots[3][1].amount = 15
         self.slots[3][1].type = utils.ItemType.SCREW
 
+        self.slots[4][1].amount = 10
+        self.slots[4][1].type = utils.ItemType.RAW_IRON
+
+        self.slots[5][2].amount = 40
+        self.slots[5][2].type = utils.ItemType.SOLAR_PANEL
+
+        
+        self.slots[5][4].amount = 40
+        self.slots[5][4].type = utils.ItemType.BARRIER
+
+        self.slots[5][1].amount = 20
+        self.slots[5][1].type = utils.ItemType.GREEN_TOWER
+
+        self.isCrafterToggled = True
         self.selectedSlot = None
         self.slotSelectedSrcRect = None
         self.slotSelectedPos = None
 
         self.configureItemTextures()
+
+    def setupHotBarSelector(self):
+
+        self._selectedHotBarSlotIndex = 0
+        self._selectedHotBarSlot = None
+
+        textures.images["Selector"]["image"]["surface"] = pygame.image.load(textures.images["Selector"]["location"]).convert_alpha()
+        textures.images["Selector"]["image"]["surface"] = pygame.transform.scale2x(textures.images["Selector"]["image"]["surface"]).convert_alpha()
+               
 
     def update(self, window):
 
@@ -58,21 +83,28 @@ class Inventory():
         
         if(self.toggle):
             utils.activateTilePlacer = False
+            self.drawInventoryOptions(window)
         else:
             utils.activateTilePlacer = True
 
+
+        self.drawInventoryBackground(window)
         self.updateInventory(window)
 
         self.mousepos = pygame.mouse.get_pos()
 
-    def getSrcRectForButton(self, guiPlate: utils.GuiPlates):
+    def drawInventoryBackground(self, window):
 
-        return pygame.Rect(
-                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[guiPlate][0]), 
-                textures.images["guiPlates"]["image"]["FrameWidth"] * float(utils.guiPlatesFrameMap[guiPlate][1]),
-                textures.images["guiPlates"]["image"]["FrameWidth"],
-                textures.images["guiPlates"]["image"]["FrameHeight"]
+        if(self.toggle):
+            inventoryPos = pygame.Vector2(
+
+                utils.screenRect.width - utils.inventoryPosAdj.x,
+                utils.screenRect.height - utils.inventoryPosAdj.y,
             )
+
+            textures.drawGuiPlates(window, pygame.Vector2(6, 8), inventoryPos)
+
+        self.drawBackgroundHotBar(window)
 
     def updateSelectedSlot(self, window):
 
@@ -90,7 +122,53 @@ class Inventory():
         ) 
         
         window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(mousePos[0], mousePos[1]), self.slotSelectedSrcRect)
-        window.blit(text, textPos)
+
+        if(self.selectedSlot.amount != 0):
+            window.blit(text, textPos)
+
+    def drawBackgroundHotBar(self, window):
+
+        hotBarPos = pygame.Vector2(
+
+            utils.screenRect.width - utils.HotBarPosAdj.x,
+            utils.screenRect.height - utils.HotBarPosAdj.y,
+        )
+
+        if(utils.mouseHover(pygame.Rect(hotBarPos.x, hotBarPos.y, utils.hotBarSizeWidth, utils.hotBarSizeHeight))):
+            utils.activateTilePlacer = False
+
+        textures.drawGuiPlates(window, pygame.Vector2(6, 2), hotBarPos)
+
+    def addInventoryItem(self, type: utils.ItemType, amount: int):
+
+        for y in range(len(self.slots)):
+            for x in range(len(self.slots[0])):
+
+                if(self.slots[y][x].type == type or self.slots[y][x].type == utils.ItemType.NONE):
+
+                    self.slots[y][x].type = type
+                    self.slots[y][x].amount += amount
+                    return
+                
+    def removeInventoryItem(self, type: utils.ItemType, amount: int):
+
+        for y in range(len(self.slots)):
+            for x in range(len(self.slots[0])):
+
+                if(self.slots[y][x].type == type and amount <= self.slots[y][x].amount):
+                    self.slots[y][x].amount -= amount
+                    return True
+        return False
+                    
+    def inventoryHasItem(self, type: utils.ItemType, amount: int):
+
+        for y in range(len(self.slots)):
+            for x in range(len(self.slots[0])):
+
+                if(self.slots[y][x].type == type and amount <= self.slots[y][x].amount):
+                    return True
+
+        return False
 
     def getSelectedSlot(self, slot: Slot, itemSrcRect: pygame.Rect, slotPos: pygame.Vector2):
 
@@ -133,9 +211,9 @@ class Inventory():
         )
 
         if(not utils.mouseHover(buttonRect)):
-            buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_UNPRESSED)
+            buttonSrcRect = textures.getGuiPlatesSrcRect(utils.GuiPlates.SMALL_BUTTON_UNPRESSED)
         else:
-            buttonSrcRect = self.getSrcRectForButton(utils.GuiPlates.SMALL_BUTTON_PRESSED)
+            buttonSrcRect = textures.getGuiPlatesSrcRect(utils.GuiPlates.SMALL_BUTTON_PRESSED)
 
         return buttonRect, itemSrcRect, itemPos, textPos, buttonSrcRect
 
@@ -150,8 +228,6 @@ class Inventory():
                     continue
 
                 buttonRect, itemSrcRect, itemPos, textPos, buttonSrcRect = self.getInventoryRects(x, y)
-
-                # if(self.slots[y][x].type != utils.ItemType.NONE):
                 self.handleUserInput(self.slots[y][x], itemSrcRect, x, y, buttonRect, mouseKey)
 
                 window.blit(textures.images["guiPlates"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y), buttonSrcRect)
@@ -161,10 +237,29 @@ class Inventory():
                     text = utils.smfont.render(str(self.slots[y][x].amount), True, utils.ColorPlattes["Pale White"])
                     window.blit(textures.images["Items"]["image"]["surface"], pygame.Vector2(itemPos.x, itemPos.y), itemSrcRect)
                     window.blit(text, textPos)
+
+                self.updateSelectorHotBarSlot(window, x, buttonRect)
                     
         self.handleUserDropFeature(mouseKey)
 
         self.updateSelectedSlot(window)
+
+    def updateSelectorHotBarSlot(self, window, x: int, buttonRect: pygame.Rect):
+
+        if(self._selectedHotBarSlotIndex == x and not self.toggle):
+            window.blit(textures.images["Selector"]["image"]["surface"], pygame.Vector2(buttonRect.x, buttonRect.y))
+        else:
+
+            if(utils.mouseClickedOnceL(buttonRect)):
+                self._selectedHotBarSlotIndex = x
+
+                if(self.slots[utils.hotBarindex][x].type != utils.ItemType.NONE):
+                    self._selectedHotBarSlot = self.slots[utils.hotBarindex][self._selectedHotBarSlotIndex]
+                else:
+                    self._selectedHotBarSlot = None
+
+    def getSelectedHotBarSlot(self):
+        return self._selectedHotBarSlot
 
     def handleUserDropFeature(self, mouseKey):
 
@@ -174,7 +269,10 @@ class Inventory():
 
     def handleUserInput(self, slot: Slot, itemSrcRect: pygame.Rect, x, y, buttonRect: pygame.Rect, mouseKey):
 
-        if(utils.mouseClickedL(buttonRect) and self.selectedSlot == None and self.slots[y][x].type ):
+        if(not self.toggle):
+            return
+
+        if(utils.mouseClickedL(buttonRect) and self.selectedSlot == None and self.slots[y][x].type):
             self.doItemMoving(self.slots[y][x], itemSrcRect, x, y)
         elif(utils.mouseClickedR(buttonRect) and self.slots[y][x].type != utils.ItemType.NONE):
             self.doSpilting(self.slots[y][x])
@@ -209,6 +307,58 @@ class Inventory():
                     self.slots[y][x].set(amountOfslot - currentSlot.amount, currentSlot.type)
                     return
 
+    def drawInventoryOptions(self, window):
+    
+        inventoryOptionsPos, craftbuttonPos, craftTextPos = self.getAllInventoryOptionsRect()
+    
+        craftButtonState = utils.GuiPlates.LARGE_BUTTON_PRESSED
+        color = utils.ColorPlattes["Glass Orange"]
+            
+        if(utils.mouseClickedL(
+            pygame.Rect(
+                craftbuttonPos.x, craftbuttonPos.y, 
+                textures.images["guiPlates"]["image"]["FrameWidth"] * 2,
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+        ))):
+            self.isCrafterToggled = not self.isCrafterToggled
+        elif(not self.isCrafterToggled):
+            craftButtonState = utils.GuiPlates.LARGE_BUTTON_UNPRESSED
+    
+        if(utils.mouseHover(
+            pygame.Rect(
+                craftbuttonPos.x, craftbuttonPos.y, 
+                textures.images["guiPlates"]["image"]["FrameWidth"] * 2,
+                textures.images["guiPlates"]["image"]["FrameHeight"]
+        ))):
+            color = utils.ColorPlattes["Supreme Yellow"]
+    
+        craftText = utils.smfont.render("Crafter", True, color)
+    
+        textures.drawGuiPlates(window, pygame.Vector2(6, 2), inventoryOptionsPos)
+        textures.drawGuiSinglePlate(window, craftbuttonPos, craftButtonState)
+        window.blit(craftText, craftTextPos)
+
+    def getAllInventoryOptionsRect(self):
+
+        inventoryOptionsPos = pygame.Vector2(
+
+            utils.screenRect.width - utils.inventoryOptionPosAdj.x,
+            utils.screenRect.height - utils.inventoryOptionPosAdj.y
+        )
+
+        craftbuttonPos = pygame.Vector2(
+
+            inventoryOptionsPos.x + utils.crafterButtonAdj.x,
+            inventoryOptionsPos.y + utils.crafterButtonAdj.y
+        )
+
+        craftTextPos = pygame.Vector2(
+
+            craftbuttonPos.x + utils.crafterTextAdj.x,
+            craftbuttonPos.y + utils.crafterTextAdj.y,
+        )
+
+        return inventoryOptionsPos, craftbuttonPos, craftTextPos
 
     def configureItemTextures(self):
 

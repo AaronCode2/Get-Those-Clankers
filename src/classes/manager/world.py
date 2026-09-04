@@ -1,11 +1,12 @@
 import pygame
 import classes.objects.tiles as tiles
 import classes.utility.utils as utils
+import classes.bots.bot as bot
+import classes.utility.animation as animation
 import classes.objects.batteryGen as batteryGen
 import math
-
-# Using this temporarly! -> import textures
-
+import random
+from copy import copy
 import classes.utility.textures as textures
 
 class World():
@@ -13,20 +14,63 @@ class World():
     def __init__(self):
 
         self.worldPos = pygame.Vector2(0, 0)
+
         self.tiles = []
+        self.bots = []
+
+        self.dev_activateBots = False
 
         self.initTextures()
+
+        self.currentSelectedSlot = None
+        self.currentSelectedSlotIndex = None
+
+        self._addSelectedSlotType = None
+
         self.batteryGenator = batteryGen.BatteryGenenator()
         self.setupPrieviewTile()
+        self.setupObjects()
+
+    def setupObjects(self):
 
         self.tiles.append(
 
             tiles.Tile(
                 pygame.Vector2(
                 300, 200
-                ), utils.TileType.BARRIER,
+                ), utils.TileType.SOLAR_PANEL,
                 utils.RotationType.DOWN
             )
+        )
+        self.tiles.append(
+            tiles.Tile(
+                pygame.Vector2(
+                400, 260
+                ), utils.TileType.BARRIER,
+                utils.RotationType.LEFT
+        ))
+        self.tiles.append(
+            tiles.Tile(
+                pygame.Vector2(
+                600, 230
+                ), utils.TileType.GREEN_TOWER,
+                utils.RotationType.UP
+        ))
+
+        bot.Bot.setBatteryPos(self.batteryGenator.position)
+
+        self.bots.append(
+            bot.Bot(pygame.Vector2(800, 700), self.batteryGenator.position)
+        )
+
+    def updateTileSrcRect(self):
+
+        self.previewTile["image"].set_alpha(100)
+        self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
+            textures.images["Tiles"]["image"]["FrameWidth"],
+            textures.images["Tiles"]["image"]["FrameHeight"],
+            self.selectedTileType,
+            self.defaultRotation
         )
 
     def setupPrieviewTile(self):
@@ -37,26 +81,28 @@ class World():
             "image": textures.images["Tiles"]["image"]["surface"].copy(),
             "srcRect": None
         }
-
+        
         self.selectedTileType = utils.TileType.SOLAR_PANEL
-
-        self.previewTile["image"].set_alpha(100)
-        self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
-                textures.images["Tiles"]["image"]["FrameWidth"],
-                textures.images["Tiles"]["image"]["FrameHeight"],
-                self.selectedTileType,
-                self.defaultRotation
-        )
-
         self.destPreviewRect = pygame.Vector2(0, 0)
 
+    def setCurrentselectedSlot(self, slot):
+        self.currentSelectedSlot = slot
+
     def drawPreviewPlacer(self, window):
+
+        if(self.selectedTileType != utils.TileType.GREEN_TOWER):
         
-        window.blit(
-            self.previewTile["image"], 
-            pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
-            self.previewTile["srcRect"]
-        )
+            window.blit(
+                self.previewTile["image"], 
+                pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
+                self.previewTile["srcRect"]
+            )
+        else:
+
+            window.blit(
+                textures.images["Tower"]["image"]["Animation"].current_frame, 
+                pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
+            )
 
     def handleInputplacer(self):
 
@@ -143,7 +189,12 @@ class World():
 
         if(selectedTile != None):
 
-            utils.debugDraw(window, pygame.Rect(selectedTile.position.x, selectedTile.position.y, utils.defaultImageSizes, utils.defaultImageSizes))
+            utils.debugDraw(window, pygame.Rect(
+                selectedTile.getHitBox().x, 
+                selectedTile.getHitBox().y, 
+                selectedTile.getHitBox().width, 
+                selectedTile.getHitBox().height
+            ))
 
             for i in range(utils.SnapType.__len__()):
                 for j in range(utils.dirType.__len__()):
@@ -176,16 +227,26 @@ class World():
             self.destPreviewRect.height + utils.detectBoxAdj.y,
         )
 
-        if(mouseEvent[0]):
+        if(mouseEvent[0] and utils.activateTilePlacer and self.selectedTileType != None):
 
             isTilePlaceable = True
-            
-            for tile in self.tiles:
 
-                if(detectBox.colliderect(utils.getTileRect(tile.position))):
-                    isTilePlaceable = False
-                    return
+            if(self.selectedTileType != utils.TileType.BARRIER and len(self.tiles) != 0):
+                for tile in self.tiles:
+
+                    if(detectBox.colliderect(utils.getTilesDetectRect(tile.position))):
+                        isTilePlaceable = False
+                        return
             if(isTilePlaceable):
+
+                if(self.currentSelectedSlot != None):
+
+                    if(self.currentSelectedSlot.amount >= 1):
+                        self.currentSelectedSlot.amount -= 1
+                    else:
+                        self.currentSelectedSlot = None
+                        return
+
                 self.tiles.append(tiles.Tile(
                     pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
                     self.selectedTileType, self.defaultRotation
@@ -196,32 +257,100 @@ class World():
             for tile in self.tiles:
 
                 if(utils.getTileRect(tile.position).collidepoint(mouseRect.x, mouseRect.y)):
+
+                    self._addSelectedSlotType = utils.convertToItemType(tile.type)
                     self.tiles.remove(tile)
                     return
 
+    # This communicater func to other classes
+
+    def giveAddSelectedSlotType(self):
+
+        if(self._addSelectedSlotType == None):
+            return None
+
+        _copy = copy(self._addSelectedSlotType)
+        self._addSelectedSlotType = None
+
+        return _copy
+
     def updateTilePlacer(self, window):
+
+        if(utils.activateTilePlacer and self.selectedTileType != None):
+            self.updateTileSrcRect()
 
         mouseEvent, mousePos, snapMode = self.handleInputplacer()
         mouseRect = pygame.Rect(mousePos[0], mousePos[1], utils.defaultImageSizes, utils.defaultImageSizes)
 
         self.destPreviewRect = self.activateSnapping(window, mouseRect) if(snapMode) else self.getRegularRect(mouseRect)
-                    
-        self.drawPreviewPlacer(window)
+        if(utils.activateTilePlacer and self.selectedTileType != None):      
+            self.drawPreviewPlacer(window)
+
         self.handleplacingTiles(mouseEvent, mouseRect)
 
     def update(self, window):
 
-        if(utils.activateTilePlacer):
-            self.updateTilePlacer(window)
+        # Update The towers
+
+        textures.images["Tower"]["image"]["Animation"].update()
+
+        if(self.currentSelectedSlot != None):
+
+            if(self.currentSelectedSlot.amount == 0):
+                self.currentSelectedSlot.type = utils.ItemType.NONE
+
+            self.selectedTileType = utils.convertToTileType(self.currentSelectedSlot.type)
+        else:
+            self.selectedTileType = None
+
+
+        key = pygame.key.get_just_pressed()
+
+        if(key[pygame.K_b]):
+            self.dev_activateBots = not self.dev_activateBots
+
+        self.updateTilePlacer(window)
 
         for tile in self.tiles:
 
             tile.update(window)
 
-        self.batteryGenator.update(window)
+            if(tile.type == utils.TileType.GREEN_TOWER):
+                tile.towerFunc(self.bots)
+
+        self.batteryGenator.update(window, self.tiles)
+
+        if(self.dev_activateBots):
+            self.dev_deployBots()
+
+
+        for bot in self.bots:
+
+            bot.update(window, self.tiles)
+
+    def dev_deployBots(self):
+
+        x = float(random.randint(0, 1000))
+        y = float(random.randint(0, 800))
+
+        self.bots.append(bot.Bot(pygame.Vector2(x, y), self.batteryGenator.position))
     
     def initTextures(self):
 
+        textures.images["Tower"]["image"]["Animation"] = animation.AnimationManager(
+
+            textures.images["Tower"]["location"],
+            textures.images["Tower"]["FramesY"],
+            [textures.images["Tower"]["FramesX"]],
+            [textures.images["Tower"]["AnimationNames"]],
+            True
+        )
+
+        textures.images["Tower"]["image"]["Animation"].set_animation(textures.images["Tower"]["AnimationNames"])
+        textures.images["Tower"]["image"]["FrameWidth"] = textures.images["Tower"]["image"]["Animation"].frame_width
+        textures.images["Tower"]["image"]["FrameHeight"] = textures.images["Tower"]["image"]["Animation"].frame_height
+        textures.images["Tower"]["image"]["Animation"].animation_speed = 10
+        
         textures.images["Tiles"]["image"]["surface"] =  pygame.image.load(
             textures.images["Tiles"]["location"]).convert_alpha()
 

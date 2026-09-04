@@ -1,6 +1,9 @@
 import pygame
 import classes.utility.textures as textures
 import classes.utility.utils as utils
+import classes.utility.animation as animation
+import random
+import math
 from time import time
 
 class BatteryGenenator():
@@ -10,18 +13,39 @@ class BatteryGenenator():
         self.position = pygame.Vector2(utils.screenRect.width / 2, utils.screenRect.height / 2)
 
         # taken as seconds e.g 120seconds = 2mins
-        self.timeLeft = 30
+        self.timeLeftText = None
+        self.timeLeft = 2 
         self.level = utils.BatteryLevel.BATTERY_FULL
 
+        # How many
+
+        self.updateDelay = 1
+        self.batteryLevel = utils.BatteryLevel.BATTERY_FULL
         # Meaursed in KWatts/hour, 
 
-        self.wattsUsed = 12 
-        self.wattsGenereated = 1
-        self.capacity = 60 
+        self.wattsGenerated = 106
+        self.capacity = 106 
+        self.day = 0
+        self.timeLeftText = 120
 
-        self.timeStamp = int(time())
+        # Do this, so get rid of milliseconds
+
+        self.updateTimeStamp = int(time())
+        self.deplateTimeStamp = int(time())
 
         self.loadImage()
+        self.setupBatteryIndicator()
+    # Battery Equation: Time = Load / Battery Capacity
+
+    def setupBatteryIndicator(self):
+
+        self.batteryIndicator = animation.AnimationManager(
+            textures.images["batteryIndicator"]["location"],
+            textures.images["batteryIndicator"]["FramesY"],
+            [textures.images["batteryIndicator"]["FramesX"]] * 6,
+            textures.images["batteryIndicator"]["animationNames"],
+            True
+        )
 
         self.srcRect = pygame.Rect(
 
@@ -31,10 +55,96 @@ class BatteryGenenator():
             textures.images["Battery"]["image"]["FrameHeight"]
         )
 
-    # Battery Equation: Time = Load / Battery Capacity
+        self.batteryIndicator.position = pygame.Vector2(utils.batteryIndicatorPos.x, utils.batteryIndicatorPos.y)
+        self.batteryIndicator.level = utils.BatteryLevel.BATTERY_FULL
+        self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][self.batteryIndicator.level.value])
+        self.batteryIndicator.animation_speed = 1
 
-    def getBatteryduration(load: float):
-        pass
+    def drawHud(self, window):
+
+        textures.drawGuiPlates(window, pygame.Vector2(5, 3), utils.batteryBackgroundHudPos)
+
+        self.timeLeftText = "Time:" + utils.formatToClock(self.timeLeft)
+        self.wattsGeneratedText = "Made:" + str(self.wattsGenerated) + "W"
+        self.daytext = "Day:" + str(self.day)        
+
+        textTimeLeft = utils.font.render(self.timeLeftText, True, utils.ColorPlattes["Future Blue"])
+        textday = utils.font.render(self.daytext, True, utils.ColorPlattes["Future Blue"])
+        textwattsMade = utils.font.render(self.wattsGeneratedText, True, utils.ColorPlattes["Future Blue"])
+
+        window.blit(textTimeLeft, utils.BatteryDisplayHudPositions["TimeLeft"])
+        window.blit(textday, utils.BatteryDisplayHudPositions["Day"])
+        window.blit(textwattsMade, utils.BatteryDisplayHudPositions["WattsGenerated"])
+
+        self.batteryIndicator.update()
+        window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
+
+    def update(self, window, tiles):
+
+        self.updateStatus(tiles)
+
+        self.batteryDeplation()
+        self.draw(window)
+        self.drawHud(window)
+
+    def handleGridImports(self, tiles):
+
+        generatedImports = 0
+
+        for tile in tiles:
+
+            if(tile.type == utils.TileType.SOLAR_PANEL):
+                generatedImports += random.randint(utils.solarImportMin, utils.solarImportMax)
+
+        if(self.wattsGenerated + generatedImports <= self.capacity):
+            self.wattsGenerated += generatedImports
+
+    def updateStatus(self, tiles):
+
+        if(int(time()) - self.updateTimeStamp >= self.updateDelay):
+
+            self.handleGridExports()
+            self.handleGridImports(tiles)
+            self.updateTimeStamp = int(time())
+
+    def batteryDeplation(self):
+
+        self.timeLeft = math.ceil((self.wattsGenerated) * utils.batteryStages)
+
+        percentage = math.ceil((self.wattsGenerated / self.capacity) * 100) 
+
+        #! There is Battery Animation Bug! [BUG]
+
+        for i in range(utils.batteryStages):
+
+            if(percentage >= i * 20 and utils.BatteryLevel(utils.batteryStages - i) != self.batteryLevel):
+                self.setBatteryLevel(utils.BatteryLevel(utils.batteryStages - i))
+        # if(time() - int(self.timeStamp) >= self.timeLeft):
+
+        #     self.timeStamp = time()
+        #     if(self.level != utils.BatteryLevel.BATTERY_EMPTY):
+
+        #         self.level = utils.BatteryLevel(self.level.value + 1)
+        #         self.srcRect.x = float(textures.images["Battery"]["image"]["FrameWidth"] * self.level.value)
+        #         self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][self.level.value])
+        #     else:
+        #         self.dead = True
+
+    def setBatteryLevel(self, batteryLevel):
+
+        self.batteryLevel = batteryLevel
+        self.srcRect.x = float(textures.images["Battery"]["image"]["FrameWidth"] * batteryLevel.value)
+        self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][batteryLevel.value])
+
+    def handleGridExports(self):
+
+        # Right now there are nothing using energy
+
+        self.wattsGenerated -= random.randint(utils.batterydelateMin, utils.batterydelateMax)
+
+    def draw(self, window):
+
+        window.blit(textures.images["Battery"]["image"]["surface"], self.position, self.srcRect)
 
     def loadImage(self):
 
@@ -47,24 +157,3 @@ class BatteryGenenator():
         textures.images["Battery"]["image"]["FrameWidth"] = textures.images["Battery"]["image"]["surface"].width / textures.images["Battery"]["maxFramesX"]
         textures.images["Battery"]["image"]["FrameHeight"] = textures.images["Battery"]["image"]["surface"].height / textures.images["Battery"]["FramesY"]
         
-
-
-    def update(self, window):
-
-        # self.srcRect.x = 10
-        
-        if(time() - int(self.timeStamp) >= self.timeLeft):
-
-            self.timeStamp = time()
-            if(self.level != utils.BatteryLevel.BATTERY_EMPTY):
-
-                self.level = utils.BatteryLevel(self.level.value + 1)
-                self.srcRect.x = float(textures.images["Battery"]["image"]["FrameWidth"] * self.level.value)
-            else:
-                self.dead = True
-
-        self.draw(window)
-
-    def draw(self, window):
-
-        window.blit(textures.images["Battery"]["image"]["surface"], self.position, self.srcRect)
