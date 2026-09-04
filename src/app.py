@@ -3,7 +3,7 @@ from game import *
 
 def init():
 
-    pygame.display.set_caption("Pygame Window")
+    pygame.display.set_caption("Get Those Clankers!")
     pygame.init()
     pygame.font.init()
 

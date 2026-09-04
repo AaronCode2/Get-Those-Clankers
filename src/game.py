@@ -19,6 +19,7 @@ class Game():
         self.fillColor = (86, 88, 123)
         utils.font = pygame.font.Font("assets/fonts/jetbrains.ttf", 30)
         utils.smfont = pygame.font.Font("assets/fonts/jetbrains.ttf", 24)
+        utils.ssmfont = pygame.font.Font("assets/fonts/jetbrains.ttf", 15)
 
         utils.screenRect = pygame.Rect(0, 0, self.window.width, self.window.height)
 
@@ -29,12 +30,11 @@ class Game():
 
         # This where everything should go e.g player.update()
         self.world.update(self.window)
-        self.ui.setBatteryStuff(
-            self.world.batteryGenator.level, 
-            self.world.batteryGenator.timeLeft, 
-            self.world.batteryGenator.wattsUsed, 
-            self.world.batteryGenator.wattsGenereated
-        )
+
+        # We need to convert Item To Tile, since their diffrenet classes
+
+        self.ui.addStuffToInventory(self.world.giveAddSelectedSlotType(), 1)
+        self.world.setCurrentselectedSlot(self.ui.getInventoryHotBarSelectedSlot())
         self.ui.update(self.window)
 
     def processEvents(self):
