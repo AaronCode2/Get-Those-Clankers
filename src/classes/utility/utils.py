@@ -28,6 +28,8 @@ ssmfont = None
 
 colladjust = 0.1
 
+
+
 class TypeOfGuiPlates(Enum):
 
     NORMAL = 0
@@ -537,6 +539,25 @@ class TileType(Enum):
 
     BARRIER = 0
     SOLAR_PANEL = 1
+
+hitBoxAdjForTiles = {
+
+    TileType.BARRIER: {
+
+        RotationType.LEFT: pygame.Rect(2, 25, -5, -50),
+        RotationType.RIGHT: pygame.Rect(2, 25, -5, -50),
+        RotationType.UP: pygame.Rect(2, 25, -5, -50),
+        RotationType.DOWN: pygame.Rect(2, 25, -5, -50)
+    },
+
+    TileType.SOLAR_PANEL: {
+
+        RotationType.LEFT: pygame.Rect(1, 6, -2, -10),
+        RotationType.RIGHT: pygame.Rect(1, 6, -2, -10),
+        RotationType.UP: pygame.Rect(1, 6, -2, -10),
+        RotationType.DOWN: pygame.Rect(1, 6, -2, -10)
+    }
+}
 
 def convertToItemType(tileType: TileType):
 

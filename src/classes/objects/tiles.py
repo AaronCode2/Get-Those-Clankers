@@ -13,9 +13,17 @@ class Tile:
         self.width = textures.images["Tiles"]["image"]["FrameWidth"]
         self.height = textures.images["Tiles"]["image"]["FrameHeight"]
 
-        self._hitBox = pygame.Rect(self.position.x, self.position.y, self.width, self.height)
+        self._hitBox = pygame.Rect(
+
+            self.position.x + utils.hitBoxAdjForTiles[self.type][rotation].x, 
+            self.position.y + utils.hitBoxAdjForTiles[self.type][rotation].y, 
+            self.width + utils.hitBoxAdjForTiles[self.type][rotation].width, 
+            self.height + utils.hitBoxAdjForTiles[self.type][rotation].height
+        )
 
         self.rotation = rotation
+
+        self.durability = 5
 
         print(type)
 

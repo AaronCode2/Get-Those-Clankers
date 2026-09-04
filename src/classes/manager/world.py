@@ -20,6 +20,8 @@ class World():
         self.tiles = []
         self.bots = []
 
+        self.dev_activateBots = False
+
         self.initTextures()
 
         self.currentSelectedSlot = None
@@ -58,8 +60,10 @@ class World():
                 utils.RotationType.DOWN
         ))
 
+        bot.Bot.setBatteryPos(self.batteryGenator.position)
+
         self.bots.append(
-            bot.Bot(pygame.Vector2(800, 700), pygame.Vector2(200, 200))
+            bot.Bot(pygame.Vector2(800, 700), self.batteryGenator.position)
         )
 
     def updateTileSrcRect(self):
@@ -287,17 +291,24 @@ class World():
             self.selectedTileType = None
 
 
+        key = pygame.key.get_just_pressed()
+
+        if(key[pygame.K_b]):
+            self.dev_activateBots = not self.dev_activateBots
+
         self.updateTilePlacer(window)
-
-        for bot in self.bots:
-
-            bot.update(window, self.tiles)
 
         for tile in self.tiles:
 
             tile.update(window)
 
         self.batteryGenator.update(window, self.tiles)
+
+        if(self.dev_activateBots):
+            for bot in self.bots:
+
+                bot.update(window, self.tiles)
+
     
     def initTextures(self):
 
