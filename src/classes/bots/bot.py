@@ -115,6 +115,8 @@ class Bot():
         
         self.updateRect()
 
+        self.stop = False
+
         for tile in tiles:
 
             if(tile.getHitBox().colliderect(self.rect)):

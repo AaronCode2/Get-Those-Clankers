@@ -540,22 +540,28 @@ class TileType(Enum):
     BARRIER = 0
     SOLAR_PANEL = 1
 
+durabiltyForTile = {
+
+    TileType.SOLAR_PANEL: 15,
+    TileType.BARRIER: 8
+}
+
 hitBoxAdjForTiles = {
 
     TileType.BARRIER: {
 
-        RotationType.LEFT: pygame.Rect(2, 25, -5, -50),
-        RotationType.RIGHT: pygame.Rect(2, 25, -5, -50),
         RotationType.UP: pygame.Rect(2, 25, -5, -50),
-        RotationType.DOWN: pygame.Rect(2, 25, -5, -50)
+        RotationType.DOWN: pygame.Rect(2, 25, -5, -50),
+        RotationType.LEFT: pygame.Rect(25, 3, -50, -6),
+        RotationType.RIGHT: pygame.Rect(25, 3, -50, -6),
     },
 
     TileType.SOLAR_PANEL: {
 
-        RotationType.LEFT: pygame.Rect(1, 6, -2, -10),
-        RotationType.RIGHT: pygame.Rect(1, 6, -2, -10),
-        RotationType.UP: pygame.Rect(1, 6, -2, -10),
-        RotationType.DOWN: pygame.Rect(1, 6, -2, -10)
+        RotationType.UP: pygame.Rect(0, 6, -2, -10),
+        RotationType.DOWN: pygame.Rect(0, 6, -2, -10),
+        RotationType.LEFT: pygame.Rect(5, 3, -11, -6),
+        RotationType.RIGHT: pygame.Rect(5, 3, -11, -6),
     }
 }
 

@@ -50,14 +50,14 @@ class World():
                 pygame.Vector2(
                 400, 260
                 ), utils.TileType.BARRIER,
-                utils.RotationType.DOWN
+                utils.RotationType.LEFT
         ))
         self.tiles.append(
             tiles.Tile(
                 pygame.Vector2(
                 600, 230
                 ), utils.TileType.SOLAR_PANEL,
-                utils.RotationType.DOWN
+                utils.RotationType.LEFT
         ))
 
         bot.Bot.setBatteryPos(self.batteryGenator.position)
@@ -305,10 +305,19 @@ class World():
         self.batteryGenator.update(window, self.tiles)
 
         if(self.dev_activateBots):
-            for bot in self.bots:
+            self.dev_deployBots()
 
-                bot.update(window, self.tiles)
 
+        for bot in self.bots:
+
+            bot.update(window, self.tiles)
+
+    def dev_deployBots(self):
+
+        x = float(random.randint(0, 1000))
+        y = float(random.randint(0, 800))
+
+        self.bots.append(bot.Bot(pygame.Vector2(x, y), self.batteryGenator.position))
     
     def initTextures(self):
 

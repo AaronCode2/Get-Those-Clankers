@@ -23,7 +23,7 @@ class Tile:
 
         self.rotation = rotation
 
-        self.durability = 5
+        self.durability = utils.durabiltyForTile[type]
 
         print(type)
 
