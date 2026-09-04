@@ -15,7 +15,7 @@ class AnimationManager:
             num_of_animations: int,
             animations_num_frames: list[int],
             animations_names: list[str],
-            scale = False
+            scale_factor: int = -1
         ):
         """Extracts animations from a sprite sheet .png file and plays them
 
@@ -38,8 +38,8 @@ class AnimationManager:
 
         sprite_sheet = pygame.image.load(f"assets/{self.asset_path}").convert_alpha()
 
-        if scale:
-            sprite_sheet = pygame.transform.scale2x(sprite_sheet).convert_alpha()
+        if scale_factor != -1:
+            sprite_sheet = pygame.transform.scale_by(sprite_sheet, scale_factor).convert_alpha()
 
         self.max_frames = max(animations_num_frames)
         self.frame_width: int = sprite_sheet.get_width() // self.max_frames
