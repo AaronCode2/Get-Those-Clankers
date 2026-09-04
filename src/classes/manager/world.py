@@ -189,7 +189,12 @@ class World():
 
         if(selectedTile != None):
 
-            utils.debugDraw(window, pygame.Rect(selectedTile.position.x, selectedTile.position.y, utils.defaultImageSizes, utils.defaultImageSizes))
+            utils.debugDraw(window, pygame.Rect(
+                selectedTile.getHitBox().x, 
+                selectedTile.getHitBox().y, 
+                selectedTile.getHitBox().width, 
+                selectedTile.getHitBox().height
+            ))
 
             for i in range(utils.SnapType.__len__()):
                 for j in range(utils.dirType.__len__()):

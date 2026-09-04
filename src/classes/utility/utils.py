@@ -538,15 +538,15 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
             return (
 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
-                    selectedTile.position.x + selectedTile.width <= mouseRect.x and
-                    selectedTile.position.y <= mouseRect.y and
-                    selectedTile.position.y + selectedTile.height >= mouseRect.y
+                    selectedTile.getHitBox().x + selectedTile.getHitBox().width <= mouseRect.x and
+                    selectedTile.getHitBox().y <= mouseRect.y and
+                    selectedTile.getHitBox().y + selectedTile.getHitBox().height >= mouseRect.y
             ) if(directionType == dirType.HORIZONTAL) else (   
 
                     (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
-                    selectedTile.position.x + selectedTile.width < mouseRect.x and 
-                    selectedTile.position.y <= mouseRect.y and
-                    selectedTile.position.y + selectedTile.height >= mouseRect.y
+                    selectedTile.getHitBox().x + selectedTile.getHitBox().width < mouseRect.x and 
+                    selectedTile.getHitBox().y <= mouseRect.y and
+                    selectedTile.getHitBox().y + selectedTile.getHitBox().height >= mouseRect.y
                 )
 
         case SnapType.LEFT_SIDE:
@@ -554,15 +554,15 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
             return(
 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
-                selectedTile.position.x >= mouseRect.x and 
-                selectedTile.position.y <= mouseRect.y and
-                selectedTile.position.y + selectedTile.height >= mouseRect.y
+                selectedTile.getHitBox().x >= mouseRect.x and 
+                selectedTile.getHitBox().y <= mouseRect.y and
+                selectedTile.getHitBox().y + selectedTile.height >= mouseRect.y
             ) if(directionType == dirType.HORIZONTAL) else (
 
                 (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
-                selectedTile.position.x > mouseRect.x and
-                selectedTile.position.y <= mouseRect.y and
-                selectedTile.position.y + selectedTile.height >= mouseRect.y  
+                selectedTile.getHitBox().x > mouseRect.x and
+                selectedTile.getHitBox().y <= mouseRect.y and
+                selectedTile.getHitBox().y + selectedTile.getHitBox().height >= mouseRect.y  
             )
 
         case SnapType.DOWN_SIDE:
@@ -570,15 +570,15 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
             return (
 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
-                selectedTile.position.y + selectedTile.height + snapdetect2Adj.y <= mouseRect.y and
-                selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + selectedTile.width >= mouseRect.x
+                selectedTile.getHitBox().y + selectedTile.getHitBox().height + snapdetect2Adj.y <= mouseRect.y and
+                selectedTile.getHitBox().x <= mouseRect.x and  
+                selectedTile.getHitBox().x + selectedTile.getHitBox().width >= mouseRect.x
             ) if(directionType == dirType.HORIZONTAL) else (
 
                 (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
-                selectedTile.position.y >= mouseRect.y and
-                selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + selectedTile.width >= mouseRect.x
+                selectedTile.getHitBox().y >= mouseRect.y and
+                selectedTile.getHitBox().x <= mouseRect.x and  
+                selectedTile.getHitBox().x + selectedTile.getHitBox().width >= mouseRect.x
             )
             
         case SnapType.UP_SIDE:
@@ -586,13 +586,13 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
             return (
 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
-                selectedTile.position.y >= mouseRect.y and
-                selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + selectedTile.width >= mouseRect.x
+                selectedTile.getHitBox().y >= mouseRect.y and
+                selectedTile.getHitBox().x <= mouseRect.x and  
+                selectedTile.getHitBox().x + selectedTile.getHitBox().width >= mouseRect.x
             ) if(directionType == dirType.HORIZONTAL) else (
 
                 (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
-                selectedTile.position.y + selectedTile.height <= mouseRect.y and
-                selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + selectedTile.width >= mouseRect.x
+                selectedTile.getHitBox().y + selectedTile.getHitBox().height <= mouseRect.y and
+                selectedTile.getHitBox().x <= mouseRect.x and  
+                selectedTile.getHitBox().x + selectedTile.getHitBox().width >= mouseRect.x
             )
