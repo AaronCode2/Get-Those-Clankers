@@ -24,6 +24,7 @@ class Bot():
         self.height = utils.defaultImageSizes
 
         self.health = 100
+        self.speed = 10
         self.behaviour = utils.BotBehaviour.ANGRY
 
         self.timeStamp = int(time())
@@ -62,11 +63,11 @@ class Bot():
             self.velocity = pygame.Vector2(0, 0)
 
 
-        self.position.x += self.velocity.x
+        self.position.x += self.velocity.x * utils.deltaTime
         self.collisionX(tiles)
 
 
-        self.position.y += self.velocity.y
+        self.position.y += self.velocity.y * utils.deltaTime
         self.collisionY(tiles)
 
     def collisionX(self, tiles):
@@ -160,16 +161,16 @@ class Bot():
     def aiPathFinder(self):
 
         if(self.position.x < self.targetPos.x):
-            self.velocity.x = 100 * utils.deltaTime
+            self.velocity.x = self.speed
 
         if(self.position.x > self.targetPos.x):
-            self.velocity.x = -100 * utils.deltaTime
+            self.velocity.x = -self.speed
 
         if(self.position.y > self.targetPos.y):
-            self.velocity.y = -100 * utils.deltaTime
+            self.velocity.y = -self.speed
 
         if(self.position.y < self.targetPos.y):
-            self.velocity.y = 100 * utils.deltaTime
+            self.velocity.y = self.speed
 
     def draw(self, window):
 
