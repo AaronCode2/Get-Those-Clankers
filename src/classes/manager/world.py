@@ -206,7 +206,7 @@ class World():
 
             isTilePlaceable = True
 
-            if(self.selectedTileType != utils.TileType.BARRIER and len(tile) != 0):
+            if(self.selectedTileType != utils.TileType.BARRIER and len(self.tiles) != 0):
                 for tile in self.tiles:
 
                     if(detectBox.colliderect(utils.getTilesDetectRect(tile.position))):

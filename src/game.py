@@ -34,6 +34,7 @@ class Game():
         # We need to convert Item To Tile, since their diffrenet classes
 
         self.ui.addStuffToInventory(self.world.giveAddSelectedSlotType(), 1)
+        self.world.setCurrentselectedSlot(self.ui.getInventoryHotBarSelectedSlot())
         self.ui.update(self.window)
 
     def processEvents(self):
