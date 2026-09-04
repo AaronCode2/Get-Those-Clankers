@@ -33,7 +33,7 @@ class TypeOfGuiPlates(Enum):
 
 class Bots(Enum):
 
-    WALKER = 0
+    DEAFULT = 0
 
 class GuiPlates(Enum):
 

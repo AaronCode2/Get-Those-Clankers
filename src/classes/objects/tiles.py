@@ -13,6 +13,8 @@ class Tile:
         self.width = textures.images["Tiles"]["image"]["FrameWidth"]
         self.height = textures.images["Tiles"]["image"]["FrameHeight"]
 
+        self.hitBox = None
+
         self.rotation = rotation
 
         print(type)

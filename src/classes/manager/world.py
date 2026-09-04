@@ -1,8 +1,10 @@
 import pygame
 import classes.objects.tiles as tiles
 import classes.utility.utils as utils
+import classes.bots.bot as bot
 import classes.objects.batteryGen as batteryGen
 import math
+import random
 from copy import copy
 
 # Using this temporarly! -> import textures
@@ -14,7 +16,9 @@ class World():
     def __init__(self):
 
         self.worldPos = pygame.Vector2(0, 0)
+
         self.tiles = []
+        self.bots = []
 
         self.initTextures()
 
@@ -25,6 +29,10 @@ class World():
 
         self.batteryGenator = batteryGen.BatteryGenenator()
         self.setupPrieviewTile()
+        self.setupObjects()
+
+
+    def setupObjects(self):
 
         self.tiles.append(
 
@@ -49,6 +57,10 @@ class World():
                 ), utils.TileType.SOLAR_PANEL,
                 utils.RotationType.DOWN
         ))
+
+        self.bots.append(
+            bot.Bot(pygame.Vector2(800, 700), pygame.Vector2(200, 200))
+        )
 
     def updateTileSrcRect(self):
 
@@ -276,6 +288,10 @@ class World():
 
 
         self.updateTilePlacer(window)
+
+        for bot in self.bots:
+
+            bot.update(window, self.tiles)
 
         for tile in self.tiles:
 
