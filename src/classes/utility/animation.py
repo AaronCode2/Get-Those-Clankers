@@ -30,6 +30,7 @@ class AnimationManager:
         self._current_frame_index: int = 0
         self._current_animation_name: str = ""
         self._timer: float = 0.0
+        self.flipped: bool = False
         # in fps
         self._animation_speed: float = 5
 
@@ -76,7 +77,11 @@ class AnimationManager:
 
     @property
     def current_frame(self) -> pygame.Surface:
-        return self.current_animation["frames"][self._current_frame_index]
+        frame = self.current_animation["frames"][self._current_frame_index]
+        if self.flipped:
+            return pygame.transform.flip(frame, True, False)
+        else:
+            return frame
 
     @property
     def animation_speed(self):
@@ -97,6 +102,9 @@ class AnimationManager:
     @animation_frame_delay.setter
     def animation_frame_delay(self, delay: float):
         self._animation_speed = 1 / delay
+
+    def flip(self):
+        self.flipped = not self.flipped
 
     def split_animation(self, animation_sheet : pygame.Surface, num_frames : int) -> list[pygame.Surface]:
         frames: list[pygame.Surface] = []
