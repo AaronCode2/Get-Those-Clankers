@@ -7,14 +7,14 @@ import classes.utility.utils as utils
 class Player(AnimatedEntity):
     def __init__(self, position: pygame.Vector2):
         animation = AnimationManager(
-            "player/player.png",
-            2,
-            [4, 4],
-            ["idle", "walk"],
-            2
+            asset_path = "player/player.png",
+            num_of_animations = 2,
+            animations_num_frames = [4, 4],
+            animations_names = ["idle", "walk"],
+            scale_factor = 3
         )
         self.movement_speed = 200
-        super().__init__(position, animation, (54, 25))
+        super().__init__(position, animation, (81, 35))
 
     def update(self, collision_tiles: list[tiles.Tile]):
         keys = pygame.key.get_pressed()
