@@ -44,7 +44,7 @@ class BatteryGenenator():
             textures.images["batteryIndicator"]["FramesY"],
             [textures.images["batteryIndicator"]["FramesX"]] * 6,
             textures.images["batteryIndicator"]["animationNames"],
-            True
+            2
         )
 
         self.srcRect = pygame.Rect(

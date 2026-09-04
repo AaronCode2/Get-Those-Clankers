@@ -343,7 +343,7 @@ class World():
             textures.images["Tower"]["FramesY"],
             [textures.images["Tower"]["FramesX"]],
             [textures.images["Tower"]["AnimationNames"]],
-            True
+            2
         )
 
         textures.images["Tower"]["image"]["Animation"].set_animation(textures.images["Tower"]["AnimationNames"])
