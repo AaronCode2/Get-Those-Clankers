@@ -13,16 +13,19 @@ class Entity:
         self.hitbox = pygame.FRect((0, 0), hitbox_size)
         self.hitbox.midbottom = midbottom
         self.velocity = pygame.Vector2(0.0, 0.0)
-        self._acceleration = pygame.Vector2(0.0, 0.0)
+        self.acceleration = pygame.Vector2(0.0, 0.0)
+        self._force = pygame.Vector2(0.0, 0.0)
 
     def apply_force(self, force: pygame.Vector2):
-        self._acceleration += force
+        self._force += force
 
     def update(self):
-        # This looks weird I know, but it's acctualy the right way to do it
-        self.velocity += self._acceleration * (utils.deltaTime * 0.5)
-        self.hitbox.midbottom += self.velocity * utils.deltaTime
-        self.velocity += self._acceleration * utils.deltaTime * 0.5
+        self.velocity += self._force
 
-        self._acceleration.x = 0
-        self._acceleration.y = 0
+        # This looks weird I know, but it's acctualy the right way to do it
+        self.velocity += self.acceleration * 0.5 * utils.deltaTime
+        self.hitbox.midbottom += self.velocity * utils.deltaTime
+        self.velocity += self.acceleration * 0.5 * utils.deltaTime
+
+        self._force.x = 0
+        self._force.y = 0
