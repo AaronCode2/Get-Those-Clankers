@@ -99,6 +99,19 @@ images = {
             },
         },
 
+        "Tower": {
+
+            "location": "assets/towers/towers.png",
+            "FramesX": 12,
+            "FramesY": 1,
+            "image": {
+
+                "surface": None,
+                "FrameWidth": None,
+                "FrameHeight": None
+            },
+        }, 
+
         "Selector": {
 
             "location": "assets/ui/selector.png",

@@ -321,6 +321,8 @@ class World():
     
     def initTextures(self):
 
+        # textures.images["Tower"]
+
         textures.images["Tiles"]["image"]["surface"] =  pygame.image.load(
             textures.images["Tiles"]["location"]).convert_alpha()
 
