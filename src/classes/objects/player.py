@@ -5,7 +5,13 @@ import classes.utility.utils as utils
 
 class Player(AnimatedEntity):
     def __init__(self, position: pygame.Vector2):
-        animation = AnimationManager("player/player.png", 2, [4, 4], ["idle", "walk"], 3)
+        animation = AnimationManager(
+            "player/player.png",
+            2,
+            [4, 4],
+            ["idle", "walk"],
+            2
+        )
         self.movement_speed = 200
         super().__init__(position, animation, (20, 15))
 
@@ -13,11 +19,11 @@ class Player(AnimatedEntity):
         keys = pygame.key.get_pressed()
 
         movement_direction = pygame.Vector2(0, 0)
-        if keys[pygame.K_z]:
+        if keys[pygame.K_w]:
             movement_direction.y -= 1
         if keys[pygame.K_s]:
             movement_direction.y += 1
-        if keys[pygame.K_q]:
+        if keys[pygame.K_a]:
             movement_direction.x -= 1
         if keys[pygame.K_d]:
             movement_direction.x += 1
@@ -26,7 +32,6 @@ class Player(AnimatedEntity):
         if movement_direction.length() != 0:
             movement_direction.normalize_ip()
             self.set_animation("walk")
-            self.animation._timer
             self.animation.animation_speed = 5
         else:
             self.set_animation("idle")
