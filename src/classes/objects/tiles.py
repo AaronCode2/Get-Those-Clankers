@@ -27,6 +27,9 @@ class Tile:
         )
 
         self.rotation = rotation
+
+        # How long the tower lasts
+
         self.durability = utils.durabiltyForTile[type]
 
         print(type)
@@ -41,6 +44,16 @@ class Tile:
         self.draw(window)
         utils.debugDraw(window, self._hitBox)
 
+    # This func only called if the object is a tower!
+
+    def towerFunc(self, bots):
+        pass
+
+    # It's an array of bots, 
+    # Bots have bot.health
+    # You manually destroy the bots e.g if(bot.health == 0): bots.remove(bot)
+    # There is no bullet class, you have to create one
+
     def draw(self, window):
 
         if(self.type != utils.TileType.GREEN_TOWER):
@@ -52,11 +65,14 @@ class Tile:
 
         else:
 
+            # Draw Tower!
+            
             window.blit(textures.images["Tower"]["image"]["Animation"].current_frame, self.position)
 
     def setSrcRect(self):
 
         # Takes care of rotated image and gets that single frame it needs
+        # Towers Should not be rotated
 
         if(self.type == utils.TileType.GREEN_TOWER):
             return

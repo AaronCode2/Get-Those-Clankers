@@ -31,7 +31,6 @@ class World():
         self.setupPrieviewTile()
         self.setupObjects()
 
-
     def setupObjects(self):
 
         self.tiles.append(
@@ -91,12 +90,21 @@ class World():
         self.currentSelectedSlot = slot
 
     def drawPreviewPlacer(self, window):
+
+        if(self.selectedTileType != utils.TileType.GREEN_TOWER):
         
-        window.blit(
-            self.previewTile["image"], 
-            pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
-            self.previewTile["srcRect"]
-        )
+            window.blit(
+                self.previewTile["image"], 
+                pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
+                self.previewTile["srcRect"]
+            )
+        else:
+
+            window.blit(
+                textures.images["Tower"]["image"]["Animation"].current_frame, 
+                pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
+            )
+
 
     def handleInputplacer(self):
 
@@ -304,6 +312,9 @@ class World():
 
             tile.update(window)
 
+            if(tile.type == utils.TileType.GREEN_TOWER):
+                tile.towerFunc(self.bots)
+
         self.batteryGenator.update(window, self.tiles)
 
         if(self.dev_activateBots):
@@ -332,12 +343,10 @@ class World():
             True
         )
 
-        #! Bug at line 336
-
         textures.images["Tower"]["image"]["Animation"].set_animation(textures.images["Tower"]["AnimationNames"])
         textures.images["Tower"]["image"]["FrameWidth"] = textures.images["Tower"]["image"]["Animation"].frame_width
         textures.images["Tower"]["image"]["FrameHeight"] = textures.images["Tower"]["image"]["Animation"].frame_height
-        textures.images["Tower"]["image"]["Animation"].animation_speed = 5
+        textures.images["Tower"]["image"]["Animation"].animation_speed = 10
         
         textures.images["Tiles"]["image"]["surface"] =  pygame.image.load(
             textures.images["Tiles"]["location"]).convert_alpha()

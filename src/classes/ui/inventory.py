@@ -58,7 +58,7 @@ class Inventory():
         self.slots[5][4].amount = 40
         self.slots[5][4].type = utils.ItemType.BARRIER
 
-        self.slots[5][1].amount = 10
+        self.slots[5][1].amount = 20
         self.slots[5][1].type = utils.ItemType.GREEN_TOWER
 
         self.isCrafterToggled = True
@@ -70,7 +70,7 @@ class Inventory():
 
     def setupHotBarSelector(self):
 
-        self._selectedHotBarSlotIndex = 1
+        self._selectedHotBarSlotIndex = 0
         self._selectedHotBarSlot = None
 
         textures.images["Selector"]["image"]["surface"] = pygame.image.load(textures.images["Selector"]["location"]).convert_alpha()
