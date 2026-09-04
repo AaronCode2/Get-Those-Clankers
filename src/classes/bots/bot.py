@@ -62,7 +62,6 @@ class Bot():
         if(self.stop):
             self.velocity = pygame.Vector2(0, 0)
 
-
         self.position.x += self.velocity.x * utils.deltaTime
         self.collisionX(tiles)
 
