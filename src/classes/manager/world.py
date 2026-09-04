@@ -54,8 +54,8 @@ class World():
             tiles.Tile(
                 pygame.Vector2(
                 600, 230
-                ), utils.TileType.SOLAR_PANEL,
-                utils.RotationType.LEFT
+                ), utils.TileType.GREEN_TOWER,
+                utils.RotationType.UP
         ))
 
         bot.Bot.setBatteryPos(self.batteryGenator.position)
@@ -324,7 +324,8 @@ class World():
             textures.images["Tower"]["location"],
             textures.images["Tower"]["FramesY"],
             [textures.images["Tower"]["FramesX"]],
-            [textures.images["Tower"]["AnimationNames"]]
+            [textures.images["Tower"]["AnimationNames"]],
+            True
         )
 
         textures.images["Tower"]["image"]["Animation"].set_animation(textures.images["Tower"]["AnimationNames"])

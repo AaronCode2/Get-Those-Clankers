@@ -27,12 +27,9 @@ class Tile:
         )
 
         self.rotation = rotation
-
         self.durability = utils.durabiltyForTile[type]
 
         print(type)
-
-        # Get a frame of the whole image
 
         self.setSrcRect()
 
@@ -46,14 +43,26 @@ class Tile:
 
     def draw(self, window):
 
-        if(self.rotation == utils.RotationType.DOWN):
-            window.blit(textures.images["Tiles"]["image"]["surface"], self.position, self.srcRect)
+        if(self.type != utils.TileType.GREEN_TOWER):
+
+            if(self.rotation == utils.RotationType.DOWN):
+                window.blit(textures.images["Tiles"]["image"]["surface"], self.position, self.srcRect)
+            else:
+                window.blit(textures.images["Tiles"]["rotatedImages"][self.rotation], self.position, self.srcRect)
+
         else:
-            window.blit(textures.images["Tiles"]["rotatedImages"][self.rotation], self.position, self.srcRect)
+
+            textures.images["Tower"]["image"]["Animation"].update()
+
+            window.blit(textures.images["Tower"]["image"]["Animation"].current_frame, self.position)
 
     def setSrcRect(self):
 
         # Takes care of rotated image and gets that single frame it needs
+
+        if(self.type == utils.TileType.GREEN_TOWER):
+            return
+
         match(self.rotation):
 
             case utils.RotationType.DOWN:
