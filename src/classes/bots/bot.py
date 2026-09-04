@@ -24,7 +24,7 @@ class Bot():
         self.height = utils.defaultImageSizes
 
         self.health = 100
-        self.speed = 10
+        self.speed = 100
         self.behaviour = utils.BotBehaviour.ANGRY
 
         self.timeStamp = int(time())
