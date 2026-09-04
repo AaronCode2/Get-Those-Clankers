@@ -324,30 +324,30 @@ def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):
             case SnapType.RIGHT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x + defaultImageSizes + snapdetectAdj.x,
+                    selectedTile.position.x + selectedTile.getHitBox().width,
                     selectedTile.position.y,
-                    defaultImageSizes, defaultImageSizes
+                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
                 )
             case SnapType.LEFT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x - defaultImageSizes - snapdetectAdj.x,
+                    selectedTile.position.x - selectedTile.getHitBox().width,
                     selectedTile.position.y,
-                    defaultImageSizes, defaultImageSizes
+                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
                 )
             case SnapType.DOWN_SIDE:
 
                 return pygame.Rect(
                     selectedTile.position.x,
-                    selectedTile.position.y + defaultImageSizes + snapdetect2Adj.y,
-                    defaultImageSizes, defaultImageSizes
+                    selectedTile.position.y + selectedTile.getHitBox().height,
+                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
                 )
             case SnapType.UP_SIDE:
 
                 return pygame.Rect(
                     selectedTile.position.x,
-                    selectedTile.position.y - defaultImageSizes - snapdetect2Adj.y,
-                    defaultImageSizes, defaultImageSizes
+                    selectedTile.position.y - selectedTile.getHitBox().height,
+                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
                 )
     else:
 
@@ -357,29 +357,29 @@ def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):
 
                 return pygame.Rect(
                     selectedTile.position.x,
-                    selectedTile.position.y + defaultImageSizes + snapdetectAdj.y,
-                    defaultImageSizes, defaultImageSizes
+                    selectedTile.position.y + selectedTile.getHitBox().height,
+                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
                 )
             case SnapType.DOWN_SIDE:
 
                 return pygame.Rect(
                     selectedTile.position.x,
-                    selectedTile.position.y - defaultImageSizes - snapdetectAdj.y,
-                    defaultImageSizes, defaultImageSizes
+                    selectedTile.position.y - selectedTile.getHitBox().height,
+                    selectedTile.getHitBox().height, selectedTile.getHitBox().height
                 )
             case SnapType.RIGHT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x + defaultImageSizes + snapdetect2Adj.y,
+                    selectedTile.position.x + selectedTile.getHitBox().width,
                     selectedTile.position.y,
-                    defaultImageSizes, defaultImageSizes
+                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
                 )
             case SnapType.LEFT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x - defaultImageSizes - snapdetect2Adj.y,
+                    selectedTile.position.x - selectedTile.getHitBox().width,
                     selectedTile.position.y,
-                    defaultImageSizes, defaultImageSizes
+                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
                 )
 
 def configureRotatedImageForPreview(width, height, type, rotation):
@@ -503,8 +503,8 @@ hitBoxAdjForTiles = {
 
     TileType.GREEN_TOWER: {
 
-        RotationType.UP: pygame.Rect(10, 0, -20, 0),
-        RotationType.DOWN: pygame.Rect(10, 0, -20, 0),
+        RotationType.UP: pygame.Rect(0, 0, 0, 0),
+        RotationType.DOWN: pygame.Rect(0, 0, 0, 0),
     }
 }
 
@@ -556,13 +556,13 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
                 selectedTile.position.x >= mouseRect.x and 
                 selectedTile.position.y <= mouseRect.y and
-                selectedTile.position.y + defaultImageSizes >= mouseRect.y
+                selectedTile.position.y + selectedTile.height >= mouseRect.y
             ) if(directionType == dirType.HORIZONTAL) else (
 
                 (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
                 selectedTile.position.x > mouseRect.x and
                 selectedTile.position.y <= mouseRect.y and
-                selectedTile.position.y + defaultImageSizes >= mouseRect.y  
+                selectedTile.position.y + selectedTile.height >= mouseRect.y  
             )
 
         case SnapType.DOWN_SIDE:
@@ -570,15 +570,15 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
             return (
 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
-                selectedTile.position.y + defaultImageSizes + snapdetect2Adj.y <= mouseRect.y and
+                selectedTile.position.y + selectedTile.height + snapdetect2Adj.y <= mouseRect.y and
                 selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + defaultImageSizes >= mouseRect.x
+                selectedTile.position.x + selectedTile.width >= mouseRect.x
             ) if(directionType == dirType.HORIZONTAL) else (
 
                 (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
                 selectedTile.position.y >= mouseRect.y and
                 selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + defaultImageSizes >= mouseRect.x
+                selectedTile.position.x + selectedTile.width >= mouseRect.x
             )
             
         case SnapType.UP_SIDE:
@@ -588,11 +588,11 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
                 selectedTile.position.y >= mouseRect.y and
                 selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + defaultImageSizes >= mouseRect.x
+                selectedTile.position.x + selectedTile.width >= mouseRect.x
             ) if(directionType == dirType.HORIZONTAL) else (
 
                 (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
-                selectedTile.position.y + defaultImageSizes <= mouseRect.y and
+                selectedTile.position.y + selectedTile.height <= mouseRect.y and
                 selectedTile.position.x <= mouseRect.x and  
-                selectedTile.position.x + defaultImageSizes >= mouseRect.x
+                selectedTile.position.x + selectedTile.width >= mouseRect.x
             )
