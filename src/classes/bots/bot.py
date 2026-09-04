@@ -3,6 +3,8 @@ import classes.utility.animation as animation
 import pygame
 
 # I know this doesn't iherit from entity, But I don't like inhertiance
+# Basic Movement script, so do don't get performance issues
+# I burrowed code from other Projects
 
 class Bot():
 
@@ -14,31 +16,85 @@ class Bot():
         self.width = utils.defaultImageSizes
         self.height = utils.defaultImageSizes
 
+        self.behaviour = utils.BotBehaviour.ANGRY
+
         self.targetPos = targetPos
 
     def update(self, window, tiles):
 
-        self.move()
+        self.updateRect()
+        self.move(tiles)
         self.draw(window)
 
-    def move(self):
+    def updateRect(self):
+
+        self.rect = pygame.Rect(
+            self.position.x,
+            self.position.y,
+            self.width,
+            self.height
+        )
+
+        self.hitBox = self.rect
+
+    def move(self, tiles):
 
         self.velocity = pygame.Vector2(0, 0)
 
-        if(not pygame.Rect(self.position.x, self.position.y, self.width, self.height).collidepoint(self.targetPos)):
+        if(not pygame.Rect(self.rect).collidepoint(self.targetPos)):
             self.aiPathFinder()
 
         self.position.x += self.velocity.x
-        self.position.y += self.velocity.y
+        self.collisionX(tiles)
 
-    # Basic Movement script, so do don't get performance issues
-    # I burrowed code from other Projects
+        self.position.y += self.velocity.y
+        self.collisionY(tiles)
 
     def collisionX(self, tiles):
 
+        self.updateRect()
+
         for tile in tiles:
-            pass
-            # if(tile)
+            
+            if(tile.getHitBox().colliderect(self.rect)):
+
+                if(self.velocity.x > 0):
+                
+                    offset = self.hitBox.x - self.position.x + self.hitBox.width
+                
+                    self.position.x = tile.getHitBox().x - offset - utils.colladjust
+                
+            
+                if(self.velocity.x < 0):
+                
+                    offset = self.hitBox.x - self.position.x
+                
+                    self.position.x = tile.getHitBox().x + tile.getHitBox().width - offset + utils.colladjust
+
+                self.velocity.x = 0
+
+    def collisionY(self, tiles):
+        
+        self.updateRect()
+
+        for tile in tiles:
+            
+            if(tile.getHitBox().colliderect(self.rect)):
+
+                if(self.velocity.y > 0):
+                    
+                    offset = self.hitBox.y - self.position.y + self.hitBox.height
+                    
+                    self.position.y = tile.getHitBox().y - offset - utils.colladjust
+                    
+                
+                if(self.velocity.y < 0):
+                    
+                    offset = self.hitBox.y - self.position.y
+                    
+                    self.position.y = tile.getHitBox().y + tile.getHitBox().height - offset + utils.colladjust
+
+                self.velocity.y = 0
 
     def aiPathFinder(self):
 
@@ -56,11 +112,5 @@ class Bot():
 
     def draw(self, window):
 
-        if(
-            utils.screenRect.colliderect(
-                pygame.Rect(self.position.x, self.position.y, self.width, self.height)
-        )):
-            utils.debugDraw(window, pygame.Rect(
-                self.position.x, self.position.y, 
-                self.width, self.height
-            ))
+        if(utils.screenRect.colliderect(pygame.Rect(self.rect))):
+            utils.debugDraw(window, pygame.Rect(self.rect))

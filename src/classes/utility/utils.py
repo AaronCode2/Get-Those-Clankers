@@ -26,6 +26,8 @@ font = None
 smfont = None
 ssmfont = None
 
+colladjust = 0.1
+
 class TypeOfGuiPlates(Enum):
 
     NORMAL = 0
@@ -34,6 +36,13 @@ class TypeOfGuiPlates(Enum):
 class Bots(Enum):
 
     DEAFULT = 0
+
+class BotBehaviour(Enum):
+
+    MOODY = 0
+    STUIPED = 1
+    ANGRY = 2
+    TRIED = 3
 
 class GuiPlates(Enum):
 
