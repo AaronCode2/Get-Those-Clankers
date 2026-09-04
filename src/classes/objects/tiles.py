@@ -8,6 +8,7 @@ class Tile:
 
         self.position = position
         self.type = type
+        self.rotation = rotation
 
         if(type != utils.TileType.GREEN_TOWER):
 
@@ -15,20 +16,18 @@ class Tile:
             self.height = textures.images["Tiles"]["image"]["FrameHeight"]
         else:
 
+            self.rotation = utils.RotationType.UP
             self.width = textures.images["Tower"]["image"]["FrameWidth"]
             self.height = textures.images["Tower"]["image"]["FrameHeight"]
 
         self._hitBox = pygame.Rect(
 
-            self.position.x + utils.hitBoxAdjForTiles[self.type][rotation].x, 
-            self.position.y + utils.hitBoxAdjForTiles[self.type][rotation].y, 
-            self.width + utils.hitBoxAdjForTiles[self.type][rotation].width, 
-            self.height + utils.hitBoxAdjForTiles[self.type][rotation].height
+            self.position.x + utils.hitBoxAdjForTiles[self.type][self.rotation].x, 
+            self.position.y + utils.hitBoxAdjForTiles[self.type][self.rotation].y, 
+            self.width + utils.hitBoxAdjForTiles[self.type][self.rotation].width, 
+            self.height + utils.hitBoxAdjForTiles[self.type][self.rotation].height
         )
 
-        self.rotation = rotation
-
-        # How long the tower lasts
 
         self.durability = utils.durabiltyForTile[type]
 

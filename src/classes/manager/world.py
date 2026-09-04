@@ -83,7 +83,6 @@ class World():
         }
         
         self.selectedTileType = utils.TileType.SOLAR_PANEL
-
         self.destPreviewRect = pygame.Vector2(0, 0)
 
     def setCurrentselectedSlot(self, slot):
@@ -104,7 +103,6 @@ class World():
                 textures.images["Tower"]["image"]["Animation"].current_frame, 
                 pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
             )
-
 
     def handleInputplacer(self):
 
