@@ -31,6 +31,10 @@ class TypeOfGuiPlates(Enum):
     NORMAL = 0
     MARGIN = 1
 
+class Bots(Enum):
+
+    WALKER = 0
+
 class GuiPlates(Enum):
 
     CORNER_TOP_LEFT = 0
