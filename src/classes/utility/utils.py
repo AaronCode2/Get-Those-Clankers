@@ -317,139 +317,70 @@ def getTilesDetectRect(position: pygame.Vector2):
 
 def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):
 
-    match (selectedTile.type):
 
-        case TileType.BARRIER:
+    if rotationType == RotationType.DOWN or rotationType == RotationType.UP:
+        match(snapType):
 
-            if rotationType == RotationType.DOWN or rotationType == RotationType.UP:
-                match(snapType):
+            case SnapType.RIGHT_SIDE:
 
-                    case SnapType.RIGHT_SIDE:
+                return pygame.Rect(
+                    selectedTile.position.x + defaultImageSizes + snapdetectAdj.x,
+                    selectedTile.position.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+            case SnapType.LEFT_SIDE:
 
-                        return pygame.Rect(
-                            selectedTile.position.x + defaultImageSizes + snapdetectAdj.x,
-                            selectedTile.position.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.LEFT_SIDE:
+                return pygame.Rect(
+                    selectedTile.position.x - defaultImageSizes - snapdetectAdj.x,
+                    selectedTile.position.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+            case SnapType.DOWN_SIDE:
 
-                        return pygame.Rect(
-                            selectedTile.position.x - defaultImageSizes - snapdetectAdj.x,
-                            selectedTile.position.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.DOWN_SIDE:
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y + defaultImageSizes + snapdetect2Adj.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+            case SnapType.UP_SIDE:
 
-                        return pygame.Rect(
-                            selectedTile.position.x,
-                            selectedTile.position.y + defaultImageSizes + snapdetect2Adj.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.UP_SIDE:
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y - defaultImageSizes - snapdetect2Adj.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+    else:
 
-                        return pygame.Rect(
-                            selectedTile.position.x,
-                            selectedTile.position.y - defaultImageSizes - snapdetect2Adj.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-            else:
+        match(snapType):
 
-                match(snapType):
+            case SnapType.UP_SIDE:
 
-                    case SnapType.UP_SIDE:
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y + defaultImageSizes + snapdetectAdj.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+            case SnapType.DOWN_SIDE:
 
-                        return pygame.Rect(
-                            selectedTile.position.x,
-                            selectedTile.position.y + defaultImageSizes + snapdetectAdj.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.DOWN_SIDE:
+                return pygame.Rect(
+                    selectedTile.position.x,
+                    selectedTile.position.y - defaultImageSizes - snapdetectAdj.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+            case SnapType.RIGHT_SIDE:
 
-                        return pygame.Rect(
-                            selectedTile.position.x,
-                            selectedTile.position.y - defaultImageSizes - snapdetectAdj.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.RIGHT_SIDE:
+                return pygame.Rect(
+                    selectedTile.position.x + defaultImageSizes + snapdetect2Adj.y,
+                    selectedTile.position.y,
+                    defaultImageSizes, defaultImageSizes
+                )
+            case SnapType.LEFT_SIDE:
 
-                        return pygame.Rect(
-                            selectedTile.position.x + defaultImageSizes + snapdetect2Adj.y,
-                            selectedTile.position.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.LEFT_SIDE:
-
-                        return pygame.Rect(
-                            selectedTile.position.x - defaultImageSizes - snapdetect2Adj.y,
-                            selectedTile.position.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-
-        case TileType.SOLAR_PANEL:
-
-            if rotationType == RotationType.DOWN or rotationType == RotationType.UP:
-                match(snapType):
-
-                    case SnapType.RIGHT_SIDE:
-
-                        return pygame.Rect(
-                            selectedTile.position.x + defaultImageSizes + snapdetect3Adj.x,
-                            selectedTile.position.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.LEFT_SIDE:
-
-                        return pygame.Rect(
-                            selectedTile.position.x - defaultImageSizes - snapdetect3Adj.x,
-                            selectedTile.position.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.DOWN_SIDE:
-
-                        return pygame.Rect(
-                            selectedTile.position.x,
-                            selectedTile.position.y + defaultImageSizes + snapdetect3Adj.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.UP_SIDE:
-
-                        return pygame.Rect(
-                            selectedTile.position.x,
-                            selectedTile.position.y - defaultImageSizes - snapdetect3Adj.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-            else:
-
-                match(snapType):
-
-                    case SnapType.UP_SIDE:
-
-                        return pygame.Rect(
-                            selectedTile.position.x,
-                            selectedTile.position.y + defaultImageSizes,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.DOWN_SIDE:
-
-                        return pygame.Rect(
-                            selectedTile.position.x,
-                            selectedTile.position.y - defaultImageSizes,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.RIGHT_SIDE:
-
-                        return pygame.Rect(
-                            selectedTile.position.x + defaultImageSizes + snapdetect3Adj.y,
-                            selectedTile.position.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
-                    case SnapType.LEFT_SIDE:
-
-                        return pygame.Rect(
-                            selectedTile.position.x - defaultImageSizes - snapdetect3Adj.y,
-                            selectedTile.position.y,
-                            defaultImageSizes, defaultImageSizes
-                        )
+                return pygame.Rect(
+                    selectedTile.position.x - defaultImageSizes - snapdetect2Adj.y,
+                    selectedTile.position.y,
+                    defaultImageSizes, defaultImageSizes
+                )
 
 def configureRotatedImageForPreview(width, height, type, rotation):
 
@@ -607,15 +538,15 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
             return (
 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
-                    selectedTile.position.x + defaultImageSizes <= mouseRect.x and
+                    selectedTile.position.x + selectedTile.width <= mouseRect.x and
                     selectedTile.position.y <= mouseRect.y and
-                    selectedTile.position.y + defaultImageSizes >= mouseRect.y
+                    selectedTile.position.y + selectedTile.height >= mouseRect.y
             ) if(directionType == dirType.HORIZONTAL) else (   
 
                     (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
-                    selectedTile.position.x + defaultImageSizes < mouseRect.x and 
+                    selectedTile.position.x + selectedTile.width < mouseRect.x and 
                     selectedTile.position.y <= mouseRect.y and
-                    selectedTile.position.y + defaultImageSizes >= mouseRect.y
+                    selectedTile.position.y + selectedTile.height >= mouseRect.y
                 )
 
         case SnapType.LEFT_SIDE:
