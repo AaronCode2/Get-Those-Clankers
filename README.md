@@ -17,8 +17,10 @@
 ## Credits and Details
 
 #### Created by the Team: THAT'S A PROMISE.
-- Julien - head of project
-- Gurujezz - head of design
-- AaronCode2 - assitant programmer and assitant designer
+- **Julien - head of project**
+- **Gurujezz - head of design**
+- **MessyGear - assitant programmer and assitant designer**
 
-Game created using python and pygame-ce library. No AI was used for coding or asset designing, made with blood, sweat and tears. Made for the [Pygame Game Jam](https://itch.io/jam/the-long-pygame-summer-jam)
+Game created using python and pygame-ce library. No AI was used for coding or asset designing, **made with blood, sweat and tears.** Made for the [Pygame Summer Game Jam](https://itch.io/jam/the-long-pygame-summer-jam)
+
+![pygame-ce](assets/screenshots/pygame.webp)
