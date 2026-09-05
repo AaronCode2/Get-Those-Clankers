@@ -3,14 +3,20 @@ import pygame
 # (surface, dest, area, hitbox_center_y)
 CameraItem = tuple[pygame.Surface, tuple[float] | pygame.Vector2, pygame.Rect | None, float]
 
+
+camera_position: pygame.Vector2 = pygame.Vector2(0.0, 0.0)
+
+
 class Camera:
     def __init__(self):
         self.offset = pygame.Vector2(0.0, 0.0)
 
     def draw(self, items: list[CameraItem], focused_position: pygame.Vector2, window: pygame.Surface):
-        print(focused_position)
+        global camera_position
+        # ssssssdsprint(focused_position)
         self.offset.x = focused_position[0] - (window.size[0] / 2)
         self.offset.y = focused_position[1] - (window.size[1] / 2)
+        camera_position = self.offset
 
         ordered_items: list[CameraItem] = sorted(items, key = lambda item : item[3])
 

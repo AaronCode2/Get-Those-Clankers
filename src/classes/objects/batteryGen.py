@@ -84,8 +84,9 @@ class BatteryGenenator():
         self.updateStatus(tiles, playerVelocity)
 
         self.batteryDeplation()
-        self.draw(window)
+
         self.drawHud(window)
+        return self.draw(window)
 
     def handleGridImports(self, tiles):
 
@@ -99,11 +100,11 @@ class BatteryGenenator():
         if(self.wattsGenerated + generatedImports <= self.capacity):
             self.wattsGenerated += generatedImports
 
-    def updateStatus(self, tiles):
+    def updateStatus(self, tiles, playerVelocity):
 
         if(int(time()) - self.updateTimeStamp >= self.updateDelay):
 
-            self.handleGridExports()
+            self.handleGridExports(tiles, playerVelocity)
             self.handleGridImports(tiles)
             self.updateTimeStamp = int(time())
 
@@ -136,15 +137,21 @@ class BatteryGenenator():
         self.srcRect.x = float(textures.images["Battery"]["image"]["FrameWidth"] * batteryLevel.value)
         self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][batteryLevel.value])
 
-    def handleGridExports(self):
+    def handleGridExports(self, tiles, playerVelocity):
 
-        # Right now there are nothing using energy
+        for tile in tiles:
+
+            if (tile.type == utils.TileType.GREEN_TOWER):
+                self.wattsGenerated -= random.randint(10, 80)
+
+        if (playerVelocity != pygame.Vector2(0, 0)):
+            self.wattsGenerated -= 1
 
         self.wattsGenerated -= random.randint(utils.batterydelateMin, utils.batterydelateMax)
 
     def draw(self, window):
 
-        window.blit(textures.images["Battery"]["image"]["surface"], self.position, self.srcRect)
+        return textures.images["Battery"]["image"]["surface"], self.position, self.srcRect, self.position.y + (self.srcRect.height/2)
 
     def loadImage(self):
 

@@ -338,7 +338,8 @@ class World():
         for bot in self.bots:
 
             camera_items.append(bot.update(window, self.tiles))
-
+        for item in camera_items:
+            print(item)
         self.camera.draw(camera_items, self.player.hitbox.midbottom, window)
 
     def updateDroppedItems(self, window):
