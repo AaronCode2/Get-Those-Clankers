@@ -30,6 +30,11 @@ class BatteryGenenator():
 
         # Do this, so get rid of milliseconds
 
+        # A day is 600 seconds or 10mins
+
+        self.dayTime = 0
+        self.daytimeStamp = int(time()) 
+
         self.updateTimeStamp = int(time())
         self.deplateTimeStamp = int(time())
 
@@ -66,7 +71,7 @@ class BatteryGenenator():
 
         self.timeLeftText = "Time:" + utils.formatToClock(self.timeLeft)
         self.wattsGeneratedText = "Made:" + str(self.wattsGenerated) + "W"
-        self.daytext = "Day:" + str(self.day)        
+        self.daytext = "Day:" + str(self.day) +"(" + utils.formatTo24Hourclock(self.dayTime) + ")"     
 
         textTimeLeft = utils.font.render(self.timeLeftText, True, utils.ColorPlattes["Future Blue"])
         textday = utils.font.render(self.daytext, True, utils.ColorPlattes["Future Blue"])
@@ -82,10 +87,25 @@ class BatteryGenenator():
     def update(self, window, tiles):
 
         self.updateStatus(tiles)
+        self.updateDay()
 
         self.batteryDeplation()
         self.draw(window)
         self.drawHud(window)
+
+    def updateDay(self):
+
+        if(int(time()) - self.daytimeStamp > 1):
+
+            self.dayTime += 1
+            self.daytimeStamp = int(time())
+
+        # A day is 600 seconds or 10mins, I didn't test if it works
+
+        if(self.dayTime >= utils.fullDay):
+
+            self.day += 1
+            self.dayTime = 0
 
     def handleGridImports(self, tiles):
 

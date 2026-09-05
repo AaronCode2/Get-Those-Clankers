@@ -47,16 +47,19 @@ class UI():
         else:
             keysToDisplay = utils.keyGuidesTexts["onWorld"]
 
+
         x = 0
 
         previousTextPosX = 0
         
         for i in range(len(keysToDisplay)):
 
-            keydisplayIndex = utils.KeyGuides(i)
+            if(keysToDisplay == utils.keyGuidesTexts["onWorld"]):
+                keydisplayIndex = utils.KeyGuides(i)
+            else:
+                keydisplayIndex = utils.KeyGuides(i + 3)
 
             textguide = utils.font.render(keysToDisplay[keydisplayIndex], True, (0, 0, 0))
-
 
 
             textSize, _ = utils.font.size(keysToDisplay[keydisplayIndex])

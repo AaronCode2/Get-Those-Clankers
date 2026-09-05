@@ -317,6 +317,8 @@ smallButtonSize = 64
 XLButtonSizeWidth = 192
 XLButtonSizeHeight = 64
 
+fullDay = 300
+
 # Crafter and craft are two different things! don't get confused
 
 crafterButtonAdj = pygame.Vector2(20, 20)
@@ -351,7 +353,7 @@ defaultImageSizes = 64
 scrollWheel = pygame.Vector2(0, 0)
 tileMaxFrames = 1.0
 
-batteryIndicatorPos = pygame.Vector2(200, 30)
+batteryIndicatorPos = pygame.Vector2(240, 30)
 
 descriptionPosAdj = pygame.Vector2(599, 556)
 
@@ -500,6 +502,22 @@ def formatToClock(seconds: int):
     clockSeconds = str(abs((clockMins * 60) - seconds))
 
     return str(clockMins) + ":" + clockSeconds
+
+def formatTo24Hourclock(seconds):
+
+    clockMins = seconds // 60
+
+    clockSeconds = str(abs((clockMins * 60) - seconds))
+
+    if(len(clockSeconds) == 1):
+        clockSeconds = "0" + clockSeconds
+
+    clockMinsStr = str(clockMins)
+
+    if(len(clockMinsStr) == 1):
+        clockMinsStr = "0" + clockMinsStr
+
+    return clockMinsStr + ":" + clockSeconds
 
 def debugDraw(window, destRect: pygame.Rect, color = (255, 0, 0)):
 
