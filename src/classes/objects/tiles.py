@@ -3,6 +3,7 @@ import classes.utility.utils as utils
 import classes.utility.textures as textures
 import classes.manager.camera as camera
 import classes.bots.bot as bot
+import classes.objects.bullet as bullet
 import math
 
 class Tile:
@@ -18,7 +19,11 @@ class Tile:
             self.width = textures.images["Tiles"]["image"]["FrameWidth"]
             self.height = textures.images["Tiles"]["image"]["FrameHeight"]
         else:
-
+            self.bullets: list[bullet.Bullet] = []
+            self.range = 500
+            self.projectile_speed = 200
+            self.reload_time = 1
+            self.cooldown_timer = 0.0
             self.rotation = utils.RotationType.UP
             self.width = textures.images["Tower"]["image"]["FrameWidth"]
             self.height = textures.images["Tower"]["image"]["FrameHeight"]
@@ -46,23 +51,35 @@ class Tile:
             utils.getDebugRectItem(window, self._hitBox)
         ]
 
+        if self.type == utils.TileType.GREEN_TOWER:
+            removed_indexs = []
+            for i, flying_bullet in enumerate(self.bullets):
+                camera_items.append(flying_bullet.update(window))
+                if flying_bullet.destroyBullet:
+                    removed_indexs.append(i)
+
+            for index in removed_indexs:
+                del self.bullets[index]
         return camera_items
 
     # This func only called if the object is a tower!
 
     def towerFunc(self, bots):
-        RANGE = 500
-        PROJECTILE_SPEED = 200
-        tower_top = pygame.Vector2(self.position.y, self.position.y - (self._hitBox.height / 2))
+        bullet.Bullet.giveBots(bots)
+
+        self.cooldown_timer += utils.deltaTime
+        if self.cooldown_timer < self.reload_time:
+            return
+        tower_top = pygame.Vector2(self.position.x + (self._hitBox.width / 2), self.position.y + (self._hitBox.height / 2))
 
         if len(bots) == 0:
             return
 
         closest_bot: bot.Bot = min(bots, key=lambda bot: (tower_top - bot.rect.center).length())
         distance = closest_bot.rect.center - tower_top
-        if distance.length() <= RANGE:
-            a = closest_bot.velocity.length() ** 2 - PROJECTILE_SPEED ** 2
-            b = -2 * (distance.dot(closest_bot.velocity))
+        if distance.length() <= self.range:
+            a = closest_bot.velocity.length() ** 2 - self.projectile_speed ** 2
+            b = 2 * (distance.dot(closest_bot.velocity))
             c = distance.length_squared()
             delta = (b ** 2) - (4 * a * c)
 
@@ -88,11 +105,12 @@ class Tile:
                 # tower can't hit ennemy
                 return
 
-            target_meet_position = smallest_time * closest_bot.velocity
+            target_meet_position = closest_bot.rect.center + smallest_time * closest_bot.velocity
 
             direction = (target_meet_position - self.position).normalize()
-            velocity = direction * PROJECTILE_SPEED
-            print(velocity, tower_top)
+            velocity = direction * self.projectile_speed
+            self.bullets.append(bullet.Bullet(tower_top, velocity))
+            self.cooldown_timer = 0
 
 
 

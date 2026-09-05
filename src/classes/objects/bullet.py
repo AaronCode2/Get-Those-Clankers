@@ -20,8 +20,8 @@ class Bullet():
 
         self.move()
         self.checkCollision()
-        self.draw(window)
         print("PHEW, PHEW")
+        return self.draw(window)
 
     def checkCollision(self):
 
@@ -45,4 +45,4 @@ class Bullet():
     
     def draw(self, window):
 
-        utils.debugDraw(window, pygame.Rect(self.position.x, self.position.y, 10, 10), (0, 255, 255))
+        return utils.getDebugRectItem(window, pygame.Rect(self.position.x, self.position.y, 10, 10), (0, 255, 255))
