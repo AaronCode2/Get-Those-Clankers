@@ -13,9 +13,8 @@ class Camera:
 
     def draw(self, items: list[CameraItem], focused_position: pygame.Vector2, window: pygame.Surface):
         global camera_position
-        # ssssssdsprint(focused_position)
-        self.offset.x = focused_position[0] - (window.size[0] / 2)
-        self.offset.y = focused_position[1] - (window.size[1] / 2)
+        self.offset.x = round(focused_position[0] - (window.size[0] / 2))
+        self.offset.y = round(focused_position[1] - (window.size[1] / 2))
         camera_position = self.offset
 
         ordered_items: list[CameraItem] = sorted(items, key = lambda item : item[3])

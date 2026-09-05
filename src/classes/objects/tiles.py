@@ -1,4 +1,6 @@
 import pygame
+from pygame.examples.go_over_there import target_position
+
 import classes.utility.utils as utils
 import classes.utility.textures as textures
 import classes.manager.camera as camera
@@ -53,13 +55,13 @@ class Tile:
 
         if self.type == utils.TileType.GREEN_TOWER:
             removed_indexs = []
-            for i, flying_bullet in enumerate(self.bullets):
+            for flying_bullet in self.bullets:
                 camera_items.append(flying_bullet.update(window))
                 if flying_bullet.destroyBullet:
-                    removed_indexs.append(i)
+                    removed_indexs.append(flying_bullet)
 
-            for index in removed_indexs:
-                del self.bullets[index]
+            for flying_bullet in removed_indexs:
+                self.bullets.remove(flying_bullet)
         return camera_items
 
     # This func only called if the object is a tower!
@@ -78,35 +80,10 @@ class Tile:
         closest_bot: bot.Bot = min(bots, key=lambda bot: (tower_top - bot.rect.center).length())
         distance = closest_bot.rect.center - tower_top
         if distance.length() <= self.range:
-            a = closest_bot.velocity.length() ** 2 - self.projectile_speed ** 2
-            b = 2 * (distance.dot(closest_bot.velocity))
-            c = distance.length_squared()
-            delta = (b ** 2) - (4 * a * c)
-
-            solutions: list[float] = []
-
-            if delta < 0:
-                return
-            elif delta == 0:
-                solutions.append((b) / (2 * a))
+            if closest_bot.moving:
+                target_meet_position = utils.calculateMeetPosition(closest_bot, distance, self.projectile_speed)
             else:
-                root_part = math.sqrt(delta)
-
-                solutions.append( (b - root_part) / (2 * a) )
-                solutions.append( (b + root_part) / (2 * a) )
-
-            smallest_time = float("inf")
-            for solution in solutions:
-                if solution >= 0:
-                    smallest_time = min(smallest_time, solution)
-
-            if smallest_time == float("inf"):
-                print("couldn't shot the enemy")
-                # tower can't hit ennemy
-                return
-
-            target_meet_position = closest_bot.rect.center + smallest_time * closest_bot.velocity
-
+                target_meet_position = closest_bot.rect.center
             direction = (target_meet_position - self.position).normalize()
             velocity = direction * self.projectile_speed
             self.bullets.append(bullet.Bullet(tower_top, velocity))

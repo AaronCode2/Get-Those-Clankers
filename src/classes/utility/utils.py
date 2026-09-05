@@ -1,7 +1,15 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import classes.bots.bot as bot
+
 import pygame
 import random
 from enum import Enum
 import classes.manager.camera as camera
+import math
+
 
 # For constants and utility
 
@@ -568,6 +576,37 @@ def getDebugRectItem(window, destRect: pygame.Rect, color = (255, 0, 0)) -> came
     rect.set_alpha(100)
     rect.fill(color)
     return rect, destRect.topleft, None, destRect.centery
+
+def calculateMeetPosition(entity: bot.Bot, distance, projectile_speed):
+    a = entity.velocity.length() ** 2 - projectile_speed ** 2
+    b = 2 * (distance.dot(entity.velocity))
+    c = distance.length_squared()
+    delta = (b ** 2) - (4 * a * c)
+
+    solutions: list[float] = []
+
+    if delta < 0:
+        return
+    elif delta == 0:
+        solutions.append((b) / (2 * a))
+    else:
+        root_part = math.sqrt(delta)
+
+        solutions.append((b - root_part) / (2 * a))
+        solutions.append((b + root_part) / (2 * a))
+
+    smallest_time = float("inf")
+    for solution in solutions:
+        if solution >= 0:
+            smallest_time = min(smallest_time, solution)
+
+    if smallest_time == float("inf"):
+        print("couldn't shot the enemy")
+        # tower can't hit ennemy
+        return
+
+    target_meet_position = entity.rect.center + smallest_time * entity.velocity
+    return target_meet_position
 
 rotations = {
 

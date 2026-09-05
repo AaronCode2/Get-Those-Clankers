@@ -18,6 +18,7 @@ class Entity:
         self.velocity = pygame.Vector2(0.0, 0.0)
         self.acceleration = pygame.Vector2(0.0, 0.0)
         self._force = pygame.Vector2(0.0, 0.0)
+        self.moving = False
 
     def apply_force(self, force: pygame.Vector2):
         self._force += force
@@ -68,9 +69,7 @@ class Entity:
                     print("stuck inside a tile, y")
                     pass
 
-
-        self.hitbox.x += x_movement
-        self.hitbox.y += y_movement
+        return x_movement, y_movement
 
 
     def update(self, collision_tiles: list[tiles.Tile]):
@@ -79,9 +78,13 @@ class Entity:
         # This looks weird I know, but it's acctualy the right way to do it
         self.velocity += self.acceleration * 0.5 * utils.deltaTime
         if self.collide_tiles:
-            self.solve_collision(collision_tiles)
+            x_movement, y_movement = self.solve_collision(collision_tiles)
+            self.hitbox.x += x_movement
+            self.hitbox.y += y_movement
+            self.moving = round( x_movement) and round(y_movement)
         else:
             self.hitbox.midbottom += self.velocity * utils.deltaTime
+            self.moving = round(self.velocity.x) and round(self.velocity.y)
 
         self.velocity += self.acceleration * 0.5 * utils.deltaTime
         self._force.x = 0
