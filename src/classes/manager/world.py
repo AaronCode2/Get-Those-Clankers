@@ -93,7 +93,7 @@ class World():
         }
         
         self.selectedTileType = utils.TileType.SOLAR_PANEL
-        self.destPreviewRect = pygame.Vector2(0, 0)
+        self.destPreviewRect = pygame.Vector2()
 
     def setCurrentselectedSlot(self, slot):
         self.currentSelectedSlot = slot
@@ -171,14 +171,17 @@ class World():
             if(
                 detectAreaRange.colliderect(
                 pygame.Rect(
-                tile.position.x, tile.position.y,
+                tile.getHitBox().x, tile.getHitBox().y,
                 utils.defaultImageSizes, 
                 utils.defaultImageSizes
             ))):
 
                 # Pathegorem - find the closest tile to mouse
                 
-                distance = math.sqrt((tile.position.x - mouseRect.x)**2 + (tile.position.y - mouseRect.y)**2)
+                distance = math.sqrt(
+                    (tile.getHitBox().x - (mouseRect.x))**2 + 
+                    (tile.getHitBox().y - (mouseRect.y))**2
+                )
 
                 if(distance < closestDistance):
                     closestDistance = distance
@@ -224,7 +227,7 @@ class World():
             utils.defaultImageSizes, utils.defaultImageSizes
         )
 
-    def handleplacingTiles(self, mouseEvent, mouseRect: pygame.Rect):
+    def handleplacingTiles(self, mouseEvent, mouseRect: pygame.Rect, window):
 
         detectBox = pygame.Rect(
 
@@ -233,6 +236,13 @@ class World():
             self.destPreviewRect.width + utils.detectBoxAdj.y,
             self.destPreviewRect.height + utils.detectBoxAdj.y,
         )
+
+        for tile in self.tiles:
+
+            if(detectBox.colliderect(tile.getHitBox())):
+                print("COLLISION:", tile.getHitBox())
+
+        utils.debugDraw(window, detectBox)
 
         if(mouseEvent[0] and utils.activateTilePlacer and self.selectedTileType != None):
 
@@ -266,7 +276,7 @@ class World():
 
             for tile in self.tiles:
 
-                if(utils.getTileRect(tile.position).collidepoint(mouseRect.x, mouseRect.y)):
+                if(utils.getTileRect(pygame.Vector2(tile.getHitBox().x, tile.getHitBox().y)).collidepoint(mouseRect.x, mouseRect.y)):
 
                     self._addSelectedSlotType = utils.convertToItemType(tile.type)
                     self.tiles.remove(tile)
@@ -296,7 +306,7 @@ class World():
         if(utils.activateTilePlacer and self.selectedTileType != None):      
             self.drawPreviewPlacer(window)
 
-        self.handleplacingTiles(mouseEvent, mouseRect)
+        self.handleplacingTiles(mouseEvent, mouseRect, window)
 
     def update(self, window):
 
@@ -326,7 +336,7 @@ class World():
 
         for tile in self.tiles:
 
-            camera_items += tile.update(window)
+            camera_items += tile.update(window, self.camera.offset)
 
             if(tile.type == utils.TileType.GREEN_TOWER):
                 tile.towerFunc(self.bots)

@@ -404,30 +404,34 @@ def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):
             case SnapType.RIGHT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x + selectedTile.getHitBox().width,
-                    selectedTile.position.y,
-                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
+                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x + selectedTile.getHitBox().width,
+                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
+                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
             case SnapType.LEFT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x - selectedTile.getHitBox().width,
-                    selectedTile.position.y,
-                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
+                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x - selectedTile.getHitBox().width,
+                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
+                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
             case SnapType.DOWN_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x,
-                    selectedTile.position.y + selectedTile.getHitBox().height,
-                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
+                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
+                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y + selectedTile.getHitBox().height,
+                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
             case SnapType.UP_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x,
-                    selectedTile.position.y - selectedTile.getHitBox().height,
-                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
+                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
+                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y - selectedTile.getHitBox().height,
+                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
     else:
 
@@ -436,30 +440,34 @@ def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):
             case SnapType.UP_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x,
-                    selectedTile.position.y + selectedTile.getHitBox().height,
-                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
+                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
+                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y + selectedTile.getHitBox().height,
+                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
             case SnapType.DOWN_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x,
-                    selectedTile.position.y - selectedTile.getHitBox().height,
-                    selectedTile.getHitBox().height, selectedTile.getHitBox().height
+                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
+                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x - selectedTile.getHitBox().height,
+                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x, 
+                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x
                 )
             case SnapType.RIGHT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x + selectedTile.getHitBox().width,
-                    selectedTile.position.y,
-                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
+                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x + selectedTile.getHitBox().width,
+                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
+                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
             case SnapType.LEFT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.position.x - selectedTile.getHitBox().width,
-                    selectedTile.position.y,
-                    selectedTile.getHitBox().width, selectedTile.getHitBox().height
+                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x - selectedTile.getHitBox().width,
+                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
+                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
 
 def configureRotatedImageForPreview(width, height, type, rotation):
