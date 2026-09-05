@@ -68,13 +68,15 @@ class World():
 
     def updateTileSrcRect(self):
 
-        self.previewTile["image"].set_alpha(100)
-        self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
-            textures.images["Tiles"]["image"]["FrameWidth"],
-            textures.images["Tiles"]["image"]["FrameHeight"],
-            self.selectedTileType,
-            self.defaultRotation
-        )
+        if(self.selectedTileType != None):
+
+            self.previewTile["image"].set_alpha(100)
+            self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
+                textures.images["Tiles"]["image"]["FrameWidth"],
+                textures.images["Tiles"]["image"]["FrameHeight"],
+                self.selectedTileType,
+                self.defaultRotation
+            )
 
     def setupPrieviewTile(self):
 
@@ -140,12 +142,16 @@ class World():
             utils.rotations[self.defaultRotation]
         ).convert_alpha()
 
-        self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
-            textures.images["Tiles"]["image"]["FrameWidth"],
-            textures.images["Tiles"]["image"]["FrameHeight"],
-            self.selectedTileType,
-            self.defaultRotation
-        )
+        # selectedTileType is The tile that is selected in inventory
+
+        if(self.selectedTileType != None):
+
+            self.previewTile["srcRect"] = utils.configureRotatedImageForPreview(
+                textures.images["Tiles"]["image"]["FrameWidth"],
+                textures.images["Tiles"]["image"]["FrameHeight"],
+                self.selectedTileType,
+                self.defaultRotation
+            )
 
         utils.scrollWheel = pygame.Vector2(0, 0)
 
