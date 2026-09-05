@@ -241,6 +241,9 @@ class ItemType(Enum):
     SOLAR_PANEL = 6
     BARRIER = 7
     GREEN_TOWER = 8
+    STRONG_BARRIER = 9
+    STRONGER_BARRIER = 10
+    CRATE = 11
 
 def generateItemForDropItem():
 
@@ -285,6 +288,15 @@ def convertToTileType(ItemType: ItemType):
 
         case ItemType.BARRIER:
             return TileType.BARRIER
+
+        case ItemType.STRONG_BARRIER:
+            return TileType.STRONG_BARRIER
+
+        case ItemType.STRONGER_BARRIER:
+            return TileType.STRONGER_BARRIER
+
+        case ItemType.CRATE:
+            return TileType.CRATE
 
         case ItemType.GREEN_TOWER:
             return TileType.GREEN_TOWER
@@ -568,18 +580,48 @@ class TileType(Enum):
 
     BARRIER = 0
     SOLAR_PANEL = 1
-    GREEN_TOWER = 2
+    STRONG_BARRIER = 2
+    STRONGER_BARRIER = 3
+    CRATE = 4
+    GREEN_TOWER = 5
 
 durabiltyForTile = {
 
     TileType.SOLAR_PANEL: 15,
     TileType.BARRIER: 8,
+    TileType.STRONG_BARRIER: 20,
+    TileType.STRONGER_BARRIER: 32,
+    TileType.CRATE: 4,
     TileType.GREEN_TOWER: 40
 }
 
 hitBoxAdjForTiles = {
 
     TileType.BARRIER: {
+
+        RotationType.UP: pygame.Rect(2, 2, -4, -4),
+        RotationType.DOWN: pygame.Rect(2, 2, -4, -4),
+        RotationType.LEFT: pygame.Rect(2, 2, -4, -4),
+        RotationType.RIGHT: pygame.Rect(2, 2, -4, -4),
+    },
+
+    TileType.STRONG_BARRIER: {
+
+        RotationType.UP: pygame.Rect(2, 2, -4, -4),
+        RotationType.DOWN: pygame.Rect(2, 2, -4, -4),
+        RotationType.LEFT: pygame.Rect(2, 2, -4, -4),
+        RotationType.RIGHT: pygame.Rect(2, 2, -4, -4),
+    },
+
+    TileType.STRONGER_BARRIER: {
+
+        RotationType.UP: pygame.Rect(2, 2, -4, -4),
+        RotationType.DOWN: pygame.Rect(2, 2, -4, -4),
+        RotationType.LEFT: pygame.Rect(2, 2, -4, -4),
+        RotationType.RIGHT: pygame.Rect(2, 2, -4, -4),
+    },
+
+    TileType.CRATE: {
 
         RotationType.UP: pygame.Rect(2, 2, -4, -4),
         RotationType.DOWN: pygame.Rect(2, 2, -4, -4),
@@ -614,6 +656,15 @@ def convertToItemType(tileType: TileType):
 
         case tileType.BARRIER:
             return ItemType.BARRIER
+
+        case tileType.STRONG_BARRIER:
+            return ItemType.STRONG_BARRIER
+
+        case tileType.STRONGER_BARRIER:
+            return ItemType.STRONGER_BARRIER
+
+        case tileType.CRATE:
+            return ItemType.CRATE
 
         case tileType.GREEN_TOWER:
             return ItemType.GREEN_TOWER

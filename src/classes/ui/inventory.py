@@ -56,7 +56,11 @@ class Inventory():
 
         
         self.slots[5][4].amount = 40
-        self.slots[5][4].type = utils.ItemType.BARRIER
+        self.slots[5][4].type = utils.ItemType.STRONG_BARRIER
+
+        
+        self.slots[2][4].amount = 40
+        self.slots[2][4].type = utils.ItemType.CRATE
 
         self.slots[5][1].amount = 20
         self.slots[5][1].type = utils.ItemType.GREEN_TOWER

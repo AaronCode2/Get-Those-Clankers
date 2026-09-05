@@ -14,6 +14,8 @@ class RecipeCrafts(Enum):
     CRAFT_SCRAP_INGOT = 5
     CRAFT_RINGED_TIN = 6
     CRAFT_GREEN_TOWER = 7
+    CRAFT_STRONG_BARRIER = 8
+    CRAFT_STRONGER_BARRIER = 9
 
 class RecipeIndex(Enum):
 
@@ -52,6 +54,34 @@ recipes = {
         ),
 
         RecipeIndex.ItemDescription: "Make defenses and\nplace them on the\nground"
+    },
+
+    RecipeCrafts.CRAFT_STRONG_BARRIER: {   
+
+        RecipeIndex.ItemGiven: 5,
+        RecipeIndex.ItemTypeGiven: utils.ItemType.STRONG_BARRIER,
+
+        RecipeIndex.ItemNeeded: (
+
+            (utils.ItemType.BARRIER, 5),
+            (utils.ItemType.BOLT, 20)
+        ),
+
+        RecipeIndex.ItemDescription: "Better durability\nit takes more time\nfor them to much"
+    },
+
+    RecipeCrafts.CRAFT_STRONGER_BARRIER: {   
+
+        RecipeIndex.ItemGiven: 5,
+        RecipeIndex.ItemTypeGiven: utils.ItemType.STRONGER_BARRIER,
+
+        RecipeIndex.ItemNeeded: (
+
+            (utils.ItemType.STRONG_BARRIER, 5),
+            (utils.ItemType.BOLT, 30)
+        ),
+
+        RecipeIndex.ItemDescription: "Best durability\nit takes more more\ntime for them to\nmuch"
     },
 
     RecipeCrafts.CRAFT_SOFT_STEEL: {

@@ -51,22 +51,18 @@ class World():
             tiles.Tile(
                 pygame.Vector2(
                 400, 260
-                ), utils.TileType.BARRIER,
+                ), utils.TileType.STRONG_BARRIER,
                 utils.RotationType.LEFT
         ))
         self.tiles.append(
             tiles.Tile(
                 pygame.Vector2(
                 600, 230
-                ), utils.TileType.GREEN_TOWER,
+                ), utils.TileType.STRONGER_BARRIER,
                 utils.RotationType.UP
         ))
 
         bot.Bot.setBatteryPos(self.batteryGenator.position)
-
-        self.bots.append(
-            bot.Bot(pygame.Vector2(800, 700), self.batteryGenator.position)
-        )
 
     def updateTileSrcRect(self):
 

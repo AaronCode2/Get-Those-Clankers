@@ -13,7 +13,7 @@ images = {
 
         # Tiles
         "Tiles": {
-            "location": "assets/tiles/objects.png",
+            "location": "assets/tiles/objects.png", 
             "maxFramesX": 5,
             "FramesY": 1,
             "image": {
