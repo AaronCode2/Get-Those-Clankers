@@ -87,7 +87,7 @@ images = {
         "Items": {
 
             "location": "assets/ui/items.png",
-            "FramesX": 9,
+            "FramesX": 12,
             "FramesY": 1,
             "image": {
 
