@@ -22,6 +22,7 @@ class World():
         self.player = player.Player(pygame.Vector2(500, 500))
 
         self.dev_activateBots = False
+        self.dev_destroyBots = False
 
         self.initTextures()
 
@@ -315,6 +316,8 @@ class World():
 
         if(key[pygame.K_b]):
             self.dev_activateBots = not self.dev_activateBots
+        elif(key[pygame.K_k]):
+            self.dev_destroyBots = not self.dev_destroyBots
 
         self.updateTilePlacer(window)
 
@@ -330,6 +333,8 @@ class World():
         if(self.dev_activateBots):
             self.dev_deployBots()
 
+        if(self.dev_destroyBots):
+            self.bots = []
 
         for droppedItem in dropItem.droppedItems:
 

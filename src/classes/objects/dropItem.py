@@ -6,11 +6,15 @@ droppedItems = []
 
 class DropItem():
 
-    def __init__(self, position: pygame.Vector2, type: utils.ItemType, amount: int):
+    def __init__(self, position: pygame.Vector2, type = utils.ItemType.NONE, amount = -1):
 
         self.position = position
-        self._type = type
-        self._amount = amount
+
+        if(amount == -1):
+            self._type, self._amount = utils.generateItemForDropItem()
+        else:
+            self._type = type
+            self._amount = amount
 
         self.srcRect = pygame.Rect(
 

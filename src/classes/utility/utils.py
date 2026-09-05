@@ -1,4 +1,5 @@
 import pygame
+import random
 from enum import Enum
 
 # For constants and utility
@@ -216,6 +217,40 @@ class ItemType(Enum):
     SOLAR_PANEL = 6
     BARRIER = 7
     GREEN_TOWER = 8
+
+def generateItemForDropItem():
+
+    itemPerc = random.randint(0, 100)
+
+    amount = random.randint(1, 15)
+    itemType = None
+
+    # Balancing can be adjusted
+
+    if(itemPerc == 1): # 1%
+        itemType = ItemType.SOLAR_PANEL
+    elif(itemPerc <= 15): # 15%
+        itemType = ItemType.RINGED_TIN
+    elif(itemPerc > 15 and itemPerc <= 30): # 15%
+        itemType = ItemType.BOLT
+        amount += 4
+    elif(itemPerc > 30 and itemPerc <= 40): # 10%
+        itemType = ItemType.SCREW
+        amount += 14
+    elif(itemPerc > 40 and itemPerc <= 50): # 20%
+        itemType = ItemType.SCRAP_IGNOT
+        amount += 2
+    elif(itemPerc > 50 and itemPerc <= 55): # 5%
+        itemType = ItemType.SOFT_STEEL
+        amount += 5
+    elif(itemPerc > 55 and itemPerc <= 70): # 15%
+        itemType = ItemType.BOLT
+        amount /= 2
+    else: # 30%
+        itemType = ItemType.RAW_IRON
+        amount *= 2
+
+    return itemType, amount
 
 def convertToTileType(ItemType: ItemType):
 

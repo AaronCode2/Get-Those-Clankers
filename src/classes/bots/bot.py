@@ -1,5 +1,6 @@
 import classes.utility.utils as utils
 import classes.utility.animation as animation
+import classes.objects.dropItem as dropItem
 import pygame
 from time import time 
 
@@ -175,3 +176,10 @@ class Bot():
 
         if(utils.screenRect.colliderect(pygame.Rect(self.rect))):
             utils.debugDraw(window, pygame.Rect(self.rect))
+
+    # Object dies and create droppedItem
+    # Right now every bot drops an Item, change it if needed
+
+    def __del__(self):
+
+        dropItem.droppedItems.append(dropItem.DropItem(self.position))
