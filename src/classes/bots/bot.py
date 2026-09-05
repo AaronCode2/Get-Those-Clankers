@@ -162,17 +162,8 @@ class Bot():
 
     def aiPathFinder(self):
 
-        if(self.position.x < self.targetPos.x):
-            self.velocity.x = self.speed
+        self.velocity = (self.targetPos - self.position).normalize() * self.speed
 
-        if(self.position.x > self.targetPos.x):
-            self.velocity.x = -self.speed
-
-        if(self.position.y > self.targetPos.y):
-            self.velocity.y = -self.speed
-
-        if(self.position.y < self.targetPos.y):
-            self.velocity.y = self.speed
 
     def draw(self, window):
 
