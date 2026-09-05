@@ -336,8 +336,8 @@ class World():
         camera_items += self.player.draw(window, debug=True)
 
         for bot in self.bots:
-
-            camera_items.append(bot.update(window, self.tiles))
+            bot.update(self.tiles)
+            camera_items += bot.draw(window, debug=True)
 
         self.camera.draw(camera_items, self.player.hitbox.midbottom, window)
 
