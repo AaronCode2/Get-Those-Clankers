@@ -24,6 +24,12 @@ class Bot():
         self.velocity = pygame.Vector2(0, 0)
         self.width = utils.defaultImageSizes
         self.height = utils.defaultImageSizes
+        self.rect = pygame.Rect(
+            self.position.x,
+            self.position.y,
+            self.width,
+            self.height
+        )
 
         self.health = 100
         self.speed = 100
@@ -162,17 +168,8 @@ class Bot():
 
     def aiPathFinder(self):
 
-        if(self.position.x < self.targetPos.x):
-            self.velocity.x = self.speed
+        self.velocity = (self.targetPos - self.position).normalize() * self.speed
 
-        if(self.position.x > self.targetPos.x):
-            self.velocity.x = -self.speed
-
-        if(self.position.y > self.targetPos.y):
-            self.velocity.y = -self.speed
-
-        if(self.position.y < self.targetPos.y):
-            self.velocity.y = self.speed
 
     def draw(self, window):
 
