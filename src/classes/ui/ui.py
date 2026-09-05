@@ -49,16 +49,25 @@ class UI():
 
         x = 0
 
+        previousTextPosX = 0
+        
         for i in range(len(keysToDisplay)):
 
             keydisplayIndex = utils.KeyGuides(i)
 
             textguide = utils.font.render(keysToDisplay[keydisplayIndex], True, (0, 0, 0))
 
+
+
             textSize, _ = utils.font.size(keysToDisplay[keydisplayIndex])
+            offset = (x * textures.images["keys"]["image"]["FrameWidth"])
+
+            if(x > 0):
+                textSize, _ = utils.font.size(keysToDisplay[utils.KeyGuides(keydisplayIndex.value - 1)])
+                offset = previousTextPosX
 
             keyPos = pygame.Vector2(
-                (x * textures.images["keys"]["image"]["FrameWidth"]), 
+                offset + textSize if(x != 0) else (0), 
                 utils.screenRect.height - utils.keyPosAdj
             )
 
@@ -66,6 +75,8 @@ class UI():
                 keyPos.x + textures.images["keys"]["image"]["FrameWidth"],
                 keyPos.y
             )
+
+            previousTextPosX = textPos.x
 
             keySrcRect = self.getkeySrcRect(keydisplayIndex)
 

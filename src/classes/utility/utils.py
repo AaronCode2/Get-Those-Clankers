@@ -137,7 +137,7 @@ class KeyGuides(Enum):
 
 detectBoxAdj = pygame.Vector2(10, -20)
 
-keyPosAdj = 100
+keyPosAdj = 45
 
 keyGuidesTexts = {
 

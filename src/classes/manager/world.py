@@ -38,10 +38,6 @@ class World():
 
     def setupObjects(self):
 
-        dropItem.droppedItems.append(
-            dropItem.DropItem(pygame.Vector2(300, 250), utils.ItemType.SCRAP_IGNOT, 20)
-        )
-
         self.tiles.append(
 
             tiles.Tile(
@@ -378,7 +374,6 @@ class World():
         self.pickedDroppedItem = None
         return currentpickedItem
         
-    
     def initTextures(self):
 
 
