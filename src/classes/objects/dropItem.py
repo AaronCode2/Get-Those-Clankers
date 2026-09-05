@@ -2,21 +2,26 @@ import pygame
 import classes.utility.utils as utils
 import classes.utility.textures as textures
 
-class dropItem():
+droppedItems = []
+
+class DropItem():
 
     def __init__(self, position: pygame.Vector2, type: utils.ItemType, amount: int):
 
         self.position = position
-        self.type = utils.ItemType,
-        self.amount = amount
+        self._type = type
+        self._amount = amount
 
         self.srcRect = pygame.Rect(
 
-            textures.images["Items"]["image"]["FrameWidth"] * self.type.value
+            textures.images["Items"]["image"]["FrameWidth"] * self._type.value,
             0, 
             textures.images["Items"]["image"]["FrameWidth"],
             textures.images["Items"]["image"]["FrameHeight"]
         )
+
+    def getItem(self):
+        return self._type, self._amount
 
     def update(self, window):
 

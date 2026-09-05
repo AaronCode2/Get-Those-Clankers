@@ -66,8 +66,6 @@ class Inventory():
         self.slotSelectedSrcRect = None
         self.slotSelectedPos = None
 
-        self.configureItemTextures()
-
     def setupHotBarSelector(self):
 
         self._selectedHotBarSlotIndex = 0
@@ -359,10 +357,3 @@ class Inventory():
         )
 
         return inventoryOptionsPos, craftbuttonPos, craftTextPos
-
-    def configureItemTextures(self):
-
-        textures.images["Items"]["image"]["surface"] = pygame.image.load(textures.images["Items"]["location"]).convert_alpha()
-
-        textures.images["Items"]["image"]["FrameWidth"] = textures.images["Items"]["image"]["surface"].width / textures.images["Items"]["FramesX"]
-        textures.images["Items"]["image"]["FrameHeight"] = textures.images["Items"]["image"]["surface"].height

@@ -9,6 +9,7 @@ import math
 import random
 from copy import copy
 import classes.utility.textures as textures
+import classes.objects.dropItem as dropItem
 
 class World():
 
@@ -34,6 +35,10 @@ class World():
         self.setupObjects()
 
     def setupObjects(self):
+
+        dropItem.droppedItems.append(
+            dropItem.DropItem(pygame.Vector2(300, 250), utils.ItemType.SCRAP_IGNOT, 20)
+        )
 
         self.tiles.append(
 
@@ -326,6 +331,10 @@ class World():
             self.dev_deployBots()
 
 
+        for droppedItem in dropItem.droppedItems:
+
+            droppedItem.update(window)
+
         self.player.update(self.tiles)
         self.player.draw(window, debug=True)
 
@@ -341,6 +350,12 @@ class World():
         self.bots.append(bot.Bot(pygame.Vector2(x, y), self.batteryGenator.position))
     
     def initTextures(self):
+
+
+        textures.images["Items"]["image"]["surface"] = pygame.image.load(textures.images["Items"]["location"]).convert_alpha()
+
+        textures.images["Items"]["image"]["FrameWidth"] = textures.images["Items"]["image"]["surface"].width / textures.images["Items"]["FramesX"]
+        textures.images["Items"]["image"]["FrameHeight"] = textures.images["Items"]["image"]["surface"].height
 
         textures.images["Tower"]["image"]["Animation"] = animation.AnimationManager(
 
