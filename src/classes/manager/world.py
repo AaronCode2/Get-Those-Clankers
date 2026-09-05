@@ -330,7 +330,7 @@ class World():
 
         # When player touches drop Item, it added to inventory
 
-        self.updateDroppedItems(window)
+        camera_items += self.updateDroppedItems(window)
 
         self.player.update(self.tiles)
         camera_items += self.player.draw(window, debug=True)
@@ -338,15 +338,14 @@ class World():
         for bot in self.bots:
 
             camera_items.append(bot.update(window, self.tiles))
-        for item in camera_items:
-            print(item)
+
         self.camera.draw(camera_items, self.player.hitbox.midbottom, window)
 
     def updateDroppedItems(self, window):
-
+        camera_items: list[camera.CameraItem] = []
         for droppedItem in dropItem.droppedItems:
 
-            droppedItem.update(window)
+            camera_items.append(droppedItem.update(window, self.player.hitbox.center))
 
             if(self.player.rect.colliderect(pygame.Rect(
                 droppedItem.position.x,
@@ -357,6 +356,7 @@ class World():
 
                 self.pickedDroppedItem = (droppedItem.getItem())
                 dropItem.droppedItems.remove(droppedItem)
+        return camera_items
 
     def dev_deployBots(self):
 
