@@ -24,6 +24,12 @@ class Bot():
         self.velocity = pygame.Vector2(0, 0)
         self.width = utils.defaultImageSizes
         self.height = utils.defaultImageSizes
+        self.rect = pygame.Rect(
+            self.position.x,
+            self.position.y,
+            self.width,
+            self.height
+        )
 
         self.health = 100
         self.speed = 100
