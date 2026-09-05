@@ -639,8 +639,8 @@ hitBoxAdjForTiles = {
 
     TileType.GREEN_TOWER: {
 
-        RotationType.UP: pygame.Rect(0, 0, 0, 0),
-        RotationType.DOWN: pygame.Rect(0, 0, 0, 0),
+        RotationType.UP: pygame.Rect(0, 64, 0, -64),
+        RotationType.DOWN: pygame.Rect(0, 64, 0, -64),
     }
 }
 

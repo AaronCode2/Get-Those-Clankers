@@ -43,7 +43,7 @@ class World():
             tiles.Tile(
                 pygame.Vector2(
                 300, 200
-                ), utils.TileType.SOLAR_PANEL,
+                ), utils.TileType.GREEN_TOWER,
                 utils.RotationType.DOWN
             )
         )
