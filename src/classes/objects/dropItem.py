@@ -2,7 +2,7 @@ import pygame
 import classes.utility.utils as utils
 import classes.utility.textures as textures
 
-droppedItems: list[DropItem] = []
+droppedItems = []
 
 class DropItem():
 

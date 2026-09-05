@@ -317,6 +317,8 @@ hotBarSizeHeight = 64 * 2
 
 activateTilePlacer = True
 
+bulletDuration = 5
+
 inventoryTextPos = pygame.Vector2(10, 10)
 itemPosAdj = pygame.Vector2(15, 15)
 inventoryPosAdj = pygame.Vector2(382, 480)

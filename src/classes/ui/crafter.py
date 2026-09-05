@@ -10,8 +10,6 @@ class Crafter():
         self.isCraftable = True
         self.selectedRecipe = None
 
-        print("Craft system activated")
-
     def update(self, window, inventory):
 
         self.drawBackgroundOverlay(window)
