@@ -30,6 +30,7 @@ class World():
         self.currentSelectedSlotIndex = None
 
         self._addSelectedSlotType = None
+        self.pickedDroppedItem = None
 
         self.batteryGenator = batteryGen.BatteryGenenator()
         self.setupPrieviewTile()
@@ -336,9 +337,9 @@ class World():
         if(self.dev_destroyBots):
             self.bots = []
 
-        for droppedItem in dropItem.droppedItems:
+        # When player touches drop Item, it added to inventory
 
-            droppedItem.update(window)
+        self.updateDroppedItems(window)
 
         self.player.update(self.tiles)
         self.player.draw(window, debug=True)
@@ -347,12 +348,36 @@ class World():
 
             bot.update(window, self.tiles)
 
+    def updateDroppedItems(self, window):
+
+        for droppedItem in dropItem.droppedItems:
+
+            droppedItem.update(window)
+
+            if(self.player.rect.colliderect(pygame.Rect(
+                droppedItem.position.x,
+                droppedItem.position.y,
+                textures.images["Items"]["image"]["FrameWidth"],
+                textures.images["Items"]["image"]["FrameHeight"]
+            ))):
+                
+                self.pickedDroppedItem = (droppedItem.getItem())
+                dropItem.droppedItems.remove(droppedItem)
+
     def dev_deployBots(self):
 
         x = float(random.randint(0, 1000))
         y = float(random.randint(0, 800))
 
         self.bots.append(bot.Bot(pygame.Vector2(x, y), self.batteryGenator.position))
+
+    def givePickedDroppedItem(self):
+
+        currentpickedItem = self.pickedDroppedItem
+
+        self.pickedDroppedItem = None
+        return currentpickedItem
+        
     
     def initTextures(self):
 
