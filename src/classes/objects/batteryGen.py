@@ -2,6 +2,7 @@ import pygame
 import classes.utility.textures as textures
 import classes.utility.utils as utils
 import classes.utility.animation as animation
+import classes.manager.camera as camera
 import random
 import math
 from time import time
@@ -80,12 +81,13 @@ class BatteryGenenator():
         window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
     def update(self, window, tiles):
-
+        item: camera.CameraItem
         self.updateStatus(tiles)
 
         self.batteryDeplation()
-        self.draw(window)
+        item = self.draw(window)
         self.drawHud(window)
+        return item
 
     def handleGridImports(self, tiles):
 
@@ -144,7 +146,7 @@ class BatteryGenenator():
 
     def draw(self, window):
 
-        window.blit(textures.images["Battery"]["image"]["surface"], self.position, self.srcRect)
+        return textures.images["Battery"]["image"]["surface"], self.position, self.srcRect, self.position.y + (self.srcRect.height / 2)
 
     def loadImage(self):
 

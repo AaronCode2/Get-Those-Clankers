@@ -1,5 +1,6 @@
 import classes.utility.utils as utils
 import classes.utility.animation as animation
+import classes.manager.camera as camera
 import pygame
 from time import time 
 
@@ -38,7 +39,7 @@ class Bot():
 
         self.updateRect()
         self.move(tiles)
-        self.draw(window)
+        return self.draw(window)
 
     def updateRect(self):
 
@@ -174,5 +175,5 @@ class Bot():
 
     def draw(self, window):
 
-        if(utils.screenRect.colliderect(pygame.Rect(self.rect))):
-            utils.debugDraw(window, pygame.Rect(self.rect))
+        # if(utils.screenRect.colliderect(pygame.Rect(self.rect))):
+        return utils.getDebugRectItem(window, pygame.Rect(self.rect))

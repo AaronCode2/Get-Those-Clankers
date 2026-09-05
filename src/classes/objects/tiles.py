@@ -1,6 +1,7 @@
 import pygame
 import classes.utility.utils as utils
 import classes.utility.textures as textures
+import classes.manager.camera as camera
 
 class Tile:
 
@@ -38,10 +39,14 @@ class Tile:
     def getHitBox(self):
         return self._hitBox
 
-    def update(self, window):
+    def update(self, window) -> list[camera.CameraItem]:
 
-        self.draw(window)
-        utils.debugDraw(window, self._hitBox)
+        camera_items = [
+            self.draw(window),
+            utils.getDebugRectItem(window, self._hitBox)
+        ]
+
+        return camera_items
 
     # This func only called if the object is a tower!
 
@@ -53,20 +58,21 @@ class Tile:
     # You manually destroy the bots e.g if(bot.health == 0): bots.remove(bot)
     # There is no bullet class, you have to create one
 
-    def draw(self, window):
-
+    def draw(self, window) -> camera.CameraItem:
+        item: camera.CameraItem
         if(self.type != utils.TileType.GREEN_TOWER):
 
             if(self.rotation == utils.RotationType.DOWN):
-                window.blit(textures.images["Tiles"]["image"]["surface"], self.position, self.srcRect)
+                item = (textures.images["Tiles"]["image"]["surface"], self.position, self.srcRect, self._hitBox.centery)
             else:
-                window.blit(textures.images["Tiles"]["rotatedImages"][self.rotation], self.position, self.srcRect)
+                item = (textures.images["Tiles"]["rotatedImages"][self.rotation], self.position, self.srcRect, self._hitBox.centery)
 
         else:
 
             # Draw Tower!
             
-            window.blit(textures.images["Tower"]["image"]["Animation"].current_frame, self.position)
+            item = (textures.images["Tower"]["image"]["Animation"].current_frame, self.position, None, self._hitBox.centery)
+        return item
 
     def setSrcRect(self):
 

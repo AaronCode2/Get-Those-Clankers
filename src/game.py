@@ -1,6 +1,7 @@
 import pygame
 import classes.utility.utils as utils
 import classes.manager.world as world
+import classes.manager.camera as camera
 import classes.ui.ui as ui
 import classes.objects.player as player
 from pygame._sdl2 import Window

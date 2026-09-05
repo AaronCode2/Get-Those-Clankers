@@ -3,6 +3,7 @@ from classes.objects.entity import Entity
 from classes.utility.animation import AnimationManager
 import classes.objects.tiles as tiles
 import classes.utility.utils as utils
+import classes.manager.camera as camera
 
 
 class AnimatedEntity(Entity):
@@ -39,6 +40,7 @@ class AnimatedEntity(Entity):
         super().update(collision_tiles)
 
     def draw(self, screen: pygame.Surface, debug: bool = False):
-        screen.blit(self.surface, self.rect)
+        items: list[camera.CameraItem] = [(self.surface, self.rect.topleft, None, self.hitbox.centery)]
         if debug:
-            utils.debugDraw(screen, self.hitbox)
+            items.append(utils.getDebugRectItem(screen, self.hitbox))
+        return items

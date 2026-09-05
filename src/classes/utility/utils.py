@@ -1,5 +1,6 @@
 import pygame
 from enum import Enum
+import classes.manager.camera as camera
 
 # For constants and utility
 
@@ -450,6 +451,13 @@ def debugDraw(window, destRect: pygame.Rect, color = (255, 0, 0)):
     rect.set_alpha(100)
     rect.fill(color)
     window.blit(rect, (destRect.x, destRect.y))
+
+def getDebugRectItem(window, destRect: pygame.Rect, color = (255, 0, 0)) -> camera.CameraItem:
+
+    rect = pygame.Surface((destRect.width, destRect.height))
+    rect.set_alpha(100)
+    rect.fill(color)
+    return rect, destRect.topleft, None, destRect.centery
 
 rotations = {
 

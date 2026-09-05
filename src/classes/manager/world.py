@@ -5,6 +5,7 @@ import classes.bots.bot as bot
 import classes.utility.animation as animation
 import classes.objects.batteryGen as batteryGen
 import classes.objects.player as player
+import classes.manager.camera as camera
 import math
 import random
 from copy import copy
@@ -19,6 +20,7 @@ class World():
         self.tiles = []
         self.bots = []
         self.player = player.Player(pygame.Vector2(500, 500))
+        self.camera = camera.Camera()
 
         self.dev_activateBots = False
 
@@ -293,7 +295,7 @@ class World():
     def update(self, window):
 
         # Update The towers
-
+        camera_items: list[camera.CameraItem] = []
         textures.images["Tower"]["image"]["Animation"].update()
 
         if(self.currentSelectedSlot != None):
@@ -315,23 +317,25 @@ class World():
 
         for tile in self.tiles:
 
-            tile.update(window)
+            camera_items += tile.update(window)
 
             if(tile.type == utils.TileType.GREEN_TOWER):
                 tile.towerFunc(self.bots)
 
-        self.batteryGenator.update(window, self.tiles)
+        camera_items.append(self.batteryGenator.update(window, self.tiles))
 
         if(self.dev_activateBots):
             self.dev_deployBots()
 
 
         self.player.update(self.tiles)
-        self.player.draw(window, debug=True)
+        camera_items += self.player.draw(window, debug=True)
 
         for bot in self.bots:
 
-            bot.update(window, self.tiles)
+            camera_items.append(bot.update(window, self.tiles))
+
+        self.camera.draw(camera_items, self.player.hitbox.midbottom, window)
 
     def dev_deployBots(self):
 
