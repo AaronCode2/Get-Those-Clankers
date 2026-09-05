@@ -4,6 +4,7 @@ import classes.utility.utils as utils
 import classes.bots.bot as bot
 import classes.utility.animation as animation
 import classes.objects.batteryGen as batteryGen
+import classes.objects.bullet as bullet
 import classes.objects.player as player
 import classes.manager.camera as camera
 import math
@@ -26,6 +27,8 @@ class World():
         self.dev_activateBots = False
         self.dev_destroyBots = False
 
+        bullet.Bullet.giveBots(self.bots)
+
         self.initTextures()
 
         self.currentSelectedSlot = None
@@ -39,6 +42,8 @@ class World():
         self.setupObjects()
 
     def setupObjects(self):
+
+        bullet.bullets.append(bullet.Bullet(pygame.Vector2(300, 200), pygame.Vector2(400, 400)))
 
         self.tiles.append(
 
@@ -344,6 +349,13 @@ class World():
         for bot in self.bots:
 
             camera_items.append(bot.update(window, self.tiles))
+
+        for singleBullet in bullet.bullets:
+
+            if(singleBullet.destroyBullet):
+                bullet.bullets.remove(singleBullet)
+
+            singleBullet.update(window)
 
         self.camera.draw(camera_items, self.player.hitbox.midbottom, window)
 
