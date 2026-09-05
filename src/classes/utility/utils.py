@@ -360,7 +360,7 @@ itemRequiredTextPosAdj = 40
 itemGivenPosAdj = pygame.Vector2(594, 152)
 itemGivenTextPosAdj = 37
 
-inventoryStackSize = 84
+stackSize = 84
 
 snapdetectAdj = pygame.Vector2(-5, -5)
 snapdetect2Adj = pygame.Vector2(-5, -48)

@@ -57,7 +57,6 @@ class Inventory():
         
         self.slots[5][4].amount = 40
         self.slots[5][4].type = utils.ItemType.STRONG_BARRIER
-
         
         self.slots[2][4].amount = 40
         self.slots[2][4].type = utils.ItemType.CRATE
@@ -146,7 +145,10 @@ class Inventory():
         for y in range(len(self.slots)):
             for x in range(len(self.slots[0])):
 
-                if(self.slots[y][x].type == type or self.slots[y][x].type == utils.ItemType.NONE):
+                if(
+                    (self.slots[y][x].type == type or self.slots[y][x].type == utils.ItemType.NONE) 
+                    and self.slots[y][x].amount + amount < utils.stackSize
+                ):
 
                     self.slots[y][x].type = type
                     self.slots[y][x].amount += amount
@@ -281,7 +283,10 @@ class Inventory():
 
         if(mouseKey[0] and self.selectedSlot != None and utils.mouseHover(buttonRect)):
 
-            if(self.slots[y][x].type == self.selectedSlot.type):
+            if(
+                (self.slots[y][x].type == self.selectedSlot.type) 
+                and self.slots[y][x].amount + self.selectedSlot.amount < utils.stackSize
+            ):
 
                 self.slots[y][x].amount += self.selectedSlot.amount
                 self.selectedSlot = None
