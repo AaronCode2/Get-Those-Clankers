@@ -515,6 +515,8 @@ BatteryDisplayHudPositions = {
     "Day": pygame.Vector2(13, 100)
 }
 
+dayShowerPosAdj = pygame.Vector2(-20, -80)
+
 ColorPlattes = {
 
     "Future Blue": (39, 137, 205),

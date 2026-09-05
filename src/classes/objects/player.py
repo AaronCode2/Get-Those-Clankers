@@ -8,9 +8,9 @@ class Player(AnimatedEntity):
     def __init__(self, position: pygame.Vector2):
         animation = AnimationManager(
             asset_path = "player/player.png",
-            num_of_animations = 2,
-            animations_num_frames = [4, 4],
-            animations_names = ["idle", "walk"],
+            num_of_animations = 3,
+            animations_num_frames = [4, 4, 4],
+            animations_names = ["idle", "walk", "hit"],
             scale_factor = 3
         )
         self.movement_speed = 200

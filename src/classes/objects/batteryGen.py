@@ -33,10 +33,11 @@ class BatteryGenenator():
         # A day is 600 seconds or 10mins
 
         self.dayTime = 0
-        self.daytimeStamp = int(time()) 
+        self.daytimeStamp = time() 
 
         self.updateTimeStamp = int(time())
         self.deplateTimeStamp = int(time())
+        self.dayPassed = False
 
         self.loadImage()
         self.setupBatteryIndicator()
@@ -87,18 +88,18 @@ class BatteryGenenator():
     def update(self, window, tiles, playerVelocity):
 
         self.updateStatus(tiles, playerVelocity)
-        self.updateDay()
 
         self.batteryDeplation()
         self.draw(window)
         self.drawHud(window)
+        self.updateDay(window)
 
-    def updateDay(self):
+    def updateDay(self, window):
 
-        if(int(time()) - self.daytimeStamp > 1):
+        if(time() - self.daytimeStamp > 0.5):
 
             self.dayTime += 1
-            self.daytimeStamp = int(time())
+            self.daytimeStamp = time()
 
         # A day is 600 seconds or 10mins, I didn't test if it works
 
@@ -106,6 +107,23 @@ class BatteryGenenator():
 
             self.day += 1
             self.dayTime = 0
+            self.dayPassed = True
+        self.showDay(window)
+
+    def showDay(self, window):
+
+        if(self.dayTime < 10 and self.dayPassed):
+
+            text = utils.font.render("Day: " + str(self.day), True, utils.ColorPlattes["Glass Orange"])
+
+            textPos = pygame.Vector2(
+
+                (utils.screenRect.width / 2) + utils.dayShowerPosAdj.x,
+                (utils.screenRect.height / 2) + utils.dayShowerPosAdj.y,
+            )
+
+            window.blit(text, textPos)
+            
 
     def handleGridImports(self, tiles):
 
