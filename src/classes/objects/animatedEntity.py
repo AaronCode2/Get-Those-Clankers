@@ -21,7 +21,7 @@ class AnimatedEntity(Entity):
 
     @property
     def position(self):
-        return self.rect.topleft
+        return pygame.Vector2(self.rect.topleft)
 
     @position.setter
     def position(self, new_position: pygame.Vector2):

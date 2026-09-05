@@ -49,10 +49,11 @@ class Bot(animatedEntity.AnimatedEntity):
     @targetPos.setter
     def targetPos(self, pos: pygame.Vector2):
         self._targetPos = pos
-        self.velocity = (self._targetPos - self.hitbox.center).normalize() * self.speed
 
     def update(self, tiles):
-        if self.rect.collidepoint(self.targetPos.x, self.targetPos.y):
+        distance = self._targetPos - self.hitbox.center
+        self.velocity = (distance).normalize() * self.speed
+        if (self.targetPos - self.rect.center).length() < 50:
             self.velocity = pygame.Vector2(0.0, 0.0)
         super().update(collision_tiles=tiles)
     # Object dies and create droppedItem
