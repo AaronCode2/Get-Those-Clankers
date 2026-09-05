@@ -1,4 +1,11 @@
-## Game concept
+## Get Those Clankers!
 
-Just some stuff, not much, but better than nothing I guess. 
-Let's go through a story, there once was 1 it turned to 2, it turned to 4. Some day it will end that's how the story ends. 8
+#### The game about the rover. You have been sent to a mission to operation and own territory. Failure to do so will result in [...]. Survive through the days, as with each day becomes more difficult. Defence your heart through it all. As your only goal is be unstopable and learn what this territory has to bring to you.
+
+## Defend
+#### Explore the resources that it has and claim your land. Use your resources wisely. The bots aren't gonna show mercy.
+
+## Craft
+#### with destruction, comes construction, gather items and craft in order to survive.
+
+## Survive

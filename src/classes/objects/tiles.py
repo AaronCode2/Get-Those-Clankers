@@ -31,8 +31,6 @@ class Tile:
 
         self.durability = utils.durabiltyForTile[type]
 
-        print(type)
-
         self.setSrcRect()
 
     def getHitBox(self):
@@ -41,7 +39,6 @@ class Tile:
     def update(self, window):
 
         self.draw(window)
-        utils.debugDraw(window, self._hitBox)
 
     # This func only called if the object is a tower!
 
