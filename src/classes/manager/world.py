@@ -232,7 +232,7 @@ class World():
 
             isTilePlaceable = True
 
-            if(self.selectedTileType != utils.TileType.BARRIER and len(self.tiles) != 0):
+            if(len(self.tiles) != 0):
                 for tile in self.tiles:
 
                     if(detectBox.colliderect(tile.getHitBox())):
