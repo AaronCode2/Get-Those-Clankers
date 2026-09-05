@@ -255,7 +255,10 @@ class World():
                         return
 
                 self.tiles.append(tiles.Tile(
-                    pygame.Vector2(self.destPreviewRect.x, self.destPreviewRect.y), 
+                    pygame.Vector2(
+                        self.destPreviewRect.x + self.camera.offset.x, 
+                        self.destPreviewRect.y + self.camera.offset.y
+                    ), 
                     self.selectedTileType, self.defaultRotation
                 ))
 
