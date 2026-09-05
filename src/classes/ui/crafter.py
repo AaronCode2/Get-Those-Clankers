@@ -23,6 +23,32 @@ class Crafter():
 
     # Crafter symbol: :=: , it looks cool
 
+    def getObjectsForCraftItems(self, x, y, index):
+            
+        crafterRecipeButtonPos = pygame.Vector2(
+
+            utils.screenRect.width - utils.crafterRecipeButtonPosAdj.x + (utils.smallButtonSize * x),
+            utils.screenRect.height - utils.crafterRecipeButtonPosAdj.y + (utils.smallButtonSize * y),
+        )
+
+        itemType = crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)][crafterRecipes.RecipeIndex.ItemTypeGiven]
+
+        itemSrcRect = pygame.Rect(
+
+            textures.images["Items"]["image"]["FrameWidth"] * itemType.value,
+            0,
+            textures.images["Items"]["image"]["FrameWidth"],
+            textures.images["Items"]["image"]["FrameHeight"],
+        )
+
+        itemPos = pygame.Vector2(
+
+            crafterRecipeButtonPos.x + utils.itemPosAdj.x,
+            crafterRecipeButtonPos.y + utils.itemPosAdj.y,
+        )
+
+        return crafterRecipeButtonPos, itemSrcRect, itemPos
+
     def drawSectionCraftItems(self, window, inventory):
 
         y = 0
@@ -37,62 +63,47 @@ class Crafter():
                 x = 0
                 i = 0 
 
-            crafterRecipeButtonPos = pygame.Vector2(
-
-                utils.screenRect.width - utils.crafterRecipeButtonPosAdj.x + (utils.smallButtonSize * x),
-                utils.screenRect.height - utils.crafterRecipeButtonPosAdj.y + (utils.smallButtonSize * y),
-            )
+            crafterRecipeButtonPos, itemSrcRect, itemPos = self.getObjectsForCraftItems(x, y, index)
 
             x += 1
 
-            itemType = crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)][crafterRecipes.RecipeIndex.ItemTypeGiven]
-
-            itemSrcRect = pygame.Rect(
-
-                textures.images["Items"]["image"]["FrameWidth"] * itemType.value,
-                0,
-                textures.images["Items"]["image"]["FrameWidth"],
-                textures.images["Items"]["image"]["FrameHeight"],
-            )
-
-            itemPos = pygame.Vector2(
-
-                crafterRecipeButtonPos.x + utils.itemPosAdj.x,
-                crafterRecipeButtonPos.y + utils.itemPosAdj.y,
-            )
-
-            if(utils.mouseClickedL(pygame.Rect(
-                crafterRecipeButtonPos.x, crafterRecipeButtonPos.y, 
-                utils.smallButtonSize, utils.smallButtonSize 
-            ))):
-                if(self.selectedRecipe != crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)]):
-
-                    self.isCraftable = True
-                    
-                    for i in range(len(
-                        crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)][crafterRecipes.RecipeIndex.ItemNeeded]
-                    )):
-
-                        if(not inventory.inventoryHasItem(
-                            crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)][crafterRecipes.RecipeIndex.ItemNeeded][i][0],
-                            crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)][crafterRecipes.RecipeIndex.ItemNeeded][i][1]
-                        )):
-                            self.isCraftable = False
-                            break
-
-                    self.selectedRecipe =  crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)]
-                else:
-                    self.selectedRecipe = None
-
-            if(self.selectedRecipe == crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)]):
-                guiPlateButton = utils.GuiPlates.SMALL_BUTTON_PRESSED
-            else:
-                guiPlateButton = utils.GuiPlates.SMALL_BUTTON_UNPRESSED
-
+            guiPlateButton = self.handleCrafting(crafterRecipeButtonPos, inventory, index)
 
             textures.drawGuiSinglePlate(window, crafterRecipeButtonPos, guiPlateButton)
             window.blit(textures.images["Items"]["image"]["surface"], itemPos, itemSrcRect)
-            
+
+    def handleCrafting(self, crafterRecipeButtonPos, inventory, index):
+
+        if(utils.mouseClickedL(pygame.Rect(
+                crafterRecipeButtonPos.x, crafterRecipeButtonPos.y, 
+                utils.smallButtonSize, utils.smallButtonSize 
+        ))):
+            if(self.selectedRecipe != crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)]):
+
+                self.isCraftable = True
+                
+                for i in range(len(
+                    crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)][crafterRecipes.RecipeIndex.ItemNeeded]
+                )):
+
+                    if(not inventory.inventoryHasItem(
+                        crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)][crafterRecipes.RecipeIndex.ItemNeeded][i][0],
+                        crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)][crafterRecipes.RecipeIndex.ItemNeeded][i][1]
+                    )):
+                        self.isCraftable = False
+                        break
+
+                self.selectedRecipe =  crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)]
+            else:
+                self.selectedRecipe = None
+
+        if(self.selectedRecipe == crafterRecipes.recipes[crafterRecipes.RecipeCrafts(index)]):
+            guiPlateButton = utils.GuiPlates.SMALL_BUTTON_PRESSED
+        else:
+            guiPlateButton = utils.GuiPlates.SMALL_BUTTON_UNPRESSED
+
+        return guiPlateButton
+    
     def drawSectionInfo(self, window, inventory):
 
         craftButtonPos, craftTextPos, guiPlate, crafterText, crafterTextColor, descriptionPos = self.getSectionInfoRects(inventory)
