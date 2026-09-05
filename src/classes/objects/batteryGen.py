@@ -84,9 +84,9 @@ class BatteryGenenator():
         self.batteryIndicator.update()
         window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
-    def update(self, window, tiles):
+    def update(self, window, tiles, playerVelocity):
 
-        self.updateStatus(tiles)
+        self.updateStatus(tiles, playerVelocity)
         self.updateDay()
 
         self.batteryDeplation()
@@ -114,16 +114,17 @@ class BatteryGenenator():
         for tile in tiles:
 
             if(tile.type == utils.TileType.SOLAR_PANEL):
-                generatedImports += random.randint(utils.solarImportMin, utils.solarImportMax)
+                if(self.wattsGenerated + generatedImports <= self.capacity):
+                    generatedImports += random.randint(utils.solarImportMin, utils.solarImportMax)
 
-        if(self.wattsGenerated + generatedImports <= self.capacity):
-            self.wattsGenerated += generatedImports
+        
+        self.wattsGenerated += generatedImports
 
-    def updateStatus(self, tiles):
+    def updateStatus(self, tiles, playerVelocity):
 
         if(int(time()) - self.updateTimeStamp >= self.updateDelay):
 
-            self.handleGridExports()
+            self.handleGridExports(tiles, playerVelocity)
             self.handleGridImports(tiles)
             self.updateTimeStamp = int(time())
 
@@ -156,11 +157,15 @@ class BatteryGenenator():
         self.srcRect.x = float(textures.images["Battery"]["image"]["FrameWidth"] * batteryLevel.value)
         self.batteryIndicator.set_animation(textures.images["batteryIndicator"]["animationNames"][batteryLevel.value])
 
-    def handleGridExports(self):
+    def handleGridExports(self, tiles, playerVelocity):
 
-        # Right now there are nothing using energy
+        for tile in tiles:
 
-        self.wattsGenerated -= random.randint(utils.batterydelateMin, utils.batterydelateMax)
+            if(tile.type == utils.TileType.GREEN_TOWER):
+                self.wattsGenerated -= random.randint(10, 80)
+
+        if(playerVelocity != pygame.Vector2(0, 0)):
+            self.wattsGenerated -= 1
 
     def draw(self, window):
 

@@ -325,7 +325,7 @@ class World():
             if(tile.type == utils.TileType.GREEN_TOWER):
                 tile.towerFunc(self.bots)
 
-        self.batteryGenator.update(window, self.tiles)
+        self.batteryGenator.update(window, self.tiles, self.player.velocity)
 
         if(self.dev_activateBots):
             self.dev_deployBots()

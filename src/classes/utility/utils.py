@@ -492,7 +492,9 @@ ColorPlattes = {
     "Supreme Yellow": (248, 197, 58),
     "Pale White": (236, 235, 231),
     "Glass Orange": (241, 100, 31),
-    "Grey Cloud": (128, 123, 128)
+    "Grey Cloud": (128, 123, 128),
+    "Sandy Yellow": (170, 100, 49),
+    "Purple Moose": (86, 88, 123)
 }
 
 def formatToClock(seconds: int):
