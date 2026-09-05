@@ -47,33 +47,43 @@ class UI():
         else:
             keysToDisplay = utils.keyGuidesTexts["onWorld"]
 
+        x = 0
+
         for i in range(len(keysToDisplay)):
 
-            keydisplay = utils.KeyGuides(i)
+            keydisplayIndex = utils.KeyGuides(i)
 
-            textguide = utils.font.render(keysToDisplay[keydisplay], True, (0, 0, 0))
+            textguide = utils.font.render(keysToDisplay[keydisplayIndex], True, (0, 0, 0))
+
+            textSize, _ = utils.font.size(keysToDisplay[keydisplayIndex])
+
+            keyPos = pygame.Vector2(
+                (x * textures.images["keys"]["image"]["FrameWidth"]), 
+                utils.screenRect.height - utils.keyPosAdj
+            )
+
+            textPos = pygame.Vector2(
+                keyPos.x + textures.images["keys"]["image"]["FrameWidth"],
+                keyPos.y
+            )
+
+            keySrcRect = self.getkeySrcRect(keydisplayIndex)
+
+            x += 1
+
+            window.blit(textguide, textPos)
+            window.blit(textures.images["keys"]["image"]["surface"], keyPos, keySrcRect)
+
             
-            position = pygame.Vector2(
-                (textures.images["keys"]["image"]["FrameWidth"] * i) + 
-                utils.keyGuidesTexts["textOffsets"][keydisplay] + 5.0,
-                (utils.screenRect.height - textures.images["keys"]["image"]["FrameHeight"]), 
-            )
+    def getkeySrcRect(self, key: utils.KeyGuides):
 
-            positionText = pygame.Vector2(
-                textures.images["keys"]["image"]["FrameWidth"] * i + 
-                utils.keyGuidesTexts["textOffsets"][keydisplay] + 68.0,
-                (utils.screenRect.height - textures.images["keys"]["image"]["FrameHeight"] + 5), 
-            )
+        return pygame.Rect(
 
-            srcRect = pygame.Rect(
-                textures.images["keys"]["image"]["FrameWidth"] * keydisplay.value,
-                0,
-                textures.images["keys"]["image"]["FrameWidth"],
-                textures.images["keys"]["image"]["FrameHeight"] 
-            )
-
-            window.blit(textguide, positionText)
-            window.blit(textures.images["keys"]["image"]["surface"], position, srcRect)
+            textures.images["keys"]["image"]["FrameWidth"] * key.value,
+            0,
+            textures.images["keys"]["image"]["FrameWidth"],
+            textures.images["keys"]["image"]["FrameHeight"]
+        )
 
     def getInventoryHotBarSelectedSlot(self):
         return self.inventory.getSelectedHotBarSlot()
