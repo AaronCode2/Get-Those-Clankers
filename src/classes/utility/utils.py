@@ -487,10 +487,10 @@ hitBoxAdjForTiles = {
 
     TileType.BARRIER: {
 
-        RotationType.UP: pygame.Rect(2, 25, -5, -50),
-        RotationType.DOWN: pygame.Rect(2, 25, -5, -50),
-        RotationType.LEFT: pygame.Rect(25, 3, -50, -6),
-        RotationType.RIGHT: pygame.Rect(25, 3, -50, -6),
+        RotationType.UP: pygame.Rect(2, 2, -4, -4),
+        RotationType.DOWN: pygame.Rect(2, 2, -4, -4),
+        RotationType.LEFT: pygame.Rect(2, 2, -4, -4),
+        RotationType.RIGHT: pygame.Rect(2, 2, -4, -4),
     },
 
     TileType.SOLAR_PANEL: {
