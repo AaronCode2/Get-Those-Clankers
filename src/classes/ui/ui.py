@@ -4,6 +4,7 @@ import classes.utility.textures as textures
 import classes.ui.inventory as inventory
 import classes.utility.animation as animation
 import classes.ui.crafter as crafter
+import classes.ui.dailog as dailog
 from time import time
 
 class UI():
@@ -16,6 +17,7 @@ class UI():
 
         self.inventory = inventory.Inventory()
         self.crafter = crafter.Crafter()
+        self.dailog = dailog.Dialog()
 
     def update(self, window):
 
@@ -39,6 +41,7 @@ class UI():
            self.crafter.update(window, self.inventory)
 
         self.inventory.update(window)
+        self.dailog.update(window)
 
     def displayKeyGuides(self, window):
 

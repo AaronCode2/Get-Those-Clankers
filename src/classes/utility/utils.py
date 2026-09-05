@@ -188,6 +188,8 @@ hotBarindex = 5
 inventoryCols = 5
 clickdelay = 0.005
 
+dialogTextPos = pygame.Vector2(466, 23)
+
 def mouseClickedOnceL(rect: pygame.Rect):
 
     mouse = pygame.mouse.get_pos()
@@ -292,6 +294,10 @@ def convertToTileType(ItemType: ItemType):
 
 screenRect = pygame.Rect()
 windowResized = False
+
+charPos = pygame.Vector2(366, 46)
+
+backgroundDailogPos = pygame.Vector2(332, 11)
 
 hotBarSizeWidth = 64 * 6
 hotBarSizeHeight = 64 * 2
@@ -478,6 +484,17 @@ def configureRotatedImageForPreview(width, height, type, rotation):
             )
 
     return srcRect
+
+# The side of screen is where the bots spawn
+
+BotsSpaceings = 100
+
+class BotAppearings(Enum):
+
+    SIDE_RIGHT_SCREEN = 0
+    SIDE_LEFT_SCREEN = 1
+    SIDE_TOP_SCREEN = 2
+    SIDE_BOTTOM_SCREEN = 3
 
 BatteryDisplayHudPositions = {
 

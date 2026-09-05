@@ -122,6 +122,19 @@ images = {
                 "FrameWidth": 64,
                 "FrameHeight": 64
             },
+        },
+
+        "Char": {
+
+            "location": "assets/ui/chars.png",
+            "FramesX": 1,
+            "FramesY": 1,
+            "image": {
+
+                "surface": None,
+                "FrameWidth": 32,
+                "FrameHeight": 32
+            },
         }
 }
 

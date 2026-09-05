@@ -362,8 +362,30 @@ class World():
 
     def dev_deployBots(self):
 
-        x = float(random.randint(0, 1000))
-        y = float(random.randint(0, 800))
+        whereBotAppear = utils.BotAppearings(random.randint(0, 3))
+        extraSpace = utils.BotsSpaceings
+
+        match(whereBotAppear):
+
+            case utils.BotAppearings.SIDE_RIGHT_SCREEN:
+
+                x = -extraSpace
+                y = random.randint(-extraSpace, utils.screenRect.height + extraSpace)
+
+            case utils.BotAppearings.SIDE_LEFT_SCREEN:
+
+                x = utils.screenRect.width + extraSpace
+                y = random.randint(-extraSpace, utils.screenRect.height + extraSpace)
+
+            case utils.BotAppearings.SIDE_TOP_SCREEN:
+
+                x = random.randint(-extraSpace, utils.screenRect.width + extraSpace)
+                y = -extraSpace
+
+            case utils.BotAppearings.SIDE_BOTTOM_SCREEN:
+
+                x = random.randint(-extraSpace, utils.screenRect.width + extraSpace)
+                y = utils.screenRect.height + extraSpace
 
         self.bots.append(bot.Bot(pygame.Vector2(x, y), self.batteryGenator.position))
 
