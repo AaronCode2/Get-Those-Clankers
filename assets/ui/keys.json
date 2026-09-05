@@ -22,6 +22,30 @@
     "spriteSourceSize": { "x": 0, "y": 11, "w": 31, "h": 21 },
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
+   },
+   "keys 3.aseprite": {
+    "frame": { "x": 93, "y": 0, "w": 31, "h": 21 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 11, "w": 31, "h": 21 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "keys 4.aseprite": {
+    "frame": { "x": 124, "y": 0, "w": 31, "h": 21 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 11, "w": 31, "h": 21 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "keys 5.aseprite": {
+    "frame": { "x": 155, "y": 0, "w": 31, "h": 21 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 11, "w": 31, "h": 21 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
    }
  },
  "meta": {
@@ -29,7 +53,7 @@
   "version": "1.3.14.2-dev",
   "image": "keys.png",
   "format": "RGBA8888",
-  "size": { "w": 93, "h": 21 },
+  "size": { "w": 186, "h": 21 },
   "scale": "1",
   "frameTags": [
   ],

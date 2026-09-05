@@ -42,24 +42,31 @@ class UI():
 
     def displayKeyGuides(self, window):
 
-        for i in range(textures.images["keys"]["maxFramesX"]):
+        if(self.inventory.toggle):
+            keysToDisplay = utils.keyGuidesTexts["onInventory"]
+        else:
+            keysToDisplay = utils.keyGuidesTexts["onWorld"]
 
-            textguide = utils.font.render(utils.keyGuidesTexts[utils.KeyGuides(i)], True, (0, 0, 0))
+        for i in range(len(keysToDisplay)):
+
+            keydisplay = utils.KeyGuides(i)
+
+            textguide = utils.font.render(keysToDisplay[keydisplay], True, (0, 0, 0))
             
             position = pygame.Vector2(
                 (textures.images["keys"]["image"]["FrameWidth"] * i) + 
-                utils.keyGuidesTexts["textOffsets"][utils.KeyGuides(i)] + 5.0,
+                utils.keyGuidesTexts["textOffsets"][keydisplay] + 5.0,
                 (utils.screenRect.height - textures.images["keys"]["image"]["FrameHeight"]), 
             )
 
             positionText = pygame.Vector2(
                 textures.images["keys"]["image"]["FrameWidth"] * i + 
-                utils.keyGuidesTexts["textOffsets"][utils.KeyGuides(i)] + 68.0,
+                utils.keyGuidesTexts["textOffsets"][keydisplay] + 68.0,
                 (utils.screenRect.height - textures.images["keys"]["image"]["FrameHeight"] + 5), 
             )
 
             srcRect = pygame.Rect(
-                textures.images["keys"]["image"]["FrameWidth"] * i,
+                textures.images["keys"]["image"]["FrameWidth"] * keydisplay.value,
                 0,
                 textures.images["keys"]["image"]["FrameWidth"],
                 textures.images["keys"]["image"]["FrameHeight"] 

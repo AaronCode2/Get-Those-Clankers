@@ -131,20 +131,40 @@ class KeyGuides(Enum):
     CRTL_TO_SNAP = 0
     WASD_TO_MOVE = 1
     R_TO_ROTATE = 2
+    E_OPEN_INVENTORY = 3
+    LEFT_M_PLACE_OR_DRAG_INVENTORY = 4
+    RIGHT_M_DELETE_OR_SPLIT_INVENTORY = 5
 
 detectBoxAdj = pygame.Vector2(10, -20)
 
 keyGuidesTexts = {
 
-    KeyGuides.CRTL_TO_SNAP: "Snap Mode",
-    KeyGuides.WASD_TO_MOVE: "Move",
-    KeyGuides.R_TO_ROTATE: "Rotate Object",
+    "onWorld": {
+
+        KeyGuides.CRTL_TO_SNAP: "Snap Mode",
+        KeyGuides.WASD_TO_MOVE: "Move",
+        KeyGuides.R_TO_ROTATE: "Rotate Object",
+        KeyGuides.E_OPEN_INVENTORY: "Inventory",
+        KeyGuides.R_TO_ROTATE: "Rotate Object",
+        KeyGuides.LEFT_M_PLACE_OR_DRAG_INVENTORY: "Place",
+        KeyGuides.RIGHT_M_DELETE_OR_SPLIT_INVENTORY: "Delete",
+    },
+
+    "onInventory": {
+
+        KeyGuides.E_OPEN_INVENTORY: "Inventory",
+        KeyGuides.LEFT_M_PLACE_OR_DRAG_INVENTORY: "Drag Item",
+        KeyGuides.RIGHT_M_DELETE_OR_SPLIT_INVENTORY: "Split"
+    },
 
     "textOffsets": {
 
         KeyGuides.CRTL_TO_SNAP: 0,
         KeyGuides.WASD_TO_MOVE: 160,
         KeyGuides.R_TO_ROTATE: 230,
+        KeyGuides.LEFT_M_PLACE_OR_DRAG_INVENTORY: 400,
+        KeyGuides.RIGHT_M_DELETE_OR_SPLIT_INVENTORY: 500,
+        KeyGuides.E_OPEN_INVENTORY: 600
     } 
 }
 
