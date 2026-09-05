@@ -102,7 +102,7 @@ class BatteryGenenator():
             self.dayTime += 1
             self.daytimeStamp = time()
 
-        # A day is 600 seconds or 10mins, I didn't test if it works
+        # A day is 300 seconds or 5mins, I didn't test if it works
 
         if(self.dayTime >= utils.fullDay):
 

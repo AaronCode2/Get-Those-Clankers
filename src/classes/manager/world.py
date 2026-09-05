@@ -300,8 +300,6 @@ class World():
         # Update The towers
         camera_items: list[camera.CameraItem] = []
 
-        print(self.defaultRotation)
-
         textures.images["Tower"]["image"]["Animation"].update()
 
         if(self.currentSelectedSlot != None):

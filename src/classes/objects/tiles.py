@@ -34,8 +34,6 @@ class Tile:
 
         self.durability = utils.durabiltyForTile[type]
 
-        print(type)
-
         self.setSrcRect()
 
     def getHitBox(self):
