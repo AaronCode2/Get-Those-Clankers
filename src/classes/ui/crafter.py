@@ -8,7 +8,7 @@ class Crafter():
     def __init__(self):
 
         self.isCraftable = True
-        self.selectedRecipe = None)
+        self.selectedRecipe = None
 
     def update(self, window, inventory):
 
