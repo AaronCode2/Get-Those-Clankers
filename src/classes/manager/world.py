@@ -293,6 +293,8 @@ class World():
 
         # Update The towers
 
+        print(self.defaultRotation)
+
         textures.images["Tower"]["image"]["Animation"].update()
 
         if(self.currentSelectedSlot != None):

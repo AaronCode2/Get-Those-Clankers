@@ -369,7 +369,7 @@ snapdetect3Adj = pygame.Vector2(-2, -10)
 defaultImageSizes = 64
 
 scrollWheel = pygame.Vector2(0, 0)
-tileMaxFrames = 1.0
+tileMaxFrames = 4.0
 
 batteryIndicatorPos = pygame.Vector2(240, 30)
 

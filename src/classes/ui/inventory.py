@@ -52,7 +52,7 @@ class Inventory():
         self.slots[4][1].type = utils.ItemType.RAW_IRON
 
         self.slots[5][2].amount = 40
-        self.slots[5][2].type = utils.ItemType.SOLAR_PANEL
+        self.slots[5][2].type = utils.ItemType.BARRIER
 
         
         self.slots[5][4].amount = 40
