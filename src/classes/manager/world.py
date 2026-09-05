@@ -10,6 +10,7 @@ import math
 import random
 from copy import copy
 import classes.utility.textures as textures
+import classes.objects.dropItem as dropItem
 
 class World():
 
@@ -23,6 +24,7 @@ class World():
         self.camera = camera.Camera()
 
         self.dev_activateBots = False
+        self.dev_destroyBots = False
 
         self.initTextures()
 
@@ -30,6 +32,7 @@ class World():
         self.currentSelectedSlotIndex = None
 
         self._addSelectedSlotType = None
+        self.pickedDroppedItem = None
 
         self.batteryGenator = batteryGen.BatteryGenenator()
         self.setupPrieviewTile()
@@ -42,7 +45,7 @@ class World():
             tiles.Tile(
                 pygame.Vector2(
                 300, 200
-                ), utils.TileType.SOLAR_PANEL,
+                ), utils.TileType.GREEN_TOWER,
                 utils.RotationType.DOWN
             )
         )
@@ -50,22 +53,18 @@ class World():
             tiles.Tile(
                 pygame.Vector2(
                 400, 260
-                ), utils.TileType.BARRIER,
+                ), utils.TileType.STRONG_BARRIER,
                 utils.RotationType.LEFT
         ))
         self.tiles.append(
             tiles.Tile(
                 pygame.Vector2(
                 600, 230
-                ), utils.TileType.GREEN_TOWER,
+                ), utils.TileType.STRONGER_BARRIER,
                 utils.RotationType.UP
         ))
 
         bot.Bot.setBatteryPos(self.batteryGenator.position)
-
-        self.bots.append(
-            bot.Bot(pygame.Vector2(800, 700), self.batteryGenator.position)
-        )
 
     def updateTileSrcRect(self):
 
@@ -193,13 +192,6 @@ class World():
 
         if(selectedTile != None):
 
-            utils.debugDraw(window, pygame.Rect(
-                selectedTile.getHitBox().x, 
-                selectedTile.getHitBox().y, 
-                selectedTile.getHitBox().width, 
-                selectedTile.getHitBox().height
-            ))
-
             for i in range(utils.SnapType.__len__()):
                 for j in range(utils.dirType.__len__()):
 
@@ -235,10 +227,10 @@ class World():
 
             isTilePlaceable = True
 
-            if(self.selectedTileType != utils.TileType.BARRIER and len(self.tiles) != 0):
+            if(len(self.tiles) != 0):
                 for tile in self.tiles:
 
-                    if(detectBox.colliderect(utils.getTilesDetectRect(tile.position))):
+                    if(detectBox.colliderect(tile.getHitBox())):
                         isTilePlaceable = False
                         return
             if(isTilePlaceable):
@@ -296,6 +288,9 @@ class World():
 
         # Update The towers
         camera_items: list[camera.CameraItem] = []
+
+        print(self.defaultRotation)
+
         textures.images["Tower"]["image"]["Animation"].update()
 
         if(self.currentSelectedSlot != None):
@@ -312,6 +307,8 @@ class World():
 
         if(key[pygame.K_b]):
             self.dev_activateBots = not self.dev_activateBots
+        elif(key[pygame.K_k]):
+            self.dev_destroyBots = not self.dev_destroyBots
 
         self.updateTilePlacer(window)
 
@@ -322,11 +319,18 @@ class World():
             if(tile.type == utils.TileType.GREEN_TOWER):
                 tile.towerFunc(self.bots)
 
-        camera_items.append(self.batteryGenator.update(window, self.tiles))
+
+        camera_items.append(self.batteryGenator.update(window, self.tiles, self.player.velocity))
 
         if(self.dev_activateBots):
             self.dev_deployBots()
 
+        if(self.dev_destroyBots):
+            self.bots = []
+
+        # When player touches drop Item, it added to inventory
+
+        self.updateDroppedItems(window)
 
         self.player.update(self.tiles)
         camera_items += self.player.draw(window, debug=True)
@@ -337,14 +341,65 @@ class World():
 
         self.camera.draw(camera_items, self.player.hitbox.midbottom, window)
 
+    def updateDroppedItems(self, window):
+
+        for droppedItem in dropItem.droppedItems:
+
+            droppedItem.update(window)
+
+            if(self.player.rect.colliderect(pygame.Rect(
+                droppedItem.position.x,
+                droppedItem.position.y,
+                textures.images["Items"]["image"]["FrameWidth"],
+                textures.images["Items"]["image"]["FrameHeight"]
+            ))):
+
+                self.pickedDroppedItem = (droppedItem.getItem())
+                dropItem.droppedItems.remove(droppedItem)
+
     def dev_deployBots(self):
 
-        x = float(random.randint(0, 1000))
-        y = float(random.randint(0, 800))
+        whereBotAppear = utils.BotAppearings(random.randint(0, 3))
+        extraSpace = utils.BotsSpaceings
+
+        match(whereBotAppear):
+
+            case utils.BotAppearings.SIDE_RIGHT_SCREEN:
+
+                x = -extraSpace
+                y = random.randint(-extraSpace, utils.screenRect.height + extraSpace)
+
+            case utils.BotAppearings.SIDE_LEFT_SCREEN:
+
+                x = utils.screenRect.width + extraSpace
+                y = random.randint(-extraSpace, utils.screenRect.height + extraSpace)
+
+            case utils.BotAppearings.SIDE_TOP_SCREEN:
+
+                x = random.randint(-extraSpace, utils.screenRect.width + extraSpace)
+                y = -extraSpace
+
+            case utils.BotAppearings.SIDE_BOTTOM_SCREEN:
+
+                x = random.randint(-extraSpace, utils.screenRect.width + extraSpace)
+                y = utils.screenRect.height + extraSpace
 
         self.bots.append(bot.Bot(pygame.Vector2(x, y), self.batteryGenator.position))
-    
+
+    def givePickedDroppedItem(self):
+
+        currentpickedItem = self.pickedDroppedItem
+
+        self.pickedDroppedItem = None
+        return currentpickedItem
+
     def initTextures(self):
+
+
+        textures.images["Items"]["image"]["surface"] = pygame.image.load(textures.images["Items"]["location"]).convert_alpha()
+
+        textures.images["Items"]["image"]["FrameWidth"] = textures.images["Items"]["image"]["surface"].width / textures.images["Items"]["FramesX"]
+        textures.images["Items"]["image"]["FrameHeight"] = textures.images["Items"]["image"]["surface"].height
 
         textures.images["Tower"]["image"]["Animation"] = animation.AnimationManager(
 

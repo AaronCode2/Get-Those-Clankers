@@ -13,8 +13,8 @@ images = {
 
         # Tiles
         "Tiles": {
-            "location": "assets/tiles/objects.png",
-            "maxFramesX": 2,
+            "location": "assets/tiles/objects.png", 
+            "maxFramesX": 5,
             "FramesY": 1,
             "image": {
 
@@ -48,7 +48,7 @@ images = {
         "keys": {
 
             "location": "assets/ui/keys.png",
-            "maxFramesX": 3,
+            "maxFramesX": 6,
             "FramesY": 1,
             "image": {
 
@@ -87,7 +87,7 @@ images = {
         "Items": {
 
             "location": "assets/ui/items.png",
-            "FramesX": 9,
+            "FramesX": 12,
             "FramesY": 1,
             "image": {
 
@@ -121,6 +121,19 @@ images = {
                 "surface": None,
                 "FrameWidth": 64,
                 "FrameHeight": 64
+            },
+        },
+
+        "Char": {
+
+            "location": "assets/ui/chars.png",
+            "FramesX": 1,
+            "FramesY": 1,
+            "image": {
+
+                "surface": None,
+                "FrameWidth": 32,
+                "FrameHeight": 32
             },
         }
 }

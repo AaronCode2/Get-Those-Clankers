@@ -52,11 +52,14 @@ class Inventory():
         self.slots[4][1].type = utils.ItemType.RAW_IRON
 
         self.slots[5][2].amount = 40
-        self.slots[5][2].type = utils.ItemType.SOLAR_PANEL
+        self.slots[5][2].type = utils.ItemType.BARRIER
 
         
         self.slots[5][4].amount = 40
-        self.slots[5][4].type = utils.ItemType.BARRIER
+        self.slots[5][4].type = utils.ItemType.STRONG_BARRIER
+        
+        self.slots[2][4].amount = 40
+        self.slots[2][4].type = utils.ItemType.CRATE
 
         self.slots[5][1].amount = 20
         self.slots[5][1].type = utils.ItemType.GREEN_TOWER
@@ -65,8 +68,6 @@ class Inventory():
         self.selectedSlot = None
         self.slotSelectedSrcRect = None
         self.slotSelectedPos = None
-
-        self.configureItemTextures()
 
     def setupHotBarSelector(self):
 
@@ -144,7 +145,10 @@ class Inventory():
         for y in range(len(self.slots)):
             for x in range(len(self.slots[0])):
 
-                if(self.slots[y][x].type == type or self.slots[y][x].type == utils.ItemType.NONE):
+                if(
+                    (self.slots[y][x].type == type or self.slots[y][x].type == utils.ItemType.NONE) 
+                    and self.slots[y][x].amount + amount < utils.stackSize
+                ):
 
                     self.slots[y][x].type = type
                     self.slots[y][x].amount += amount
@@ -279,7 +283,10 @@ class Inventory():
 
         if(mouseKey[0] and self.selectedSlot != None and utils.mouseHover(buttonRect)):
 
-            if(self.slots[y][x].type == self.selectedSlot.type):
+            if(
+                (self.slots[y][x].type == self.selectedSlot.type) 
+                and self.slots[y][x].amount + self.selectedSlot.amount < utils.stackSize
+            ):
 
                 self.slots[y][x].amount += self.selectedSlot.amount
                 self.selectedSlot = None
@@ -359,10 +366,3 @@ class Inventory():
         )
 
         return inventoryOptionsPos, craftbuttonPos, craftTextPos
-
-    def configureItemTextures(self):
-
-        textures.images["Items"]["image"]["surface"] = pygame.image.load(textures.images["Items"]["location"]).convert_alpha()
-
-        textures.images["Items"]["image"]["FrameWidth"] = textures.images["Items"]["image"]["surface"].width / textures.images["Items"]["FramesX"]
-        textures.images["Items"]["image"]["FrameHeight"] = textures.images["Items"]["image"]["surface"].height

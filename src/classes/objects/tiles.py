@@ -39,7 +39,7 @@ class Tile:
     def getHitBox(self):
         return self._hitBox
 
-    def update(self, window) -> list[camera.CameraItem]:
+    def update(self, window):
 
         camera_items = [
             self.draw(window),

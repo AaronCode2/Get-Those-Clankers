@@ -1,4 +1,5 @@
 import pygame
+import random
 from enum import Enum
 import classes.manager.camera as camera
 
@@ -131,20 +132,42 @@ class KeyGuides(Enum):
     CRTL_TO_SNAP = 0
     WASD_TO_MOVE = 1
     R_TO_ROTATE = 2
+    E_OPEN_INVENTORY = 3
+    LEFT_M_PLACE_OR_DRAG_INVENTORY = 4
+    RIGHT_M_DELETE_OR_SPLIT_INVENTORY = 5
 
 detectBoxAdj = pygame.Vector2(10, -20)
 
+keyPosAdj = 45
+
 keyGuidesTexts = {
 
-    KeyGuides.CRTL_TO_SNAP: "Snap Mode",
-    KeyGuides.WASD_TO_MOVE: "Move",
-    KeyGuides.R_TO_ROTATE: "Rotate Object",
+    "onWorld": {
+
+        KeyGuides.CRTL_TO_SNAP: "Snap Mode",
+        KeyGuides.WASD_TO_MOVE: "Move",
+        KeyGuides.R_TO_ROTATE: "Rotate Object",
+        KeyGuides.E_OPEN_INVENTORY: "Inventory",
+        KeyGuides.R_TO_ROTATE: "Rotate Object",
+        KeyGuides.LEFT_M_PLACE_OR_DRAG_INVENTORY: "Place",
+        KeyGuides.RIGHT_M_DELETE_OR_SPLIT_INVENTORY: "Delete",
+    },
+
+    "onInventory": {
+
+        KeyGuides.E_OPEN_INVENTORY: "Inventory",
+        KeyGuides.LEFT_M_PLACE_OR_DRAG_INVENTORY: "Drag Item",
+        KeyGuides.RIGHT_M_DELETE_OR_SPLIT_INVENTORY: "Split"
+    },
 
     "textOffsets": {
 
         KeyGuides.CRTL_TO_SNAP: 0,
         KeyGuides.WASD_TO_MOVE: 160,
         KeyGuides.R_TO_ROTATE: 230,
+        KeyGuides.LEFT_M_PLACE_OR_DRAG_INVENTORY: 400,
+        KeyGuides.RIGHT_M_DELETE_OR_SPLIT_INVENTORY: 500,
+        KeyGuides.E_OPEN_INVENTORY: 600
     } 
 }
 
@@ -165,6 +188,8 @@ deltaTime = 0.3
 hotBarindex = 5
 inventoryCols = 5
 clickdelay = 0.005
+
+dialogTextPos = pygame.Vector2(466, 23)
 
 def mouseClickedOnceL(rect: pygame.Rect):
 
@@ -217,6 +242,43 @@ class ItemType(Enum):
     SOLAR_PANEL = 6
     BARRIER = 7
     GREEN_TOWER = 8
+    STRONG_BARRIER = 9
+    STRONGER_BARRIER = 10
+    CRATE = 11
+
+def generateItemForDropItem():
+
+    itemPerc = random.randint(0, 100)
+
+    amount = random.randint(1, 15)
+    itemType = None
+
+    # Balancing can be adjusted
+
+    if(itemPerc == 1): # 1%
+        itemType = ItemType.SOLAR_PANEL
+    elif(itemPerc <= 15): # 15%
+        itemType = ItemType.RINGED_TIN
+    elif(itemPerc > 15 and itemPerc <= 30): # 15%
+        itemType = ItemType.BOLT
+        amount += 4
+    elif(itemPerc > 30 and itemPerc <= 40): # 10%
+        itemType = ItemType.SCREW
+        amount += 14
+    elif(itemPerc > 40 and itemPerc <= 50): # 20%
+        itemType = ItemType.SCRAP_IGNOT
+        amount += 2
+    elif(itemPerc > 50 and itemPerc <= 55): # 5%
+        itemType = ItemType.SOFT_STEEL
+        amount += 5
+    elif(itemPerc > 55 and itemPerc <= 70): # 15%
+        itemType = ItemType.BOLT
+        amount /= 2
+    else: # 30%
+        itemType = ItemType.RAW_IRON
+        amount *= 2
+
+    return itemType, amount
 
 def convertToTileType(ItemType: ItemType):
 
@@ -228,6 +290,15 @@ def convertToTileType(ItemType: ItemType):
         case ItemType.BARRIER:
             return TileType.BARRIER
 
+        case ItemType.STRONG_BARRIER:
+            return TileType.STRONG_BARRIER
+
+        case ItemType.STRONGER_BARRIER:
+            return TileType.STRONGER_BARRIER
+
+        case ItemType.CRATE:
+            return TileType.CRATE
+
         case ItemType.GREEN_TOWER:
             return TileType.GREEN_TOWER
 
@@ -236,6 +307,10 @@ def convertToTileType(ItemType: ItemType):
 
 screenRect = pygame.Rect()
 windowResized = False
+
+charPos = pygame.Vector2(366, 46)
+
+backgroundDailogPos = pygame.Vector2(332, 11)
 
 hotBarSizeWidth = 64 * 6
 hotBarSizeHeight = 64 * 2
@@ -261,6 +336,8 @@ smallButtonSize = 64
 XLButtonSizeWidth = 192
 XLButtonSizeHeight = 64
 
+fullDay = 300
+
 # Crafter and craft are two different things! don't get confused
 
 crafterButtonAdj = pygame.Vector2(20, 20)
@@ -284,7 +361,7 @@ itemRequiredTextPosAdj = 40
 itemGivenPosAdj = pygame.Vector2(594, 152)
 itemGivenTextPosAdj = 37
 
-inventoryStackSize = 84
+stackSize = 84
 
 snapdetectAdj = pygame.Vector2(-5, -5)
 snapdetect2Adj = pygame.Vector2(-5, -48)
@@ -293,9 +370,9 @@ snapdetect3Adj = pygame.Vector2(-2, -10)
 defaultImageSizes = 64
 
 scrollWheel = pygame.Vector2(0, 0)
-tileMaxFrames = 1.0
+tileMaxFrames = 4.0
 
-batteryIndicatorPos = pygame.Vector2(200, 30)
+batteryIndicatorPos = pygame.Vector2(240, 30)
 
 descriptionPosAdj = pygame.Vector2(599, 556)
 
@@ -421,6 +498,17 @@ def configureRotatedImageForPreview(width, height, type, rotation):
 
     return srcRect
 
+# The side of screen is where the bots spawn
+
+BotsSpaceings = 100
+
+class BotAppearings(Enum):
+
+    SIDE_RIGHT_SCREEN = 0
+    SIDE_LEFT_SCREEN = 1
+    SIDE_TOP_SCREEN = 2
+    SIDE_BOTTOM_SCREEN = 3
+
 BatteryDisplayHudPositions = {
 
     "TimeLeft": pygame.Vector2(12, 30),
@@ -428,13 +516,17 @@ BatteryDisplayHudPositions = {
     "Day": pygame.Vector2(13, 100)
 }
 
+dayShowerPosAdj = pygame.Vector2(-20, -80)
+
 ColorPlattes = {
 
     "Future Blue": (39, 137, 205),
     "Supreme Yellow": (248, 197, 58),
     "Pale White": (236, 235, 231),
     "Glass Orange": (241, 100, 31),
-    "Grey Cloud": (128, 123, 128)
+    "Grey Cloud": (128, 123, 128),
+    "Sandy Yellow": (170, 100, 49),
+    "Purple Moose": (86, 88, 123)
 }
 
 def formatToClock(seconds: int):
@@ -444,6 +536,22 @@ def formatToClock(seconds: int):
     clockSeconds = str(abs((clockMins * 60) - seconds))
 
     return str(clockMins) + ":" + clockSeconds
+
+def formatTo24Hourclock(seconds):
+
+    clockMins = seconds // 60
+
+    clockSeconds = str(abs((clockMins * 60) - seconds))
+
+    if(len(clockSeconds) == 1):
+        clockSeconds = "0" + clockSeconds
+
+    clockMinsStr = str(clockMins)
+
+    if(len(clockMinsStr) == 1):
+        clockMinsStr = "0" + clockMinsStr
+
+    return clockMinsStr + ":" + clockSeconds
 
 def debugDraw(window, destRect: pygame.Rect, color = (255, 0, 0)):
 
@@ -482,12 +590,18 @@ class TileType(Enum):
 
     BARRIER = 0
     SOLAR_PANEL = 1
-    GREEN_TOWER = 2
+    STRONG_BARRIER = 2
+    STRONGER_BARRIER = 3
+    CRATE = 4
+    GREEN_TOWER = 5
 
 durabiltyForTile = {
 
     TileType.SOLAR_PANEL: 15,
     TileType.BARRIER: 8,
+    TileType.STRONG_BARRIER: 20,
+    TileType.STRONGER_BARRIER: 32,
+    TileType.CRATE: 4,
     TileType.GREEN_TOWER: 40
 }
 
@@ -495,24 +609,48 @@ hitBoxAdjForTiles = {
 
     TileType.BARRIER: {
 
-        RotationType.UP: pygame.Rect(2, 25, -5, -50),
-        RotationType.DOWN: pygame.Rect(2, 25, -5, -50),
-        RotationType.LEFT: pygame.Rect(25, 3, -50, -6),
-        RotationType.RIGHT: pygame.Rect(25, 3, -50, -6),
+        RotationType.UP: pygame.Rect(2, 2, -4, -4),
+        RotationType.DOWN: pygame.Rect(2, 2, -4, -4),
+        RotationType.LEFT: pygame.Rect(2, 2, -4, -4),
+        RotationType.RIGHT: pygame.Rect(2, 2, -4, -4),
+    },
+
+    TileType.STRONG_BARRIER: {
+
+        RotationType.UP: pygame.Rect(2, 2, -4, -4),
+        RotationType.DOWN: pygame.Rect(2, 2, -4, -4),
+        RotationType.LEFT: pygame.Rect(2, 2, -4, -4),
+        RotationType.RIGHT: pygame.Rect(2, 2, -4, -4),
+    },
+
+    TileType.STRONGER_BARRIER: {
+
+        RotationType.UP: pygame.Rect(2, 2, -4, -4),
+        RotationType.DOWN: pygame.Rect(2, 2, -4, -4),
+        RotationType.LEFT: pygame.Rect(2, 2, -4, -4),
+        RotationType.RIGHT: pygame.Rect(2, 2, -4, -4),
+    },
+
+    TileType.CRATE: {
+
+        RotationType.UP: pygame.Rect(2, 2, -4, -4),
+        RotationType.DOWN: pygame.Rect(2, 2, -4, -4),
+        RotationType.LEFT: pygame.Rect(2, 2, -4, -4),
+        RotationType.RIGHT: pygame.Rect(2, 2, -4, -4),
     },
 
     TileType.SOLAR_PANEL: {
 
         RotationType.UP: pygame.Rect(0, 6, -2, -10),
         RotationType.DOWN: pygame.Rect(0, 6, -2, -10),
-        RotationType.LEFT: pygame.Rect(5, 3, -11, -6),
-        RotationType.RIGHT: pygame.Rect(5, 3, -11, -6),
+        RotationType.LEFT: pygame.Rect(5, 1, -11, -4),
+        RotationType.RIGHT: pygame.Rect(5, 1, -11, -4),
     },
 
     TileType.GREEN_TOWER: {
 
-        RotationType.UP: pygame.Rect(0, 0, 0, 0),
-        RotationType.DOWN: pygame.Rect(0, 0, 0, 0),
+        RotationType.UP: pygame.Rect(0, 64, 0, -64),
+        RotationType.DOWN: pygame.Rect(0, 64, 0, -64),
     }
 }
 
@@ -528,6 +666,15 @@ def convertToItemType(tileType: TileType):
 
         case tileType.BARRIER:
             return ItemType.BARRIER
+
+        case tileType.STRONG_BARRIER:
+            return ItemType.STRONG_BARRIER
+
+        case tileType.STRONGER_BARRIER:
+            return ItemType.STRONGER_BARRIER
+
+        case tileType.CRATE:
+            return ItemType.CRATE
 
         case tileType.GREEN_TOWER:
             return ItemType.GREEN_TOWER

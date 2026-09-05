@@ -18,7 +18,7 @@ class Game():
         self.fps = fps
         self.clock = pygame.time.Clock()
 
-        self.fillColor = (86, 88, 123)
+        self.fillColor = utils.ColorPlattes["Purple Moose"]
         utils.font = pygame.font.Font("assets/fonts/jetbrains.ttf", 30)
         utils.smfont = pygame.font.Font("assets/fonts/jetbrains.ttf", 24)
         utils.ssmfont = pygame.font.Font("assets/fonts/jetbrains.ttf", 15)
@@ -34,9 +34,19 @@ class Game():
         # This where everything should go e.g player.update()
         self.world.update(self.window)
 
-        # We need to convert Item To Tile, since their diffrenet classes
+        # We need to convert Item To Tile, since their diffrenet Enums
 
         self.ui.addStuffToInventory(self.world.giveAddSelectedSlotType(), 1)
+
+        if(self.world.pickedDroppedItem != None):
+
+            pickedItem = self.world.givePickedDroppedItem()
+
+            self.ui.addStuffToInventory(
+                pickedItem[0], 
+                pickedItem[1]
+            )
+
         self.world.setCurrentselectedSlot(self.ui.getInventoryHotBarSelectedSlot())
         self.ui.update(self.window)
 

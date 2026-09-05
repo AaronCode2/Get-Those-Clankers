@@ -42,31 +42,62 @@ class UI():
 
     def displayKeyGuides(self, window):
 
-        for i in range(textures.images["keys"]["maxFramesX"]):
+        if(self.inventory.toggle):
+            keysToDisplay = utils.keyGuidesTexts["onInventory"]
+        else:
+            keysToDisplay = utils.keyGuidesTexts["onWorld"]
 
-            textguide = utils.font.render(utils.keyGuidesTexts[utils.KeyGuides(i)], True, (0, 0, 0))
+
+        x = 0
+
+        previousTextPosX = 0
+        
+        for i in range(len(keysToDisplay)):
+
+            if(keysToDisplay == utils.keyGuidesTexts["onWorld"]):
+                keydisplayIndex = utils.KeyGuides(i)
+            else:
+                keydisplayIndex = utils.KeyGuides(i + 3)
+
+            textguide = utils.font.render(keysToDisplay[keydisplayIndex], True, (0, 0, 0))
+
+
+            textSize, _ = utils.font.size(keysToDisplay[keydisplayIndex])
+            offset = (x * textures.images["keys"]["image"]["FrameWidth"])
+
+            if(x > 0):
+                textSize, _ = utils.font.size(keysToDisplay[utils.KeyGuides(keydisplayIndex.value - 1)])
+                offset = previousTextPosX
+
+            keyPos = pygame.Vector2(
+                offset + textSize if(x != 0) else (0), 
+                utils.screenRect.height - utils.keyPosAdj
+            )
+
+            textPos = pygame.Vector2(
+                keyPos.x + textures.images["keys"]["image"]["FrameWidth"],
+                keyPos.y
+            )
+
+            previousTextPosX = textPos.x
+
+            keySrcRect = self.getkeySrcRect(keydisplayIndex)
+
+            x += 1
+
+            window.blit(textguide, textPos)
+            window.blit(textures.images["keys"]["image"]["surface"], keyPos, keySrcRect)
+
             
-            position = pygame.Vector2(
-                (textures.images["keys"]["image"]["FrameWidth"] * i) + 
-                utils.keyGuidesTexts["textOffsets"][utils.KeyGuides(i)] + 5.0,
-                (utils.screenRect.height - textures.images["keys"]["image"]["FrameHeight"]), 
-            )
+    def getkeySrcRect(self, key: utils.KeyGuides):
 
-            positionText = pygame.Vector2(
-                textures.images["keys"]["image"]["FrameWidth"] * i + 
-                utils.keyGuidesTexts["textOffsets"][utils.KeyGuides(i)] + 68.0,
-                (utils.screenRect.height - textures.images["keys"]["image"]["FrameHeight"] + 5), 
-            )
+        return pygame.Rect(
 
-            srcRect = pygame.Rect(
-                textures.images["keys"]["image"]["FrameWidth"] * i,
-                0,
-                textures.images["keys"]["image"]["FrameWidth"],
-                textures.images["keys"]["image"]["FrameHeight"] 
-            )
-
-            window.blit(textguide, positionText)
-            window.blit(textures.images["keys"]["image"]["surface"], position, srcRect)
+            textures.images["keys"]["image"]["FrameWidth"] * key.value,
+            0,
+            textures.images["keys"]["image"]["FrameWidth"],
+            textures.images["keys"]["image"]["FrameHeight"]
+        )
 
     def getInventoryHotBarSelectedSlot(self):
         return self.inventory.getSelectedHotBarSlot()
