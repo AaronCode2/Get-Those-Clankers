@@ -39,6 +39,8 @@ class Entity:
         x_projected_rect: pygame.FRect = self.hitbox.copy()
         x_projected_rect.x += self.velocity.x * utils.deltaTime
 
+        # the player is also getting the self.collided_tile
+
         for tile in collision_tiles:
             hitbox = tile.getHitBox()
             if x_projected_rect.colliderect(hitbox):
@@ -53,6 +55,9 @@ class Entity:
                 elif self.velocity.x < 0:
                     x_contact_distance: float = hitbox.right - self.hitbox.left
                     x_movement = min(x_movement, x_contact_distance, key=abs)
+
+                # So that player / bot doesn't keep colliding
+                self.velocity.x = 0
 
 
         # y check
@@ -75,6 +80,9 @@ class Entity:
                 elif self.velocity.y < 0:
                     y_contact_distance: float = hitbox.bottom - self.hitbox.top
                     y_movement = min(y_movement, y_contact_distance, key=abs)
+                    
+                # So that player / bot doesn't keep colliding
+                self.velocity.y = 0
 
         return x_movement, y_movement
 

@@ -57,12 +57,14 @@ class Bot(animatedEntity.AnimatedEntity):
         super().update(collision_tiles=tiles)
 
         if self.collided_tile is not None:
-            self.eatTile()
+            self.muchTile()
 
     # Object dies and create droppedItem
     # Right now every bot drops an Item, change it if needed
 
-    def eatTile(self):
+    def muchTile(self):
+
+        # YUMMY! YUM YUM YUM 🍎
 
         if(int(time()) - self.timeStamp > utils.botCoolDown):
 
