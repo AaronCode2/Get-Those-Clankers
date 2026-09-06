@@ -73,8 +73,6 @@ class Tile:
             self.height + utils.hitBoxAdjForTiles[self.type][self.rotation].height
         )
 
-        # print(self._destRect)
-
     def update(self, window, offset):
 
         camera_items = [

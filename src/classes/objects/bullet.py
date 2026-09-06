@@ -19,7 +19,6 @@ class Bullet():
 
         self.move()
         self.checkCollision()
-        print("PHEW, PHEW")
         return self.draw(window)
 
     def checkCollision(self):

@@ -49,15 +49,30 @@ class Bot(animatedEntity.AnimatedEntity):
     @targetPos.setter
     def targetPos(self, pos: pygame.Vector2):
         self._targetPos = pos
-
     def update(self, tiles):
         distance = self._targetPos - self.hitbox.center
         self.velocity = (distance).normalize() * self.speed
         if (self.targetPos - self.rect.center).length() < 50:
             self.velocity = pygame.Vector2(0.0, 0.0)
         super().update(collision_tiles=tiles)
+
+        if self.collided_tile is not None:
+            self.eatTile()
+
     # Object dies and create droppedItem
     # Right now every bot drops an Item, change it if needed
+
+    def eatTile(self):
+
+        if(int(time()) - self.timeStamp > utils.botCoolDown):
+
+            # if(self.collided_tile.durability == 0):
+            #     self.collided_tile = None
+            #     return
+
+            self.collided_tile.durability -= 1
+            self.timeStamp = int(time())
+
 
     def __del__(self):
 

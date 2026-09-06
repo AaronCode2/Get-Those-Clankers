@@ -237,13 +237,6 @@ class World():
             self.destPreviewRect.height + utils.detectBoxAdj.y,
         )
 
-        for tile in self.tiles:
-
-            if(detectBox.colliderect(tile.getDestRect())):
-                print("COLLISION:", tile.getDestRect())
-
-        utils.debugDraw(window, detectBox)
-
         if(mouseEvent[0] and utils.activateTilePlacer and self.selectedTileType != None):
 
             isTilePlaceable = True
@@ -336,6 +329,10 @@ class World():
 
         for tile in self.tiles:
 
+            if(tile.durability <= 0):
+                self.tiles.remove(tile)
+                continue
+            
             camera_items += tile.update(window, self.camera.offset)
 
             if(tile.type == utils.TileType.GREEN_TOWER):

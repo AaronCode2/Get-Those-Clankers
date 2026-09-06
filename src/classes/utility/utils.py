@@ -616,6 +616,8 @@ def calculateMeetPosition(entity: bot.Bot, distance, projectile_speed):
     target_meet_position = entity.rect.center + smallest_time * entity.velocity
     return target_meet_position
 
+botCoolDown = 5
+
 rotations = {
 
     RotationType.DOWN: 0,
