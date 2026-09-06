@@ -24,11 +24,15 @@ class Entity:
         self.acceleration = pygame.Vector2(0.0, 0.0)
         self._force = pygame.Vector2(0.0, 0.0)
         self.moving = False
+        self.collided = False
+        self.collided_tile: tiles.Tile = None
 
     def apply_force(self, force: pygame.Vector2):
         self._force += force
 
     def solve_collision(self, collision_tiles: list[tiles.Tile]):
+        self.collided = False
+        self.collided_tile = None
         # x check
         x_movement: float = self.velocity.x * utils.deltaTime
 
@@ -38,6 +42,9 @@ class Entity:
         for tile in collision_tiles:
             hitbox = tile.getHitBox()
             if x_projected_rect.colliderect(hitbox):
+                self.collided = True
+                if self.collided_tile is None:
+                    self.collided_tile = tile
                 # positive dir
                 if self.velocity.x > 0:
                     x_contact_distance: float = hitbox.left - self.hitbox.right
@@ -61,6 +68,9 @@ class Entity:
         for tile in collision_tiles:
             hitbox = tile.getHitBox()
             if y_projected_rect.colliderect(hitbox):
+                self.collided = True
+                if self.collided_tile is None:
+                    self.collided_tile = tile
                 # positive dir
                 if self.velocity.y > 0:
                     y_contact_distance: float = hitbox.top - self.hitbox.bottom
