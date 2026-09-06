@@ -1,10 +1,16 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import classes.bots.bot as bot
+
+
 import pygame
 from pygame.examples.go_over_there import target_position
 
 import classes.utility.utils as utils
 import classes.utility.textures as textures
 import classes.manager.camera as camera
-import classes.bots.bot as bot
 import classes.objects.bullet as bullet
 import math
 
