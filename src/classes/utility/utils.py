@@ -39,6 +39,9 @@ ssmfont = None
 colladjust = 0.1
 
 
+class BotTarget(Enum):
+    PLAYER = 0,
+    BATTERY = 1
 
 class TypeOfGuiPlates(Enum):
 

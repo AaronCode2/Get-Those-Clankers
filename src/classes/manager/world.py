@@ -3,7 +3,7 @@ import classes.objects.tiles as tiles
 import classes.utility.utils as utils
 import classes.bots.bot as bot
 import classes.utility.animation as animation
-import classes.objects.batteryGen as batteryGen
+import classes.objects.battery_gen as battery_gen
 import classes.objects.bullet as bullet
 import classes.objects.player as player
 import classes.manager.camera as camera
@@ -12,6 +12,7 @@ import random
 from copy import copy
 import classes.utility.textures as textures
 import classes.objects.dropItem as dropItem
+import classes.manager.bot_manager as bot_manager
 
 class World():
 
@@ -20,14 +21,15 @@ class World():
         self.worldPos = pygame.Vector2(0, 0)
 
         self.tiles = []
-        self.bots = []
         self.player = player.Player(pygame.Vector2(500, 500))
         self.camera = camera.Camera()
+        self.batteryGenator = battery_gen.BatteryGenenator()
+        self.BotManager = bot_manager.BotManager(self.camera.offset)
 
         self.dev_activateBots = False
         self.dev_destroyBots = False
 
-        bullet.Bullet.giveBots(self.bots)
+        bullet.Bullet.giveBots(bot_manager.bots)
 
         self.initTextures()
 
@@ -37,7 +39,7 @@ class World():
         self._addSelectedSlotType = None
         self.pickedDroppedItem = None
 
-        self.batteryGenator = batteryGen.BatteryGenenator()
+
         self.setupPrieviewTile()
         self.setupObjects()
 
@@ -70,6 +72,9 @@ class World():
         ))
 
         bot.Bot.setBatteryPos(self.batteryGenator.position)
+        bot.Bot.setPlayerPos(self.player.position)
+
+        self.BotManager.spawnBot(120)
 
     def updateTileSrcRect(self):
 
@@ -309,6 +314,7 @@ class World():
         camera_items: list[camera.CameraItem] = []
 
         textures.images["Tower"]["image"]["Animation"].update()
+        bot.Bot.setPlayerPos(self.player.position)
 
         if(self.currentSelectedSlot != None):
 
@@ -319,6 +325,7 @@ class World():
         else:
             self.selectedTileType = None
 
+        self.BotManager.update()
 
         key = pygame.key.get_just_pressed()
 
@@ -337,8 +344,8 @@ class World():
             
             camera_items += tile.update(window, self.camera.offset)
 
-            if(tile.type == utils.TileType.GREEN_TOWER and len(self.bots) != 0):
-                tile.towerFunc(self.bots)
+            if(tile.type == utils.TileType.GREEN_TOWER and len(bot_manager.bots) != 0):
+                tile.towerFunc(bot_manager.bots)
 
 
         camera_items.append(
@@ -352,7 +359,7 @@ class World():
             self.dev_deployBots()
 
         if(self.dev_destroyBots):
-            self.bots = []
+            bot_manager.bots = []
 
         # When player touches drop Item, it added to inventory
 
@@ -361,9 +368,9 @@ class World():
         self.player.update(self.tiles)
         camera_items += self.player.draw(window, debug=True)
 
-        for bot in self.bots:
-            bot.update(self.tiles)
-            camera_items += bot.draw(window, debug=True)
+        for robot in bot_manager.bots:
+            robot.update(self.tiles)
+            camera_items += robot.draw(window, debug=True)
 
         for singleBullet in bullet.bullets:
 
@@ -418,7 +425,7 @@ class World():
                 x = random.randint(-extraSpace, utils.screenRect.width + extraSpace) + self.camera.offset.x
                 y = utils.screenRect.height + extraSpace + self.camera.offset.y
 
-        self.bots.append(bot.Bot(pygame.Vector2(x, y), self.batteryGenator.position))
+        bot_manager.bots.append(bot.Bot(pygame.Vector2(x, y), self.batteryGenator.position))
 
     def givePickedDroppedItem(self):
 

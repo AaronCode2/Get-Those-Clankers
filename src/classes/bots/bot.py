@@ -15,12 +15,17 @@ import random
 class Bot(animatedEntity.AnimatedEntity):
 
     batteryPosForBots = None
+    playerPosForBots = None
 
     @staticmethod
     def setBatteryPos(batteryPos):
         Bot.batteryPosForBots = batteryPos
 
-    def __init__(self, position: pygame.Vector2, targetPos: pygame.Vector2, type = utils.Bots.DEAFULT):
+    @staticmethod
+    def setPlayerPos(playerPos):
+        Bot.playerPosForBots = playerPos
+
+    def __init__(self, position: pygame.Vector2, botTarget: utils.BotTarget, type = utils.Bots.DEAFULT):
 
         # It is bad habit to just add numbers with no actual var name - I fixed it
         
@@ -46,7 +51,12 @@ class Bot(animatedEntity.AnimatedEntity):
         self.stop = False
 
         self._targetPos = pygame.Vector2(0, 0)
-        self.targetPos = targetPos
+        self.botTarget = botTarget
+
+        if(self.botTarget == utils.BotTarget.PLAYER):
+            self._targetPos = Bot.playerPosForBots
+        else:
+            self._targetPos = Bot.batteryPosForBots
 
     @property
     def targetPos(self):
@@ -64,8 +74,14 @@ class Bot(animatedEntity.AnimatedEntity):
 
         self.activateBehaviour()
 
+        if(self.botTarget == utils.BotTarget.PLAYER):
+            self.updateTargetPosForPlayer()
+
         if self.collided_tile is not None:
             self.munchTile()
+
+    def updateTargetPosForPlayer(self):
+        self._targetPos = Bot.playerPosForBots
 
     def activateBehaviour(self):
 
@@ -83,7 +99,9 @@ class Bot(animatedEntity.AnimatedEntity):
 
             case utils.BotBehaviour.TELPORTER:
 
-                self.position = pygame.Vector2(random.randint(-3000, 3000), random.randint(-3000, 3000))
+                if(int(time()) - self.targetTimeStamp > 5):
+                    self.position = pygame.Vector2(random.randint(-3000, 3000), random.randint(-3000, 3000))
+                    self.targetTimeStamp = int(time())
 
     def munchTile(self):
 
