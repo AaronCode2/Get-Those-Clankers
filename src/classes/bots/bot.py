@@ -37,7 +37,7 @@ class Bot(animatedEntity.AnimatedEntity):
 
         self.health = 100
         self.speed = 100
-        self.behaviour = utils.BotBehaviour(random.randint(0, 2))
+        self.behaviour = utils.BotBehaviour(random.randint(0, 3))
 
         self.coolDowntimeStamp = int(time())
         self.targetTimeStamp = int(time())
@@ -62,6 +62,13 @@ class Bot(animatedEntity.AnimatedEntity):
             self.velocity = pygame.Vector2(0.0, 0.0)
         super().update(collision_tiles=tiles)
 
+        self.activateBehaviour()
+
+        if self.collided_tile is not None:
+            self.muchTile()
+
+    def activateBehaviour(self):
+
         match(self.behaviour):
 
             case utils.BotBehaviour.STUIPED:
@@ -74,11 +81,9 @@ class Bot(animatedEntity.AnimatedEntity):
 
                 self.targetPos = pygame.Vector2(random.randint(-3000, 3000), random.randint(-3000, 3000))
 
-        if self.collided_tile is not None:
-            self.muchTile()
+            case utils.BotBehaviour.TELPORTER:
 
-    # Object dies and create droppedItem
-    # Right now every bot drops an Item, change it if needed
+                self.position = pygame.Vector2(random.randint(-3000, 3000), random.randint(-3000, 3000))
 
     def muchTile(self):
 
@@ -89,6 +94,8 @@ class Bot(animatedEntity.AnimatedEntity):
             self.collided_tile.durability -= 1
             self.coolDowntimeStamp = int(time())
 
+    # Object dies and create droppedItem
+    # Right now every bot drops an Item, change it if needed
 
     def __del__(self):
 

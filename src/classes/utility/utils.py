@@ -54,6 +54,7 @@ class BotBehaviour(Enum):
     ANGRY = 0
     STUIPED = 1
     SCARED = 2
+    TELPORTER = 3
 
 class GuiPlates(Enum):
 
