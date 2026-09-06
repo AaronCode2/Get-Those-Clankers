@@ -3,6 +3,7 @@ import classes.objects.animatedEntity as animatedEntity
 import classes.utility.animation as animation
 import classes.objects.dropItem as dropItem
 import classes.manager.camera as camera
+import classes.utility.textures as textures
 import pygame
 from time import time 
 
@@ -19,12 +20,15 @@ class Bot(animatedEntity.AnimatedEntity):
         Bot.batteryPosForBots = batteryPos
 
     def __init__(self, position: pygame.Vector2, targetPos: pygame.Vector2, type = utils.Bots.DEAFULT):
+
+        # It is bad habit to just add numbers with no actual var name - I fixed it
+        
         anim = animation.AnimationManager(
-            asset_path = "player/player.png",
-            num_of_animations = 3,
-            animations_num_frames = [4, 4, 4],
-            animations_names = ["idle", "walk", "hit"],
-            scale_factor = 3
+            textures.images["Bot"]["location"],
+            textures.images["Bot"]["FramesY"],
+            textures.images["Bot"]["FramesX"],
+            textures.images["Bot"]["AnimationNames"],
+            textures.images["Bot"]["Scale"]
         )
         super().__init__(position, anim, (81, 35))
 

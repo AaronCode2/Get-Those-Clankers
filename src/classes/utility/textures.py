@@ -129,12 +129,22 @@ images = {
             "location": "assets/ui/chars.png",
             "FramesX": 1,
             "FramesY": 1,
+            "AnimationNames": "idle",
             "image": {
 
                 "surface": None,
                 "FrameWidth": 32,
                 "FrameHeight": 32
             },
+        },
+
+        "Bot": {
+
+            "location": "bots/bot.png",
+            "FramesX": [10],
+            "FramesY": 1,
+            "Scale": 3,
+            "AnimationNames": ["idle"]
         }
 }
 
