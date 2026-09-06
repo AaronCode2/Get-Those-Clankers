@@ -50,6 +50,8 @@ class Bot(animatedEntity.AnimatedEntity):
         self.collided = False
         self.stop = False
 
+        self._targetReached = False
+
         self._targetPos = pygame.Vector2(0, 0)
         self.botTarget = botTarget
 
@@ -57,6 +59,13 @@ class Bot(animatedEntity.AnimatedEntity):
             self._targetPos = Bot.playerPosForBots
         else:
             self._targetPos = Bot.batteryPosForBots
+
+    def isTargetReachedBattery(self):
+
+        if(self.botTarget != utils.BotTarget.PLAYER):
+            return False
+
+        return self._targetReached
 
     @property
     def targetPos(self):
@@ -70,7 +79,7 @@ class Bot(animatedEntity.AnimatedEntity):
         self.velocity = (distance).normalize() * self.speed
         if (self.targetPos - self.rect.center).length() < 50:
             self.velocity = pygame.Vector2(0.0, 0.0)
-        super().update(collision_tiles=tiles)
+            self._targetReached = True
 
         self.activateBehaviour()
 
@@ -79,6 +88,9 @@ class Bot(animatedEntity.AnimatedEntity):
 
         if self.collided_tile is not None:
             self.munchTile()
+            self.velocity = pygame.Vector2(0, 0)
+
+        super().update(collision_tiles=tiles)
 
     def updateTargetPosForPlayer(self):
         self._targetPos = Bot.playerPosForBots
@@ -114,6 +126,15 @@ class Bot(animatedEntity.AnimatedEntity):
 
     # Object dies and create droppedItem
     # Right now every bot drops an Item, change it if needed
+
+    def munchBattery(self, batteryCapacity):
+
+        if(int(time()) - self.coolDowntimeStamp > utils.botCoolDown):
+
+            batteryCapacity -= 1
+            self.coolDowntimeStamp = int(time())
+
+        return batteryCapacity
 
     def __del__(self):
 

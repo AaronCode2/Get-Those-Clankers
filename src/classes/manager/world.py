@@ -23,7 +23,7 @@ class World():
         self.tiles = []
         self.player = player.Player(pygame.Vector2(500, 500))
         self.camera = camera.Camera()
-        self.batteryGenator = battery_gen.BatteryGenenator()
+        self.batteryGenerator = battery_gen.BatteryGenenator()
         self.BotManager = bot_manager.BotManager(self.camera.offset)
 
         self.dev_activateBots = False
@@ -71,7 +71,7 @@ class World():
                 utils.RotationType.UP
         ))
 
-        bot.Bot.setBatteryPos(self.batteryGenator.position)
+        bot.Bot.setBatteryPos(self.batteryGenerator.position)
         bot.Bot.setPlayerPos(self.player.position)
 
         self.BotManager.spawnBot(120)
@@ -246,7 +246,7 @@ class World():
 
             # isTilePlaceable = True
 
-            if(self.batteryGenator.rect.colliderect(detectBox)):
+            if(self.batteryGenerator.rect.colliderect(detectBox)):
                 return
 
             if(len(self.tiles) != 0):
@@ -349,7 +349,7 @@ class World():
 
 
         camera_items.append(
-            self.batteryGenator.update(
+            self.batteryGenerator.update(
                 window, self.tiles, 
                 self.player.velocity, 
                 self.camera.offset
@@ -369,8 +369,14 @@ class World():
         camera_items += self.player.draw(window, debug=True)
 
         for robot in bot_manager.bots:
+
             robot.update(self.tiles)
             camera_items += robot.draw(window, debug=True)
+
+            if(robot.isTargetReachedBattery()):
+                self.batteryGenerator.capacity = robot.munchBattery(self.batteryGenerator.capacity)
+
+        print(self.batteryGenerator.capacity)
 
         for singleBullet in bullet.bullets:
 
@@ -425,7 +431,7 @@ class World():
                 x = random.randint(-extraSpace, utils.screenRect.width + extraSpace) + self.camera.offset.x
                 y = utils.screenRect.height + extraSpace + self.camera.offset.y
 
-        bot_manager.bots.append(bot.Bot(pygame.Vector2(x, y), self.batteryGenator.position))
+        bot_manager.bots.append(bot.Bot(pygame.Vector2(x, y), self.batteryGenerator.position))
 
     def givePickedDroppedItem(self):
 
