@@ -400,23 +400,23 @@ class World():
 
             case utils.BotAppearings.SIDE_RIGHT_SCREEN:
 
-                x = -extraSpace
-                y = random.randint(-extraSpace, utils.screenRect.height + extraSpace)
+                x = -extraSpace + self.camera.offset.x
+                y = random.randint(-extraSpace, utils.screenRect.height + extraSpace) + self.camera.offset.y
 
             case utils.BotAppearings.SIDE_LEFT_SCREEN:
 
-                x = utils.screenRect.width + extraSpace
-                y = random.randint(-extraSpace, utils.screenRect.height + extraSpace)
+                x = utils.screenRect.width + extraSpace + self.camera.offset.x
+                y = random.randint(-extraSpace, utils.screenRect.height + extraSpace) + self.camera.offset.y
 
             case utils.BotAppearings.SIDE_TOP_SCREEN:
 
-                x = random.randint(-extraSpace, utils.screenRect.width + extraSpace)
-                y = -extraSpace
+                x = random.randint(-extraSpace, utils.screenRect.width + extraSpace) + self.camera.offset.x
+                y = -extraSpace + self.camera.offset.y
 
             case utils.BotAppearings.SIDE_BOTTOM_SCREEN:
 
-                x = random.randint(-extraSpace, utils.screenRect.width + extraSpace)
-                y = utils.screenRect.height + extraSpace
+                x = random.randint(-extraSpace, utils.screenRect.width + extraSpace) + self.camera.offset.x
+                y = utils.screenRect.height + extraSpace + self.camera.offset.y
 
         self.bots.append(bot.Bot(pygame.Vector2(x, y), self.batteryGenator.position))
 
