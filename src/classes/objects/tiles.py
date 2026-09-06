@@ -44,6 +44,9 @@ class Tile:
 
         self.setSrcRect()
 
+    def getDestRect(self):
+        return self._destRect
+
     def getHitBox(self):
         return self._hitBox
 
