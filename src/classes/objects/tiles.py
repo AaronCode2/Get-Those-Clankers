@@ -12,6 +12,7 @@ class Tile:
 
     def __init__(self, position: pygame.Vector2, type: utils.TileType, rotation: utils.RotationType):
 
+        self.Imageposition = position
         self.position = position
         self.type = type
         self.rotation = rotation
@@ -30,6 +31,14 @@ class Tile:
             self.width = textures.images["Tower"]["image"]["FrameWidth"]
             self.height = textures.images["Tower"]["image"]["FrameHeight"]
 
+        self._destRect = pygame.Rect(
+
+            self.Imageposition.x + utils.hitBoxAdjForTiles[self.type][self.rotation].x,
+            self.Imageposition.y + utils.hitBoxAdjForTiles[self.type][self.rotation].y,
+            self.width + utils.hitBoxAdjForTiles[self.type][self.rotation].width,
+            self.height + utils.hitBoxAdjForTiles[self.type][self.rotation].height
+        )
+
         self._hitBox = pygame.Rect(
 
             self.position.x + utils.hitBoxAdjForTiles[self.type][self.rotation].x, 
@@ -38,7 +47,6 @@ class Tile:
             self.height + utils.hitBoxAdjForTiles[self.type][self.rotation].height
         )
 
-
         self.durability = utils.durabiltyForTile[type]
 
         self.setSrcRect()
@@ -46,12 +54,26 @@ class Tile:
     def getHitBox(self):
         return self._hitBox
 
-    def update(self, window):
+    def updateHitBox(self, offset: pygame.Vector2):
+
+        self._hitBox = pygame.Rect(
+
+            self.position.x + utils.hitBoxAdjForTiles[self.type][self.rotation].x - offset.x,
+            self.position.y + utils.hitBoxAdjForTiles[self.type][self.rotation].y - offset.y,
+            self.width + utils.hitBoxAdjForTiles[self.type][self.rotation].width,
+            self.height + utils.hitBoxAdjForTiles[self.type][self.rotation].height
+        )
+
+        # print(self._hitBox)
+
+    def update(self, window, offset):
 
         camera_items = [
             self.draw(window),
-            utils.getDebugRectItem(window, self._hitBox)
+            utils.getDebugRectItem(window, self._destRect)
         ]
+
+        self.updateHitBox(offset)
 
         if self.type == utils.TileType.GREEN_TOWER:
             removed_indexs = []
@@ -72,7 +94,7 @@ class Tile:
         self.cooldown_timer += utils.deltaTime
         if self.cooldown_timer < self.reload_time:
             return
-        tower_top = pygame.Vector2(self.position.x + (self._hitBox.width / 2), self.position.y + (self._hitBox.height / 2))
+        tower_top = pygame.Vector2(self.Imageposition.y, self.Imageposition.y + (self._destRect.height / 2))
 
         if len(bots) == 0:
             return
@@ -84,7 +106,7 @@ class Tile:
                 target_meet_position = utils.calculateMeetPosition(closest_bot, distance, self.projectile_speed)
             else:
                 target_meet_position = closest_bot.rect.center
-            direction = (target_meet_position - self.position).normalize()
+            direction = (target_meet_position - self.Imageposition).normalize()
             velocity = direction * self.projectile_speed
             self.bullets.append(bullet.Bullet(tower_top, velocity))
             self.cooldown_timer = 0
@@ -104,15 +126,15 @@ class Tile:
         if(self.type != utils.TileType.GREEN_TOWER):
 
             if(self.rotation == utils.RotationType.DOWN):
-                item = (textures.images["Tiles"]["image"]["surface"], self.position, self.srcRect, self._hitBox.centery)
+                item = (textures.images["Tiles"]["image"]["surface"], self.Imageposition, self.srcRect, self._destRect.centery)
             else:
-                item = (textures.images["Tiles"]["rotatedImages"][self.rotation], self.position, self.srcRect, self._hitBox.centery)
+                item = (textures.images["Tiles"]["rotatedImages"][self.rotation], self.Imageposition, self.srcRect, self._destRect.centery)
 
         else:
 
             # Draw Tower!
             
-            item = (textures.images["Tower"]["image"]["Animation"].current_frame, self.position, None, self._hitBox.centery)
+            item = (textures.images["Tower"]["image"]["Animation"].current_frame, self.Imageposition, None, self._destRect.centery)
         return item
 
     def setSrcRect(self):
