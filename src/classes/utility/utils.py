@@ -316,6 +316,8 @@ def convertToTileType(ItemType: ItemType):
 screenRect = pygame.Rect()
 windowResized = False
 
+batteryRectSize = 64
+
 charPos = pygame.Vector2(366, 46)
 
 backgroundDailogPos = pygame.Vector2(332, 11)

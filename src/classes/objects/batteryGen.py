@@ -12,6 +12,13 @@ class BatteryGenenator():
 
         self.position = pygame.Vector2(utils.screenRect.width / 2, utils.screenRect.height / 2)
 
+        self.rect = pygame.Rect(
+            self.position.x,
+            self.position.y,
+            utils.batteryRectSize,
+            utils.batteryRectSize,
+        ) 
+
         # taken as seconds e.g 120seconds = 2mins
         self.timeLeftText = None
         self.timeLeft = 2 
@@ -19,7 +26,7 @@ class BatteryGenenator():
 
         # How many
 
-        self.updateDelay = 1
+        self.updateDelay = 3
         self.batteryLevel = utils.BatteryLevel.BATTERY_FULL
         # Meaursed in KWatts/hour, 
 
@@ -85,10 +92,20 @@ class BatteryGenenator():
         self.batteryIndicator.update()
         window.blit(self.batteryIndicator.current_frame, self.batteryIndicator.position)
 
-    def update(self, window, tiles, playerVelocity):
+    def updateRect(self, offset):
+
+        self.rect = pygame.Rect(
+            self.position.x - offset.x,
+            self.position.y - offset.y,
+            utils.batteryRectSize,
+            utils.batteryRectSize,
+        )
+
+    def update(self, window, tiles, playerVelocity, offset):
 
         self.updateStatus(tiles, playerVelocity)
         self.updateDay()
+        self.updateRect(offset)
 
         self.batteryDeplation()
 
@@ -160,15 +177,15 @@ class BatteryGenenator():
 
     def handleGridExports(self, tiles, playerVelocity):
 
+        #! This is bad, because update only check every 3 seconds, player could cheat
+
         for tile in tiles:
 
-            if (tile.type == utils.TileType.GREEN_TOWER):
+            if(tile.type == utils.TileType.GREEN_TOWER):
                 self.wattsGenerated -= random.randint(10, 80)
 
-        if (playerVelocity != pygame.Vector2(0, 0)):
+        if(playerVelocity != pygame.Vector2(0, 0)):
             self.wattsGenerated -= 1
-
-        self.wattsGenerated -= random.randint(utils.batterydelateMin, utils.batterydelateMax)
 
     def draw(self, window):
 

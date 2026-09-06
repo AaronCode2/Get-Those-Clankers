@@ -239,7 +239,10 @@ class World():
 
         if(mouseEvent[0] and utils.activateTilePlacer and self.selectedTileType != None):
 
-            isTilePlaceable = True
+            # isTilePlaceable = True
+
+            if(self.batteryGenator.rect.colliderect(detectBox)):
+                return
 
             if(len(self.tiles) != 0):
                 for tile in self.tiles:
@@ -247,15 +250,14 @@ class World():
                     if(detectBox.colliderect(tile.getDestRect())):
                         isTilePlaceable = False
                         return
-            if(isTilePlaceable):
 
-                if(self.currentSelectedSlot != None):
+            if(self.currentSelectedSlot != None):
 
-                    if(self.currentSelectedSlot.amount >= 1):
-                        self.currentSelectedSlot.amount -= 1
-                    else:
-                        self.currentSelectedSlot = None
-                        return
+                if(self.currentSelectedSlot.amount >= 1):
+                    self.currentSelectedSlot.amount -= 1
+                else:
+                    self.currentSelectedSlot = None
+                    return
 
                 self.tiles.append(tiles.Tile(
                     pygame.Vector2(
@@ -339,7 +341,12 @@ class World():
                 tile.towerFunc(self.bots)
 
 
-        camera_items.append(self.batteryGenator.update(window, self.tiles, self.player.velocity))
+        camera_items.append(
+            self.batteryGenator.update(
+                window, self.tiles, 
+                self.player.velocity, 
+                self.camera.offset
+        ))
 
         if(self.dev_activateBots):
             self.dev_deployBots()
