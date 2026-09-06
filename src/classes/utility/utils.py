@@ -412,34 +412,34 @@ def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):
             case SnapType.RIGHT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x + selectedTile.getHitBox().width,
-                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
-                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
-                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
+                    selectedTile.getDestRect().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x + selectedTile.getDestRect().width,
+                    selectedTile.getDestRect().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
+                    selectedTile.getDestRect().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getDestRect().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
             case SnapType.LEFT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x - selectedTile.getHitBox().width,
-                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
-                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
-                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
+                    selectedTile.getDestRect().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x - selectedTile.getDestRect().width,
+                    selectedTile.getDestRect().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
+                    selectedTile.getDestRect().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getDestRect().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
             case SnapType.DOWN_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
-                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y + selectedTile.getHitBox().height,
-                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
-                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
+                    selectedTile.getDestRect().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
+                    selectedTile.getDestRect().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y + selectedTile.getDestRect().height,
+                    selectedTile.getDestRect().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getDestRect().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
             case SnapType.UP_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
-                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y - selectedTile.getHitBox().height,
-                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
-                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
+                    selectedTile.getDestRect().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
+                    selectedTile.getDestRect().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y - selectedTile.getDestRect().height,
+                    selectedTile.getDestRect().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getDestRect().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
     else:
 
@@ -448,34 +448,34 @@ def getSnapConfig(snapType: SnapType, selectedTile, rotationType: RotationType):
             case SnapType.UP_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
-                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y + selectedTile.getHitBox().height,
-                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
-                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
+                    selectedTile.getDestRect().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
+                    selectedTile.getDestRect().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y + selectedTile.getDestRect().height,
+                    selectedTile.getDestRect().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getDestRect().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
             case SnapType.DOWN_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
-                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x - selectedTile.getHitBox().height,
-                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x, 
-                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x
+                    selectedTile.getDestRect().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x,
+                    selectedTile.getDestRect().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x - selectedTile.getDestRect().height,
+                    selectedTile.getDestRect().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x, 
+                    selectedTile.getDestRect().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x
                 )
             case SnapType.RIGHT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x + selectedTile.getHitBox().width,
-                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
-                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
-                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
+                    selectedTile.getDestRect().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x + selectedTile.getDestRect().width,
+                    selectedTile.getDestRect().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
+                    selectedTile.getDestRect().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getDestRect().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
             case SnapType.LEFT_SIDE:
 
                 return pygame.Rect(
-                    selectedTile.getHitBox().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x - selectedTile.getHitBox().width,
-                    selectedTile.getHitBox().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
-                    selectedTile.getHitBox().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
-                    selectedTile.getHitBox().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
+                    selectedTile.getDestRect().x - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].x - selectedTile.getDestRect().width,
+                    selectedTile.getDestRect().y - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].y,
+                    selectedTile.getDestRect().width - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].width, 
+                    selectedTile.getDestRect().height - hitBoxAdjForTiles[selectedTile.type][selectedTile.rotation].height
                 )
 
 def configureRotatedImageForPreview(width, height, type, rotation):
@@ -742,15 +742,15 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
             return (
 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
-                    selectedTile.getHitBox().x + selectedTile.getHitBox().width <= mouseRect.x and
-                    selectedTile.getHitBox().y <= mouseRect.y and
-                    selectedTile.getHitBox().y + selectedTile.getHitBox().height >= mouseRect.y
+                    selectedTile.getDestRect().x + selectedTile.getDestRect().width <= mouseRect.x and
+                    selectedTile.getDestRect().y <= mouseRect.y and
+                    selectedTile.getDestRect().y + selectedTile.getDestRect().height >= mouseRect.y
             ) if(directionType == dirType.HORIZONTAL) else (   
 
                     (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
-                    selectedTile.getHitBox().x + selectedTile.getHitBox().width < mouseRect.x and 
-                    selectedTile.getHitBox().y <= mouseRect.y and
-                    selectedTile.getHitBox().y + selectedTile.getHitBox().height >= mouseRect.y
+                    selectedTile.getDestRect().x + selectedTile.getDestRect().width < mouseRect.x and 
+                    selectedTile.getDestRect().y <= mouseRect.y and
+                    selectedTile.getDestRect().y + selectedTile.getDestRect().height >= mouseRect.y
                 )
 
         case SnapType.LEFT_SIDE:
@@ -758,15 +758,15 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
             return(
 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
-                selectedTile.getHitBox().x >= mouseRect.x and 
-                selectedTile.getHitBox().y <= mouseRect.y and
-                selectedTile.getHitBox().y + selectedTile.height >= mouseRect.y
+                selectedTile.getDestRect().x >= mouseRect.x and 
+                selectedTile.getDestRect().y <= mouseRect.y and
+                selectedTile.getDestRect().y + selectedTile.height >= mouseRect.y
             ) if(directionType == dirType.HORIZONTAL) else (
 
                 (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
-                selectedTile.getHitBox().x > mouseRect.x and
-                selectedTile.getHitBox().y <= mouseRect.y and
-                selectedTile.getHitBox().y + selectedTile.getHitBox().height >= mouseRect.y  
+                selectedTile.getDestRect().x > mouseRect.x and
+                selectedTile.getDestRect().y <= mouseRect.y and
+                selectedTile.getDestRect().y + selectedTile.getDestRect().height >= mouseRect.y  
             )
 
         case SnapType.DOWN_SIDE:
@@ -774,15 +774,15 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
             return (
 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
-                selectedTile.getHitBox().y + selectedTile.getHitBox().height + snapdetect2Adj.y <= mouseRect.y and
-                selectedTile.getHitBox().x <= mouseRect.x and  
-                selectedTile.getHitBox().x + selectedTile.getHitBox().width >= mouseRect.x
+                selectedTile.getDestRect().y + selectedTile.getDestRect().height + snapdetect2Adj.y <= mouseRect.y and
+                selectedTile.getDestRect().x <= mouseRect.x and  
+                selectedTile.getDestRect().x + selectedTile.getDestRect().width >= mouseRect.x
             ) if(directionType == dirType.HORIZONTAL) else (
 
                 (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
-                selectedTile.getHitBox().y >= mouseRect.y and
-                selectedTile.getHitBox().x <= mouseRect.x and  
-                selectedTile.getHitBox().x + selectedTile.getHitBox().width >= mouseRect.x
+                selectedTile.getDestRect().y >= mouseRect.y and
+                selectedTile.getDestRect().x <= mouseRect.x and  
+                selectedTile.getDestRect().x + selectedTile.getDestRect().width >= mouseRect.x
             )
             
         case SnapType.UP_SIDE:
@@ -790,13 +790,13 @@ def isRightSnapConfig(snapType: SnapType, selectedTile, directionType: dirType, 
             return (
 
                 (selectedTile.rotation == RotationType.DOWN or selectedTile.rotation == RotationType.UP) and
-                selectedTile.getHitBox().y >= mouseRect.y and
-                selectedTile.getHitBox().x <= mouseRect.x and  
-                selectedTile.getHitBox().x + selectedTile.getHitBox().width >= mouseRect.x
+                selectedTile.getDestRect().y >= mouseRect.y and
+                selectedTile.getDestRect().x <= mouseRect.x and  
+                selectedTile.getDestRect().x + selectedTile.getDestRect().width >= mouseRect.x
             ) if(directionType == dirType.HORIZONTAL) else (
 
                 (selectedTile.rotation == RotationType.LEFT or selectedTile.rotation == RotationType.RIGHT) and
-                selectedTile.getHitBox().y + selectedTile.getHitBox().height <= mouseRect.y and
-                selectedTile.getHitBox().x <= mouseRect.x and  
-                selectedTile.getHitBox().x + selectedTile.getHitBox().width >= mouseRect.x
+                selectedTile.getDestRect().y + selectedTile.getDestRect().height <= mouseRect.y and
+                selectedTile.getDestRect().x <= mouseRect.x and  
+                selectedTile.getDestRect().x + selectedTile.getDestRect().width >= mouseRect.x
             )

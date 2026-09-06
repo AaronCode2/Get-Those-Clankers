@@ -171,7 +171,7 @@ class World():
             if(
                 detectAreaRange.colliderect(
                 pygame.Rect(
-                tile.getHitBox().x, tile.getHitBox().y,
+                tile.getDestRect().x, tile.getDestRect().y,
                 utils.defaultImageSizes, 
                 utils.defaultImageSizes
             ))):
@@ -179,8 +179,8 @@ class World():
                 # Pathegorem - find the closest tile to mouse
                 
                 distance = math.sqrt(
-                    (tile.getHitBox().x - (mouseRect.x))**2 + 
-                    (tile.getHitBox().y - (mouseRect.y))**2
+                    (tile.getDestRect().x - (mouseRect.x))**2 + 
+                    (tile.getDestRect().y - (mouseRect.y))**2
                 )
 
                 if(distance < closestDistance):
@@ -239,8 +239,8 @@ class World():
 
         for tile in self.tiles:
 
-            if(detectBox.colliderect(tile.getHitBox())):
-                print("COLLISION:", tile.getHitBox())
+            if(detectBox.colliderect(tile.getDestRect())):
+                print("COLLISION:", tile.getDestRect())
 
         utils.debugDraw(window, detectBox)
 
@@ -251,7 +251,7 @@ class World():
             if(len(self.tiles) != 0):
                 for tile in self.tiles:
 
-                    if(detectBox.colliderect(tile.getHitBox())):
+                    if(detectBox.colliderect(tile.getDestRect())):
                         isTilePlaceable = False
                         return
             if(isTilePlaceable):
@@ -276,7 +276,7 @@ class World():
 
             for tile in self.tiles:
 
-                if(utils.getTileRect(pygame.Vector2(tile.getHitBox().x, tile.getHitBox().y)).collidepoint(mouseRect.x, mouseRect.y)):
+                if(utils.getTileRect(pygame.Vector2(tile.getDestRect().x, tile.getDestRect().y)).collidepoint(mouseRect.x, mouseRect.y)):
 
                     self._addSelectedSlotType = utils.convertToItemType(tile.type)
                     self.tiles.remove(tile)
