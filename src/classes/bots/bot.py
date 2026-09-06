@@ -66,10 +66,6 @@ class Bot(animatedEntity.AnimatedEntity):
 
         if(int(time()) - self.timeStamp > utils.botCoolDown):
 
-            # if(self.collided_tile.durability == 0):
-            #     self.collided_tile = None
-            #     return
-
             self.collided_tile.durability -= 1
             self.timeStamp = int(time())
 

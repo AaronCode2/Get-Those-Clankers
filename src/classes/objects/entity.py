@@ -54,10 +54,6 @@ class Entity:
                     x_contact_distance: float = hitbox.right - self.hitbox.left
                     x_movement = min(x_movement, x_contact_distance, key=abs)
 
-                else:
-                    print("stuck inside a tile, x")
-                    pass
-
 
         # y check
         y_movement: float = self.velocity.y * utils.deltaTime
@@ -79,10 +75,6 @@ class Entity:
                 elif self.velocity.y < 0:
                     y_contact_distance: float = hitbox.bottom - self.hitbox.top
                     y_movement = min(y_movement, y_contact_distance, key=abs)
-
-                else:
-                    print("stuck inside a tile, y")
-                    pass
 
         return x_movement, y_movement
 

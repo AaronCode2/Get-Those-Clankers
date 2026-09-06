@@ -50,7 +50,7 @@ class World():
             tiles.Tile(
                 pygame.Vector2(
                 300, 200
-                ), utils.TileType.GREEN_TOWER,
+                ), utils.TileType.SOLAR_PANEL,
                 utils.RotationType.DOWN
             )
         )
@@ -335,7 +335,7 @@ class World():
             
             camera_items += tile.update(window, self.camera.offset)
 
-            if(tile.type == utils.TileType.GREEN_TOWER):
+            if(tile.type == utils.TileType.GREEN_TOWER and len(self.bots) != 0):
                 tile.towerFunc(self.bots)
 
 

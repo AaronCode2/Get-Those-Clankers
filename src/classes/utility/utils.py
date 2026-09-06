@@ -348,6 +348,10 @@ XLButtonSizeHeight = 64
 
 fullDay = 300
 
+botCoolDown = 5
+
+BulletPlacementPosAdj = pygame.Vector2(16, 15)
+
 # Crafter and craft are two different things! don't get confused
 
 crafterButtonAdj = pygame.Vector2(20, 20)
@@ -615,8 +619,6 @@ def calculateMeetPosition(entity: bot.Bot, distance, projectile_speed):
 
     target_meet_position = entity.rect.center + smallest_time * entity.velocity
     return target_meet_position
-
-botCoolDown = 5
 
 rotations = {
 
