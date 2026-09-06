@@ -1,5 +1,4 @@
 import classes.utility.utils as utils
-import classes.bots.bot as bot
 import pygame
 from time import time
 
