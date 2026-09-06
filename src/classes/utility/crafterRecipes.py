@@ -161,6 +161,6 @@ recipes = {
             (utils.ItemType.SCRAP_IGNOT, 3),
         ),
 
-        RecipeIndex.ItemDescription: "Security defense\nuse to attack on\nclankers.\n Requires lots of energy"
+        RecipeIndex.ItemDescription: "Security defense\nuse to attack on\nclankers.Requires\nlots of energy"
     },
 }
