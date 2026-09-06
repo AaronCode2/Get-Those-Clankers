@@ -182,10 +182,10 @@ class BatteryGenenator():
         for tile in tiles:
 
             if(tile.type == utils.TileType.GREEN_TOWER):
-                self.wattsGenerated -= random.randint(10, 80)
+                self.wattsGenerated -= random.randint(10, 20)
 
         if(playerVelocity != pygame.Vector2(0, 0)):
-            self.wattsGenerated -= 1
+            self.wattsGenerated -= random.randint(1, 5)
 
     def draw(self, window):
 

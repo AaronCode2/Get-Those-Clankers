@@ -65,7 +65,7 @@ class Bot(animatedEntity.AnimatedEntity):
         self.activateBehaviour()
 
         if self.collided_tile is not None:
-            self.muchTile()
+            self.munchTile()
 
     def activateBehaviour(self):
 
@@ -85,7 +85,7 @@ class Bot(animatedEntity.AnimatedEntity):
 
                 self.position = pygame.Vector2(random.randint(-3000, 3000), random.randint(-3000, 3000))
 
-    def muchTile(self):
+    def munchTile(self):
 
         # YUMMY! YUM YUM YUM 🍎
 
