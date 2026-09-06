@@ -51,10 +51,9 @@ class Bots(Enum):
 
 class BotBehaviour(Enum):
 
-    MOODY = 0
+    ANGRY = 0
     STUIPED = 1
-    ANGRY = 2
-    TRIED = 3
+    SCARED = 2
 
 class GuiPlates(Enum):
 

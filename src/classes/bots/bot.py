@@ -5,7 +5,8 @@ import classes.objects.dropItem as dropItem
 import classes.manager.camera as camera
 import classes.utility.textures as textures
 import pygame
-from time import time 
+from time import time
+import random
 
 # I know this doesn't iherit from entity, But I don't like inhertiance
 # Basic Movement script, so do don't get performance issues
@@ -36,9 +37,10 @@ class Bot(animatedEntity.AnimatedEntity):
 
         self.health = 100
         self.speed = 100
-        self.behaviour = utils.BotBehaviour.ANGRY
+        self.behaviour = utils.BotBehaviour(random.randint(0, 2))
 
-        self.timeStamp = int(time())
+        self.coolDowntimeStamp = int(time())
+        self.targetTimeStamp = int(time())
 
         self.collided = False
         self.stop = False
@@ -60,6 +62,18 @@ class Bot(animatedEntity.AnimatedEntity):
             self.velocity = pygame.Vector2(0.0, 0.0)
         super().update(collision_tiles=tiles)
 
+        match(self.behaviour):
+
+            case utils.BotBehaviour.STUIPED:
+
+                if(int(time()) - self.targetTimeStamp > 2):
+                    self.targetPos = pygame.Vector2(random.randint(-3000, 3000), random.randint(-3000, 3000))
+                    self.targetTimeStamp = int(time())
+
+            case utils.BotBehaviour.SCARED:
+
+                self.targetPos = pygame.Vector2(random.randint(-3000, 3000), random.randint(-3000, 3000))
+
         if self.collided_tile is not None:
             self.muchTile()
 
@@ -70,10 +84,10 @@ class Bot(animatedEntity.AnimatedEntity):
 
         # YUMMY! YUM YUM YUM 🍎
 
-        if(int(time()) - self.timeStamp > utils.botCoolDown):
+        if(int(time()) - self.coolDowntimeStamp > utils.botCoolDown):
 
             self.collided_tile.durability -= 1
-            self.timeStamp = int(time())
+            self.coolDowntimeStamp = int(time())
 
 
     def __del__(self):
