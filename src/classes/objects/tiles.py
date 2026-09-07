@@ -77,7 +77,7 @@ class Tile:
 
         camera_items = [
             self.draw(window),
-            utils.getDebugRectItem(window, self._hitBox)
+            # utils.getDebugRectItem(window, self._hitBox)
         ]
 
         self.updateHitBox(offset)
