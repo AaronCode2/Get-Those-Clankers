@@ -30,8 +30,8 @@ class BatteryGenenator():
         self.batteryLevel = utils.BatteryLevel.BATTERY_FULL
         # Meaursed in KWatts/hour, 
 
-        self.wattsGenerated = 106
-        self.capacity = 106 
+        self.wattsGenerated = 406
+        self.capacity = 560 
         self.day = 0
         self.timeLeftText = 120
 
@@ -145,6 +145,14 @@ class BatteryGenenator():
             self.handleGridExports(tiles, playerVelocity)
             self.handleGridImports(tiles)
             self.updateTimeStamp = int(time())
+
+    def hasGameEnded(self):
+
+        if(self.capacity <= 5):
+
+            
+
+            return
 
     def batteryDeplation(self):
 

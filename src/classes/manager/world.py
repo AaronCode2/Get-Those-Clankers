@@ -373,7 +373,7 @@ class World():
             robot.update(self.tiles)
             camera_items += robot.draw(window, debug=True)
 
-            if(robot.isTargetReachedBattery()):
+            if(robot.isTargetReachedBattery() and self.batteryGenerator.capacity > 1):
                 self.batteryGenerator.capacity = robot.munchBattery(self.batteryGenerator.capacity)
 
         print(self.batteryGenerator.capacity)
