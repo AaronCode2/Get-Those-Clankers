@@ -150,6 +150,8 @@ class BatteryGenenator():
 
         self.timeLeft = math.ceil((self.wattsGenerated) * utils.batteryStages)
 
+        #! Zero divsion BUG! (self.capacity = 0) [BUG] 
+
         percentage = math.ceil((self.wattsGenerated / self.capacity) * 100) 
 
         #! There is Battery Animation Bug! [BUG]

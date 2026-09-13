@@ -38,6 +38,8 @@ class Bot(animatedEntity.AnimatedEntity):
         )
         super().__init__(position, anim, (81, 35))
 
+        anim.animation_speed = 8
+
         self.type = type
 
         self.health = 100
