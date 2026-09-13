@@ -387,6 +387,7 @@ class World():
             singleBullet.update(window)
 
         self.camera.draw(camera_items, self.player.hitbox.midbottom, window)
+        utils.cameraOffset = self.camera.offset
 
     def updateDroppedItems(self, window):
         camera_items: list[camera.CameraItem] = []

@@ -318,6 +318,7 @@ def convertToTileType(ItemType: ItemType):
 
 screenRect = pygame.Rect()
 windowResized = False
+cameraOffset = pygame.Vector2(0.0, 0.0)
 
 batteryRectSize = 64
 

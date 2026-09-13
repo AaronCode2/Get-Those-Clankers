@@ -2,7 +2,9 @@ import pygame
 from classes.utility.animation import AnimationManager
 from classes.objects.animatedEntity import AnimatedEntity
 import classes.objects.tiles as tiles
+import classes.objects.bullet as bullet
 import classes.utility.utils as utils
+
 
 class Player(AnimatedEntity):
     def __init__(self, position: pygame.Vector2):
@@ -15,6 +17,11 @@ class Player(AnimatedEntity):
         )
         self.movement_speed = 200
         super().__init__(position, animation, (81, 35))
+
+        self.bullets: list[bullet.Bullet] = []
+        self.projectile_speed = 500
+        self.reload_time = 1
+        self.reload_timer = 0.0
 
     def update(self, collision_tiles: list[tiles.Tile]):
         keys = pygame.key.get_pressed()
@@ -44,6 +51,43 @@ class Player(AnimatedEntity):
             self.animation.flipped = False
 
 
+
         self.velocity = movement_direction * self.movement_speed
+
         super().update(collision_tiles)
 
+
+    def draw(self, window: pygame.Surface, debug: bool = False):
+        returned = super().draw(window, debug)
+        returned += self.handle_bullet(window)
+        return returned
+
+
+
+    def handle_bullet(self, window):
+        self.reload_timer += utils.deltaTime
+        if self.reload_timer >= self.reload_time:
+            buttons = pygame.mouse.get_pressed()
+            if buttons[0]:
+                self.shoot_bullet()
+
+        returned = []
+        for projectile in self.bullets:
+            returned.append(projectile.update(window))
+
+        removed_index = []
+        for projectile in self.bullets:
+            if projectile.destroyBullet:
+                removed_index.append(projectile)
+
+        for bullet_index in removed_index:
+            self.bullets.remove(bullet_index)
+
+        return returned
+
+
+    def shoot_bullet(self):
+        self.reload_timer = 0
+
+        direction = (-(self.position - utils.cameraOffset) + pygame.mouse.get_pos()).normalize()
+        self.bullets.append(bullet.Bullet(self.rect.center, direction * self.projectile_speed))
