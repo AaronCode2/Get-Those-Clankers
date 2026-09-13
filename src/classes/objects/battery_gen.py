@@ -4,7 +4,8 @@ import classes.utility.utils as utils
 import classes.utility.animation as animation
 import random
 import math
-from time import time
+import time
+import os
 
 class BatteryGenenator():
 
@@ -36,15 +37,17 @@ class BatteryGenenator():
         self.timeLeftText = 120
 
         self.dayTime = 0
-        self.daytimeStamp = time()
+        self.daytimeStamp = time.time()
 
-        self.updateTimeStamp = int(time())
-        self.deplateTimeStamp = int(time())
+        self.gameTime = int(time.time())
+
+        self.updateTimeStamp = int(time.time())
+        self.deplateTimeStamp = int(time.time())
 
         # Do this, so get rid of milliseconds
 
-        self.updateTimeStamp = int(time())
-        self.deplateTimeStamp = int(time())
+        self.updateTimeStamp = int(time.time())
+        self.deplateTimeStamp = int(time.time())
 
         self.loadImage()
         self.setupBatteryIndicator()
@@ -107,17 +110,17 @@ class BatteryGenenator():
         self.updateDay()
         self.updateRect(offset)
 
-        self.batteryDeplation()
+        self.batteryDeplation(window)
 
         self.drawHud(window)
         return self.draw(window)
 
     def updateDay(self):
 
-        if(time() - self.daytimeStamp > 0.5):
+        if(time.time() - self.daytimeStamp > 0.5):
 
             self.dayTime += 1
-            self.daytimeStamp = time()
+            self.daytimeStamp = time.time()
 
         # A day is 300 seconds or 5mins, I didn't test if it works
 
@@ -140,25 +143,47 @@ class BatteryGenenator():
 
     def updateStatus(self, tiles, playerVelocity):
 
-        if(int(time()) - self.updateTimeStamp >= self.updateDelay):
+        if(int(time.time()) - self.updateTimeStamp >= self.updateDelay):
 
             self.handleGridExports(tiles, playerVelocity)
             self.handleGridImports(tiles)
-            self.updateTimeStamp = int(time())
+            self.updateTimeStamp = int(time.time())
 
-    def hasGameEnded(self):
+    def hasGameEnded(self, window):
 
         if(self.capacity <= 5):
 
-            
+            gameOver = utils.font.render("GAME OVER", True, utils.ColorPlattes["RED"])
 
-            return
+            gameOverPos = pygame.Vector2(
 
-    def batteryDeplation(self):
+                (utils.screenRect.width / 2),
+                (utils.screenRect.height / 2)
+            )
+
+            window.blit(gameOver, gameOverPos)
+
+            if(self.capacity != 1):
+                self.gameTime = int(time.time())
+                self.capacity = 1
+
+        if(int(time.time()) - self.gameTime >= 5 and self.capacity <= 5):
+
+            time.sleep(2)
+            os.abort()
+
+    def batteryDeplation(self, window):
+
+        key = pygame.key.get_just_pressed()
+
+        if(key[pygame.K_o]):
+            self.capacity = 2
 
         self.timeLeft = math.ceil((self.wattsGenerated) * utils.batteryStages)
 
         #! Zero divsion BUG! (self.capacity = 0) [BUG] 
+
+        self.hasGameEnded(window)
 
         percentage = math.ceil((self.wattsGenerated / self.capacity) * 100) 
 
@@ -168,9 +193,9 @@ class BatteryGenenator():
 
             if(percentage >= i * 20 and utils.BatteryLevel(utils.batteryStages - i) != self.batteryLevel):
                 self.setBatteryLevel(utils.BatteryLevel(utils.batteryStages - i))
-        # if(time() - int(self.timeStamp) >= self.timeLeft):
+        # if(time.time() - int(self.timeStamp) >= self.timeLeft):
 
-        #     self.timeStamp = time()
+        #     self.timeStamp = time.time()
         #     if(self.level != utils.BatteryLevel.BATTERY_EMPTY):
 
         #         self.level = utils.BatteryLevel(self.level.value + 1)
