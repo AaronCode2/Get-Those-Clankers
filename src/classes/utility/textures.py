@@ -140,11 +140,11 @@ images = {
 
         "Bot": {
 
-            "location": "bots/bot.png",
-            "FramesX": [10],
-            "FramesY": 1,
+            "location": "enemies/ufo enemy/ufo.png",
+            "FramesX": [10, 10, 4, 10, 10],
+            "FramesY": 5,
             "Scale": 3,
-            "AnimationNames": ["idle"]
+            "AnimationNames": ["idle", "walk", "hit", "attack", "dead"]
         }
 }
 
