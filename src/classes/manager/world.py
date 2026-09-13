@@ -366,12 +366,12 @@ class World():
         camera_items += self.updateDroppedItems(window)
 
         self.player.update(self.tiles)
-        camera_items += self.player.draw(window, debug=True)
+        camera_items += self.player.draw(window)
 
         for robot in bot_manager.bots:
 
             robot.update(self.tiles)
-            camera_items += robot.draw(window, debug=True)
+            camera_items += robot.draw(window)
 
             if(robot.isTargetReachedBattery() and self.batteryGenerator.capacity > 1):
                 self.batteryGenerator.capacity = robot.munchBattery(self.batteryGenerator.capacity)
