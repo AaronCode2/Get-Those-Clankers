@@ -36,7 +36,7 @@ class Bot(animatedEntity.AnimatedEntity):
             textures.images["Bot"]["AnimationNames"],
             textures.images["Bot"]["Scale"]
         )
-        super().__init__(position, anim, (81, 35))
+        super().__init__(position, anim, (54, 24))
 
         anim.animation_speed = 8
 

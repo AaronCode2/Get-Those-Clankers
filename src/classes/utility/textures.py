@@ -143,7 +143,7 @@ images = {
             "location": "enemies/ufo enemy/ufo.png",
             "FramesX": [10, 10, 4, 10, 10],
             "FramesY": 5,
-            "Scale": 3,
+            "Scale": 2,
             "AnimationNames": ["idle", "walk", "hit", "attack", "dead"]
         }
 }

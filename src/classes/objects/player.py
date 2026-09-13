@@ -13,10 +13,10 @@ class Player(AnimatedEntity):
             num_of_animations = 3,
             animations_num_frames = [4, 4, 4],
             animations_names = ["idle", "walk", "hit"],
-            scale_factor = 3
+            scale_factor = 2
         )
         self.movement_speed = 200
-        super().__init__(position, animation, (81, 35))
+        super().__init__(position, animation, (54, 24))
 
         self.bullets: list[bullet.Bullet] = []
         self.projectile_speed = 500
