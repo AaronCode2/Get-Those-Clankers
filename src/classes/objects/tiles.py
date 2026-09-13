@@ -101,7 +101,6 @@ class Tile:
         self.cooldown_timer += utils.deltaTime
         if self.cooldown_timer < self.reload_time:
             return
-        tower_top = pygame.Vector2(self.Imageposition.y, self.Imageposition.y - (self._hitBox.height / 2))
 
         # This just works, idk, did trail and error, might mess some maths
         bullet_pos = pygame.Vector2(
@@ -109,8 +108,8 @@ class Tile:
             self._hitBox.y - (self._hitBox.height) + utils.BulletPlacementPosAdj.y
         )
 
-        closest_bot: bot.Bot = min(bots, key=lambda bot: (tower_top - bot.rect.center).length())
-        distance = closest_bot.rect.center - tower_top
+        closest_bot: bot.Bot = min(bots, key=lambda bot: (bullet_pos - bot.rect.center).length())
+        distance = closest_bot.rect.center - bullet_pos
         if distance.length() <= self.range:
             if closest_bot.moving:
                 target_meet_position = utils.calculateMeetPosition(closest_bot, distance, self.projectile_speed)
