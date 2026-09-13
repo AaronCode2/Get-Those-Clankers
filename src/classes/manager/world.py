@@ -60,21 +60,19 @@ class World():
             tiles.Tile(
                 pygame.Vector2(
                 400, 260
-                ), utils.TileType.STRONG_BARRIER,
+                ), utils.TileType.SOLAR_PANEL,
                 utils.RotationType.LEFT
         ))
         self.tiles.append(
             tiles.Tile(
                 pygame.Vector2(
                 600, 230
-                ), utils.TileType.STRONGER_BARRIER,
+                ), utils.TileType.GREEN_TOWER,
                 utils.RotationType.UP
         ))
 
         bot.Bot.setBatteryPos(self.batteryGenerator.position)
         bot.Bot.setPlayerPos(self.player.position)
-
-        self.BotManager.spawnBot(120)
 
     def updateTileSrcRect(self):
 
@@ -308,9 +306,14 @@ class World():
 
         self.handleplacingTiles(mouseEvent, mouseRect, window)
 
+    def updateBotTimings(self):
+
+        self.BotManager.setStuff(self.batteryGenerator.day, self.batteryGenerator.dayTime)
+
     def update(self, window):
 
-        # Update The towers
+        self.updateBotTimings()
+
         camera_items: list[camera.CameraItem] = []
 
         textures.images["Tower"]["image"]["Animation"].update()
@@ -375,8 +378,6 @@ class World():
 
             if(robot.isTargetReachedBattery() and self.batteryGenerator.capacity > 1):
                 self.batteryGenerator.capacity = robot.munchBattery(self.batteryGenerator.capacity)
-
-        print(self.batteryGenerator.capacity)
 
         for singleBullet in bullet.bullets:
 

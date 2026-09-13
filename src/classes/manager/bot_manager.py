@@ -3,6 +3,7 @@ import classes.objects.bullet as bullet
 import classes.bots.bot as bot
 import random
 import pygame
+import time
 
 bots = []
 
@@ -14,14 +15,40 @@ class BotManager():
 
         self.raidLevel = 1
         self.botCounter = 0
+
+        self.day = 0
+        self.dayTime = 0
+
+        self.isBotToSpawn = False
+
+        self.randomTimerSpawner = int(time.time())
+
         BotManager.cameraOffset = cameraOffset
+
+    def setStuff(self, newDay, newDayTime):
+
+        if(self.day != newDay):
+            self.isBotToSpawn = True
+
+        self.day = newDay
+        self.dayTime = newDayTime
 
     def update(self):
 
         self.deployBots()
 
     def deployBots(self):
-        pass
+
+        if(self.isBotToSpawn):
+
+            amount = 30 * self.day
+
+            self.spawnBot(amount)
+
+        if(int(time.time()) - self.randomTimerSpawner > 10):
+
+            self.randomTimerSpawner = int(time.time()) 
+        
 
     def regularSpawns(self):
         pass
