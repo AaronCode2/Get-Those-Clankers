@@ -31,7 +31,7 @@ class BatteryGenenator():
         self.batteryLevel = utils.BatteryLevel.BATTERY_FULL
         # Meaursed in KWatts/hour, 
 
-        self.wattsGenerated = 406
+        self.wattsGenerated = 506
         self.capacity = 560 
         self.day = 0
         self.timeLeftText = 120
