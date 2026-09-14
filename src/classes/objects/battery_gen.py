@@ -122,7 +122,7 @@ class BatteryGenenator():
             self.dayTime += 1
             self.daytimeStamp = time.time()
 
-        # A day is 300 seconds or 5mins, I didn't test if it works
+        # A day is 180 seconds or 3mins, I didn't test if it works
 
         if(self.dayTime >= utils.fullDay):
 
@@ -180,8 +180,6 @@ class BatteryGenenator():
             self.capacity = 2
 
         self.timeLeft = math.ceil((self.wattsGenerated) * utils.batteryStages)
-
-        #! Zero divsion BUG! (self.capacity = 0) [BUG] 
 
         self.hasGameEnded(window)
 
