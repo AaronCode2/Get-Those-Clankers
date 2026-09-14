@@ -20,7 +20,7 @@ class Player(AnimatedEntity):
 
         self.bullets: list[bullet.Bullet] = []
         self.projectile_speed = 500
-        self.reload_time = 1
+        self.reload_time = 0.5
         self.reload_timer = 0.0
 
     def update(self, collision_tiles: list[tiles.Tile]):
@@ -35,7 +35,6 @@ class Player(AnimatedEntity):
             movement_direction.x -= 1
         if keys[pygame.K_d]:
             movement_direction.x += 1
-
 
         if movement_direction.length() != 0:
             movement_direction.normalize_ip()
