@@ -112,7 +112,6 @@ class BatteryGenenator():
 
         self.batteryDeplation(window)
 
-        self.drawHud(window)
         return self.draw(window)
 
     def updateDay(self):
