@@ -4,7 +4,7 @@ import classes.manager.world as world
 import classes.manager.camera as camera
 import classes.ui.ui as ui
 import classes.objects.player as player
-from pygame._sdl2 import Window
+import asyncio
 
 class Game():
 
@@ -12,8 +12,7 @@ class Game():
 
         self.icon = pygame.image.load("assets/icon/icon.png")
         pygame.display.set_icon(self.icon)
-        self.window = pygame.display.set_mode((width, height), pygame.RESIZABLE)
-        Window.from_display_module().maximize()
+        self.window = pygame.display.set_mode((width, height))
 
         self.running = True
         self.fps = fps
@@ -65,7 +64,7 @@ class Game():
 
                 utils.scrollWheel = pygame.Vector2(event.x, event.y)
 
-    def updateGameLoop(self):
+    async def updateGameLoop(self):
 
         while(self.running):
 
@@ -100,8 +99,9 @@ class Game():
             self.window.blit(fpsText, (utils.screenRect.width - 300, 100))
 
             pygame.display.flip()
+            await asyncio.sleep(0)
 
-    def run(self):
+    async def run(self):
 
-        self.updateGameLoop()
+        await self.updateGameLoop()
         pygame.quit()   

@@ -1,4 +1,5 @@
 import app # USE: pygame-ce 2.5.8 (SDL 2.32.10, Python 3.13.13). with [pip install pygame-ce]
+import asyncio
 
 # No AI should be used, only use for helping, but should not write any code or generate Assets
 # This project made with 100% blood, sweat and tears
@@ -7,4 +8,4 @@ import app # USE: pygame-ce 2.5.8 (SDL 2.32.10, Python 3.13.13). with [pip insta
 # The working dir is set to the workspace folder to work, not main.py
 
 if __name__ == "__main__":
-    app.init()
+    asyncio.run(app.init())
