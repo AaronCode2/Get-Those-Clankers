@@ -32,7 +32,7 @@ class Game():
     def update(self):
 
         # This where everything should go e.g player.update()
-        self.world.update(self.window)
+
 
         # We need to convert Item To Tile, since their diffrenet Enums
 
@@ -47,7 +47,10 @@ class Game():
                 pickedItem[1]
             )
 
+        #! DrawLayer BUG [BUG]
+
         self.world.setCurrentselectedSlot(self.ui.getInventoryHotBarSelectedSlot())
+        self.world.update(self.window)
         self.ui.update(self.window)
 
     def processEvents(self):
