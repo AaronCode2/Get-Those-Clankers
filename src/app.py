@@ -1,6 +1,4 @@
-import pygame
 from game import *
-import asyncio
 
 async def init():
 
