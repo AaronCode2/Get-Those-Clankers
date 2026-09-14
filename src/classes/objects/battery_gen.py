@@ -117,6 +117,9 @@ class BatteryGenenator():
 
     def updateDay(self):
 
+        if(self.capacity < self.wattsGenerated):
+            self.wattsGenerated -= 10
+        
         if(time.time() - self.daytimeStamp > 0.5):
 
             self.dayTime += 1
