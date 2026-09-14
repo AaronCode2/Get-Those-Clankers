@@ -67,8 +67,11 @@ class Player(AnimatedEntity):
     def handle_bullet(self, window):
         self.reload_timer += utils.deltaTime
         if self.reload_timer >= self.reload_time:
-            buttons = pygame.mouse.get_pressed()
-            if buttons[0]:
+
+            mouse_buttons = pygame.mouse.get_pressed()
+            key_buttons = pygame.key.get_pressed()
+
+            if mouse_buttons[1] or key_buttons[pygame.K_SPACE] or key_buttons[pygame.K_KP_ENTER]:
                 self.shoot_bullet()
 
         returned = []

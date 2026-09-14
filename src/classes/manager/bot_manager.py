@@ -46,13 +46,11 @@ class BotManager():
             self.spawnBot(amount)
             self.isBotToSpawn = False
 
-
-
         if(int(time.time()) - self.randomTimerSpawner > 10):
 
             chance = random.randint(1, 100)
 
-            if(chance > 25): # 25%
+            if(chance < 25): # 25%
                 self.spawnBot(random.randint(1, 10))
             
             self.randomTimerSpawner = int(time.time()) 

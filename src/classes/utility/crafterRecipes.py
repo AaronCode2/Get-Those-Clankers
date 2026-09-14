@@ -16,6 +16,7 @@ class RecipeCrafts(Enum):
     CRAFT_GREEN_TOWER = 7
     CRAFT_STRONG_BARRIER = 8
     CRAFT_STRONGER_BARRIER = 9
+    CRAFT_CRATE = 10
 
 class RecipeIndex(Enum):
 
@@ -30,7 +31,7 @@ recipes = {
 
     RecipeCrafts.CRAFT_SOLAR_PANEL: {
 
-        RecipeIndex.ItemGiven: 1,
+        RecipeIndex.ItemGiven: 3,
         RecipeIndex.ItemTypeGiven: utils.ItemType.SOLAR_PANEL,
 
         RecipeIndex.ItemNeeded: (
@@ -162,5 +163,17 @@ recipes = {
         ),
 
         RecipeIndex.ItemDescription: "Security defense\nuse to attack on\nclankers.Requires\nlots of energy"
+    },
+
+    RecipeCrafts.CRAFT_CRATE: {
+
+        RecipeIndex.ItemGiven: 10,
+        RecipeIndex.ItemTypeGiven: utils.ItemType.CRATE,
+
+        RecipeIndex.ItemNeeded:(
+            (utils.ItemType.SCRAP_IGNOT, 5),
+        ),
+
+        RecipeIndex.ItemDescription: "Very weak, but in\nlarge quantity,\nrequires weak steel"
     },
 }
