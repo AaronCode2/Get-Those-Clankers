@@ -332,9 +332,9 @@ class World():
 
         key = pygame.key.get_just_pressed()
 
-        if(key[pygame.K_b]):
+        if(key[pygame.K_b] and utils.ActiveDebug):
             self.dev_activateBots = not self.dev_activateBots
-        elif(key[pygame.K_k]):
+        elif(key[pygame.K_k] and utils.ActiveDebug):
             self.dev_destroyBots = not self.dev_destroyBots
 
         self.updateTilePlacer(window)

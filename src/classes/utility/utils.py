@@ -10,6 +10,7 @@ from enum import Enum
 import classes.manager.camera as camera
 import math
 
+ActiveDebug = False
 
 # For constants and utility
 
@@ -24,7 +25,7 @@ def dev_updatePositionsAdjuster():
     key = pygame.key.get_just_pressed()
     global dev_PositionAdjusterToggle
 
-    if(key[pygame.K_p]):
+    if(key[pygame.K_p] and ActiveDebug):
         dev_PositionAdjusterToggle = not dev_PositionAdjusterToggle
 
     if(dev_PositionAdjusterToggle):

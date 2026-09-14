@@ -179,11 +179,6 @@ class BatteryGenenator():
 
     def batteryDeplation(self, window):
 
-        key = pygame.key.get_just_pressed()
-
-        if(key[pygame.K_o]):
-            self.capacity = 2
-
         self.timeLeft = math.ceil((self.wattsGenerated) * utils.batteryStages)
 
         self.hasGameEnded(window)
