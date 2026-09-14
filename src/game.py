@@ -10,7 +10,8 @@ class Game():
 
     def __init__(self, width, height, fps):
 
-        
+        self.icon = pygame.image.load("assets/icon/icon.png")
+        pygame.display.set_icon(self.icon)
         self.window = pygame.display.set_mode((width, height), pygame.RESIZABLE)
         Window.from_display_module().maximize()
 
