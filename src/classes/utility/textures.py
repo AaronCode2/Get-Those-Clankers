@@ -48,7 +48,7 @@ images = {
         "keys": {
 
             "location": "assets/ui/keys.png",
-            "maxFramesX": 6,
+            "maxFramesX": 7,
             "FramesY": 1,
             "image": {
 
