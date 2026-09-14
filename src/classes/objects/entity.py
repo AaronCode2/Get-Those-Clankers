@@ -2,10 +2,10 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    import classes.objects.tiles as tiles
+    import src.classes.objects.tiles as tiles
 
 import pygame
-import classes.utility.utils as utils
+import src.classes.utility.utils as utils
 
 class Entity:
     def __init__(

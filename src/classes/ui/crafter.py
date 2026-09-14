@@ -1,7 +1,7 @@
 import pygame
-import classes.utility.utils as utils
-import classes.utility.textures as textures
-import classes.utility.crafterRecipes as crafterRecipes
+import src.classes.utility.utils as utils
+import src.classes.utility.textures as textures
+import src.classes.utility.crafterRecipes as crafterRecipes
 
 class Crafter():
 

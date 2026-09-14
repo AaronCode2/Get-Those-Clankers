@@ -1,9 +1,8 @@
-import classes.utility.utils as utils
-import classes.objects.animatedEntity as animatedEntity
-import classes.utility.animation as animation
-import classes.objects.dropItem as dropItem
-import classes.manager.camera as camera
-import classes.utility.textures as textures
+import src.classes.utility.utils as utils
+import src.classes.objects.animatedEntity as animatedEntity
+import src.classes.utility.animation as animation
+import src.classes.objects.dropItem as dropItem
+import src.classes.utility.textures as textures
 import pygame
 from time import time
 import random

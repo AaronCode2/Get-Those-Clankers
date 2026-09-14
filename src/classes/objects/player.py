@@ -1,9 +1,9 @@
 import pygame
-from classes.utility.animation import AnimationManager
-from classes.objects.animatedEntity import AnimatedEntity
-import classes.objects.tiles as tiles
-import classes.objects.bullet as bullet
-import classes.utility.utils as utils
+from src.classes.utility.animation import AnimationManager
+from src.classes.objects.animatedEntity import AnimatedEntity
+import src.classes.objects.tiles as tiles
+import src.classes.objects.bullet as bullet
+import src.classes.utility.utils as utils
 
 
 class Player(AnimatedEntity):

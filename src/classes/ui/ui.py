@@ -1,9 +1,8 @@
 import pygame
-import classes.utility.utils as utils
-import classes.utility.textures as textures
-import classes.ui.inventory as inventory
-import classes.utility.animation as animation
-import classes.ui.crafter as crafter
+import src.classes.utility.utils as utils
+import src.classes.utility.textures as textures
+import src.classes.ui.inventory as inventory
+import src.classes.ui.crafter as crafter
 from time import time
 
 class UI():

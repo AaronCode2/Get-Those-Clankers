@@ -1,6 +1,6 @@
 import pygame
-import classes.utility.utils as utils
-import classes.utility.textures as textures
+import src.classes.utility.utils as utils
+import src.classes.utility.textures as textures
 from copy import copy
 
 class Slot():

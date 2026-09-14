@@ -1,4 +1,4 @@
-from game import *
+from src.game import *
 
 async def init():
 

@@ -1,7 +1,7 @@
 import pygame
-import classes.utility.textures as textures
-import classes.utility.utils as utils
-import classes.utility.animation as animation
+import src.classes.utility.textures as textures
+import src.classes.utility.utils as utils
+import src.classes.utility.animation as animation
 import random
 import math
 import time

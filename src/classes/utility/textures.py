@@ -1,5 +1,5 @@
 import pygame
-import classes.utility.utils as utils
+import src.classes.utility.utils as utils
 import enum
 
 class imgIndex[Enum]:

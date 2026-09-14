@@ -1,18 +1,18 @@
 import pygame
-import classes.objects.tiles as tiles
-import classes.utility.utils as utils
-import classes.bots.bot as bot
-import classes.utility.animation as animation
-import classes.objects.battery_gen as battery_gen
-import classes.objects.bullet as bullet
-import classes.objects.player as player
-import classes.manager.camera as camera
+import src.classes.objects.tiles as tiles
+import src.classes.utility.utils as utils
+import src.classes.bots.bot as bot
+import src.classes.utility.animation as animation
+import src.classes.objects.battery_gen as battery_gen
+import src.classes.objects.bullet as bullet
+import src.classes.objects.player as player
+import src.classes.manager.camera as camera
 import math
 import random
 from copy import copy
-import classes.utility.textures as textures
-import classes.objects.dropItem as dropItem
-import classes.manager.bot_manager as bot_manager
+import src.classes.utility.textures as textures
+import src.classes.objects.dropItem as dropItem
+import src.classes.manager.bot_manager as bot_manager
 
 class World():
 

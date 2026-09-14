@@ -1,6 +1,5 @@
-import classes.utility.utils as utils
-import classes.objects.bullet as bullet
-import classes.bots.bot as bot
+import src.classes.utility.utils as utils
+import src.classes.bots.bot as bot
 import random
 import pygame
 import time

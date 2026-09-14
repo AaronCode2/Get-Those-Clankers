@@ -2,15 +2,15 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    import classes.bots.bot as bot
+    import src.classes.bots.bot as bot
 
 
 import pygame
 
-import classes.utility.utils as utils
-import classes.utility.textures as textures
-import classes.manager.camera as camera
-import classes.objects.bullet as bullet
+import src.classes.utility.utils as utils
+import src.classes.utility.textures as textures
+import src.classes.manager.camera as camera
+import src.classes.objects.bullet as bullet
 
 class Tile:
 

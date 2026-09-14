@@ -1,5 +1,5 @@
 from enum import Enum
-import classes.utility.utils as utils
+import src.classes.utility.utils as utils
 
 # All the crafter stuff plus more
 # ItemGiven is how much is gotten from crafting that

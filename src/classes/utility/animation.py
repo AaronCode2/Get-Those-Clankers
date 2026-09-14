@@ -1,7 +1,7 @@
 import pygame
 from typing import TypedDict, Callable
 from pathlib import Path
-import classes.utility.utils as utils
+import src.classes.utility.utils as utils
 
 
 class AnimationData(TypedDict):

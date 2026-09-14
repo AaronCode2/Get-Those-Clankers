@@ -1,7 +1,7 @@
 import pygame
-import classes.utility.utils as utils
-import classes.manager.world as world
-import classes.ui.ui as ui
+import src.classes.utility.utils as utils
+import src.classes.manager.world as world
+import src.classes.ui.ui as ui
 import asyncio
 
 class Game():

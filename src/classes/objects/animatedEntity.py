@@ -1,9 +1,9 @@
 import pygame
-from classes.objects.entity import Entity
-from classes.utility.animation import AnimationManager
-import classes.objects.tiles as tiles
-import classes.utility.utils as utils
-import classes.manager.camera as camera
+from src.classes.objects.entity import Entity
+from src.classes.utility.animation import AnimationManager
+import src.classes.objects.tiles as tiles
+import src.classes.utility.utils as utils
+import src.classes.manager.camera as camera
 
 
 class AnimatedEntity(Entity):

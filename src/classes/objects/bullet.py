@@ -1,4 +1,4 @@
-import classes.utility.utils as utils
+import src.classes.utility.utils as utils
 import pygame
 from time import time
 
