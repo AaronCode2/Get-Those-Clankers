@@ -344,7 +344,7 @@ smallButtonSize = 64
 XLButtonSizeWidth = 192
 XLButtonSizeHeight = 64
 
-fullDay = 180
+fullDay = 300
 
 botCoolDown = 5
 
