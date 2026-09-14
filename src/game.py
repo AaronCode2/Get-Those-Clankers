@@ -11,24 +11,18 @@ class Game():
 
     def __init__(self, width, height, fps):
 
-        
-        self.window = pygame.display.set_mode((width, height), pygame.RESIZABLE)
-        Window.from_display_module().maximize()
+        self.height = height
+        self.width = width
 
         self.running = True
         self.fps = fps
-        self.clock = pygame.time.Clock()
+        self.clock = None
 
         self.fillColor = utils.ColorPlattes["Purple Moose"]
-        utils.font = pygame.font.Font("assets/fonts/jetbrains.ttf", 30)
-        utils.smfont = pygame.font.Font("assets/fonts/jetbrains.ttf", 24)
-        utils.ssmfont = pygame.font.Font("assets/fonts/jetbrains.ttf", 15)
-
-        utils.screenRect = pygame.Rect(0, 0, self.window.width, self.window.height)
 
 
-        self.world = world.World()
-        self.ui = ui.UI()
+        self.world = None
+        self.ui = None
 
     def update(self):
 
@@ -67,6 +61,22 @@ class Game():
 
     async def updateGameLoop(self):
 
+        # pygame.display.set_caption("Get Those Clankers!")
+        pygame.init()
+
+        self.window = pygame.display.set_mode((self.width, self.height))
+        self.clock = pygame.time.Clock()
+        pygame.font.init()
+
+        utils.font = pygame.font.Font("assets/fonts/jetbrains.ttf", 30)
+        utils.smfont = pygame.font.Font("assets/fonts/jetbrains.ttf", 24)
+        utils.ssmfont = pygame.font.Font("assets/fonts/jetbrains.ttf", 15)
+
+        utils.screenRect = pygame.Rect(0, 0, self.window.width, self.window.height)
+
+        self.world = world.World()
+        self.ui = ui.UI()
+
         while(self.running):
 
             self.processEvents()
@@ -102,7 +112,8 @@ class Game():
             pygame.display.flip()
             await asyncio.sleep(0)
 
-    def run(self):
+        pygame.quit()  
 
-        asyncio.run(self.updateGameLoop())
-        pygame.quit()   
+    def run(self):
+        pass
+ 
