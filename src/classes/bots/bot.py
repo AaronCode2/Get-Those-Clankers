@@ -43,7 +43,7 @@ class Bot(animatedEntity.AnimatedEntity):
 
         self.health = 100
         self.speed = 100
-        self.behaviour = utils.BotBehaviour(random.randint(0, 3))
+        self.behaviour = utils.BotBehaviour(random.randint(0, 2))
 
         self.coolDowntimeStamp = int(time())
         self.targetTimeStamp = int(time())
@@ -109,12 +109,6 @@ class Bot(animatedEntity.AnimatedEntity):
             case utils.BotBehaviour.SCARED:
 
                 self.targetPos = pygame.Vector2(random.randint(-3000, 3000), random.randint(-3000, 3000))
-
-            case utils.BotBehaviour.TELPORTER:
-
-                if(int(time()) - self.targetTimeStamp > 5):
-                    self.position = pygame.Vector2(random.randint(-3000, 3000), random.randint(-3000, 3000))
-                    self.targetTimeStamp = int(time())
 
     def munchTile(self):
 

@@ -116,6 +116,9 @@ class BatteryGenenator():
 
     def updateDay(self):
 
+        if(self.capacity < self.wattsGenerated):
+            self.wattsGenerated -= 10
+        
         if(time.time() - self.daytimeStamp > 0.5):
 
             self.dayTime += 1
@@ -177,11 +180,6 @@ class BatteryGenenator():
             os.abort()
 
     def batteryDeplation(self, window):
-
-        key = pygame.key.get_just_pressed()
-
-        if(key[pygame.K_o]):
-            self.capacity = 2
 
         self.timeLeft = math.ceil((self.wattsGenerated) * utils.batteryStages)
 
