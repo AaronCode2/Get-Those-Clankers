@@ -5,6 +5,7 @@ import classes.manager.camera as camera
 import classes.ui.ui as ui
 import classes.objects.player as player
 from pygame._sdl2 import Window
+import asyncio
 
 class Game():
 
@@ -64,7 +65,7 @@ class Game():
 
                 utils.scrollWheel = pygame.Vector2(event.x, event.y)
 
-    def updateGameLoop(self):
+    async def updateGameLoop(self):
 
         while(self.running):
 
@@ -99,8 +100,9 @@ class Game():
             self.window.blit(fpsText, (utils.screenRect.width - 300, 100))
 
             pygame.display.flip()
+            await asyncio.sleep(0)
 
     def run(self):
 
-        self.updateGameLoop()
+        asyncio.run(self.updateGameLoop())
         pygame.quit()   
