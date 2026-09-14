@@ -48,23 +48,22 @@ class Inventory():
         self.slots[3][1].amount = 15
         self.slots[3][1].type = utils.ItemType.SCREW
 
-        self.slots[4][1].amount = 10
+        self.slots[4][1].amount = 26
         self.slots[4][1].type = utils.ItemType.RAW_IRON
 
-        self.slots[5][2].amount = 40
+        self.slots[5][2].amount = 12
         self.slots[5][2].type = utils.ItemType.BARRIER
-
         
-        self.slots[5][4].amount = 40
+        self.slots[5][4].amount = 1
         self.slots[5][4].type = utils.ItemType.STRONG_BARRIER
         
-        self.slots[2][4].amount = 40
+        self.slots[2][4].amount = 6
         self.slots[2][4].type = utils.ItemType.CRATE
 
-        self.slots[5][1].amount = 20
-        self.slots[5][1].type = utils.ItemType.GREEN_TOWER
+        self.slots[3][1].amount = 2
+        self.slots[3][1].type = utils.ItemType.GREEN_TOWER
 
-        self.isCrafterToggled = True
+        self.isCrafterToggled = False
         self.selectedSlot = None
         self.slotSelectedSrcRect = None
         self.slotSelectedPos = None
