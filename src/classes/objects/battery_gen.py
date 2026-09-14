@@ -151,7 +151,7 @@ class BatteryGenenator():
 
     def hasGameEnded(self, window):
 
-        if(self.capacity <= 5):
+        if(self.capacity <= 5 or self.wattsGenerated < -100):
 
             gameOver = utils.font.render("GAME OVER", True, utils.ColorPlattes["RED"])
 
@@ -161,13 +161,18 @@ class BatteryGenenator():
                 (utils.screenRect.height / 2)
             )
 
+            rect = pygame.Surface((utils.screenRect.width, utils.screenRect.height))
+            rect.set_alpha(100)
+            rect.fill(utils.ColorPlattes["Supreme Yellow"])
+
+            window.blit(rect, pygame.Vector2(0, 0))
             window.blit(gameOver, gameOverPos)
 
             if(self.capacity != 1):
                 self.gameTime = int(time.time())
                 self.capacity = 1
 
-        if(int(time.time()) - self.gameTime >= 5 and self.capacity <= 5):
+        if(int(time.time()) - self.gameTime >= 5 and (self.capacity <= 5 or self.wattsGenerated < -100)):
 
             time.sleep(2)
             os.abort()
