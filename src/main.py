@@ -8,3 +8,5 @@ import app # USE: pygame-ce 2.5.8 (SDL 2.32.10, Python 3.13.13). with [pip insta
 
 if __name__ == "__main__":
     app.init()
+
+# Last comment I will ever write, sad to see it go
